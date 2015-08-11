@@ -1,0 +1,13 @@
+{
+  "name": "Intranet App",
+  "version": "dev",
+  "dependencies": {
+    "admin-lte": "2.2.1"
+  },
+  "private": true,
+  "overrides": {
+    "admin-lte": {
+      "arch": [ "client" ]
+    }
+  }
+}
