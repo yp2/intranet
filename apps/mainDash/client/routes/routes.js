@@ -1,6 +1,8 @@
 FlowRouter.route("/", {
     action: function (params, queryParams) {
         console.log("router - Main dash");
-        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions)
+        var regions = _.extend({content: "mainDashContent"}, MyApp.mainDashRegions);
+        console.log(MyApp.mainDashRegions);
+        BlazeLayout.render('mainDashLayout', regions)
     }
 });
