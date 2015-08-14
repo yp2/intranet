@@ -1,5 +1,7 @@
 Template.mainDashLayout.helpers({
-    //add you helpers here
+    'userId': function (){
+        return Meteor.userId();
+    }
 });
 
 Template.mainDashLayout.events({
@@ -11,11 +13,18 @@ Template.mainDashLayout.onCreated(function () {
 });
 
 Template.mainDashLayout.onRendered(function () {
-    MeteorAdminLTE.run();
+    var self = this;
+    if (self.view.isRendered) {
+        var body = $('body');
+        body.addClass("skin-blue sidebar-mini");
+
+        MeteorAdminLTE.run();
+    }
 
 });
 
 Template.mainDashLayout.onDestroyed(function () {
-    //add your statement here
+    var body = $('body');
+    body.removeClass();
 });
 

@@ -11,4 +11,9 @@ kadira:flow-router
 kadira:blaze-layout
 arillo:flow-router-helpers
 tomwasd:flow-router-autoscroll
+tkornblit:icheck
 yp2:admin-lte
+accounts-base
+accounts-password
+accounts-google
+check
