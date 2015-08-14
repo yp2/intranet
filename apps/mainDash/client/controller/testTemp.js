@@ -8,7 +8,7 @@ Template.testTemp.events({
 
 Template.testTemp.onCreated(function () {
     //add your statement here
-    console.log($.AdminLTE);
+    //console.log($.AdminLTE);
 });
 
 Template.testTemp.onRendered(function () {

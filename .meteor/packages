@@ -7,8 +7,8 @@
 meteor-platform
 mquandalle:bower
 jquery
-yp2:admin-lte
 kadira:flow-router
 kadira:blaze-layout
 arillo:flow-router-helpers
 tomwasd:flow-router-autoscroll
+yp2:admin-lte
