@@ -17,16 +17,44 @@ Template.organizationRegister.events({
 
             options = {
                 email: $("#email-input").val(),
-                password: password2.val()
+                password: password.val(),
+                password2: password2.val()
             };
             Meteor.call('registerOrganization', options, function(error, result){
                 if (error) {
-                    console.log('callback register error', error);
+                    if (error.error = 403) {
+                        var errorMsg = error.reason,
+                            errorSpan = $('span.email-error');
 
+                        if (errorMsg === 'Username already exists.') {
+                            errorMsg = errorMsg.replace(/Username/, 'Email')
+                        }
+
+                        errorSpan.html(errorMsg);
+                        errorSpan.closest('div').addClass('has-error');
+                        errorSpan.closest('label').toggle();
+                    } else if (error.error = 'passwords') {
+                        var passwordSpan = $('span.password-error');
+                        passwordSpan.html(error.reason);
+                        passwordSpan.closest('div').addClass('has-error');
+                        passwordSpan.closest('label').toggle();
+                    } else {
+                        console.log(error.reason);
+                    }
                 }
                 if (result) {
-                    console.log('callback register success', result);
+                    var alertConfig,
+                        msg,
+                        title;
+
                     Meteor.loginWithPassword(options.email, options.password);
+                    alertConfig = _.clone(sAlert.settings);
+                    alertConfig.onRouteClose = false;
+
+                    title = "Organization created !";
+                    msg = "Welcome " + options.email + " to Intranet App";
+
+                    sAlert.addSuccess(msg, title, alertConfig);
                     FlowRouter.go('mainDash');
                 }
             })
@@ -67,15 +95,20 @@ Template.organizationRegister.onRendered(function () {
     var self = this;
     if (self.view.isRendered){
         var body = $('body');
+        body.removeClass();
         body.addClass('register-page');
-        $(":button").addClass("disabled")
+        $(":button").addClass("disabled");
+
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
 
 
     }
 });
 
 Template.organizationRegister.onDestroyed(function () {
-    var body = $('body');
-    body.removeClass();
 });
 

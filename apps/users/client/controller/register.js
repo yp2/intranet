@@ -14,12 +14,11 @@ Template.register.onRendered(function () {
     var self = this;
     if (self.view.isRendered){
         var body = $('body');
+        body.removeClass();
         body.addClass('register-page');
     }
 });
 
 Template.register.onDestroyed(function () {
-    var body = $('body');
-    body.removeClass();
 });
 

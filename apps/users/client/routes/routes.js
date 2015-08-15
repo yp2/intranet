@@ -5,5 +5,10 @@ FlowRouter.route("/organization/register", {
         BlazeLayout.render('notLoggedLayout', {content: "organizationRegister" })
     },
     name: 'organizationRegister'
-
+});
+FlowRouter.route('/login', {
+    action: function(params, queryParams) {
+        BlazeLayout.render('notLoggedLayout', {content: "login"})
+    },
+    name: 'login'
 });

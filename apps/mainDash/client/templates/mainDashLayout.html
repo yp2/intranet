@@ -1,12 +1,33 @@
 <template name="mainDashLayout">
     <div class="wrapper">
-        {{> Template.dynamic template=header}}
-        {{> Template.dynamic template=sideBar}}
 
-        {{> Template.dynamic template=content}}
+        {{# if authInProcess }}
+            <div class="content-wrapper">
+                <section class="content">
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Loading</h3>
+                        </div>
+                        <div class="box-body">
+                            <br/>
+                        </div>
+                        <div class="overlay">
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        {{else}}
+            {{#if canShow }}
+                {{> Template.dynamic template=header}}
+                {{> Template.dynamic template=sideBar}}
 
-        {{> Template.dynamic template=footer}}
-        {{> Template.dynamic template=controlSideBar}}
+                {{> Template.dynamic template=content}}
+
+                {{> Template.dynamic template=footer}}
+                {{> Template.dynamic template=controlSideBar}}
+            {{/if}}
+        {{/if}}
     </div>
 
 </template>

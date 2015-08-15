@@ -1,30 +1,46 @@
 Template.mainDashLayout.helpers({
-    'userId': function (){
-        return Meteor.userId();
+    authInProcess: function() {
+        return Meteor.loggingIn();
+    },
+    canShow: function() {
+        return !!Meteor.user();
     }
 });
 
 Template.mainDashLayout.events({
-    //add your events here
+    'click .sign-out': function (event, instance) {
+        console.log('sign=out');
+        Meteor.logout()
+    }
 });
 
 Template.mainDashLayout.onCreated(function () {
-    //add your statement here
+    var self = this;
+    console.log(self);
+    self.autorun(function(){
+        var userId = Meteor.userId();
+        var loggingIn = Meteor.loggingIn();
+        if(!userId && !loggingIn) {
+            FlowRouter.go('login')
+        }
+
+    })
 });
 
 Template.mainDashLayout.onRendered(function () {
+
     var self = this;
     if (self.view.isRendered) {
         var body = $('body');
-        body.addClass("skin-blue sidebar-mini");
+            body.removeClass();
+            body.addClass("skin-blue sidebar-mini");
 
-        MeteorAdminLTE.run();
+        $(function () {
+            MeteorAdminLTE.run()
+        });
     }
-
 });
 
 Template.mainDashLayout.onDestroyed(function () {
-    var body = $('body');
-    body.removeClass();
 });
 

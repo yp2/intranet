@@ -16,8 +16,9 @@ Template.notLoggedLayout.onRendered(function () {
     if(self.view.isRendered) {
         // AdminLTE init
 
-
-        MeteorAdminLTE.run();
+        $(function () {
+            MeteorAdminLTE.run()
+        });
         // end AdminLTE init
 
         $('input').iCheck({
