@@ -18,14 +18,13 @@ Template.mainDashLayout.events({
 
 Template.mainDashLayout.onCreated(function () {
     var self = this;
-    console.log(self);
     self.autorun(function(){
         var userId = Meteor.userId();
         var loggingIn = Meteor.loggingIn();
         if(!userId && !loggingIn) {
             FlowRouter.go('login')
         }
-
+        self.subscribe('userScopes');
     })
 });
 

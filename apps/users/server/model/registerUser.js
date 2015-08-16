@@ -17,7 +17,10 @@ Meteor.methods({
             // per = personal
             type: 'org',
             name: options.email,
-            org: {name: options.email.split('@')[1]}
+            scopeMain: {
+                type: 'org',
+                name: options.email.split('@')[1]
+            }
         };
 
         var secureProfile = _.clone(profile);
@@ -27,7 +30,34 @@ Meteor.methods({
 
         var newUserId = Accounts.createUser(options);
         if (newUserId) {
-            Meteor.users.update({_id:newUserId}, {$set: {'emails.0.verified':true, 'secure.profile': secureProfile}});
+            var scopeId = UserScope.insert({
+                name: profile.scopeMain.name,
+                type: 'org',
+                admin: {
+                    name: options.username,
+                    id: newUserId
+                },
+                allowedUsers: [newUserId],
+                secure: {
+                    type: 'org',
+                    admin: {
+                        name: options.username,
+                        id: newUserId
+                    },
+                    allowedUsers: [newUserId]
+                }
+            });
+
+            secureProfile.scopeMain.id = scopeId;
+
+            Meteor.users.upsert({_id:newUserId}, {
+                $set: {
+                    'emails.0.verified':true,
+                    'secure.profile': secureProfile,
+                    'profile.scopeMain.id': scopeId,
+                    'profile.scopeSelected': {type: 'org', id:scopeId, name:profile.scopeMain.name}
+                }
+            });
             return true;
         } else {
             return false;
