@@ -23,3 +23,5 @@ perak:codemirror
 okgrow:promise
 perak:markdown
 less
+percolate:migrations
+momentjs:moment

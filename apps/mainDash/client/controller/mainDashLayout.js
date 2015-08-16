@@ -10,7 +10,9 @@ Template.mainDashLayout.helpers({
 Template.mainDashLayout.events({
     'click .sign-out': function (event, instance) {
         console.log('sign=out');
-        Meteor.logout()
+
+        Meteor.call('userLogout');
+        Meteor.logout();
     }
 });
 
