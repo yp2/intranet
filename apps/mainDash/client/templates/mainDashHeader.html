@@ -125,7 +125,9 @@
                                 <p>
                                     {{currentUser.username}}
                                     {{#if userIsOrg}}
-                                        <small>{{userOrgName}} organization profile </small>
+                                        <small>{{scopeName}} organization profile </small>
+                                    {{else}}
+                                        <small>{{scopeName}} personal profile </small>
                                     {{/if}}
                                 </p>
                             </li>

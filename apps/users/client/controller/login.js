@@ -5,8 +5,7 @@ Template.login.helpers({
 Template.login.events({
     'click .login-btn' : function (event) {
         event.preventDefault();
-        console.log('submit');
-        
+
         var email, password;
         
         email = $("#email-input");

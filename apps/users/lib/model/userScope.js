@@ -10,4 +10,4 @@ UserScope.before.insert(function (userId, doc) {
 UserScope.before.update(function (userId, doc, fieldNames, modifier, options) {
     modifier.$set = modifier.$set || {};
     modifier.$set.modifiedAt = new Date();
-})
+});

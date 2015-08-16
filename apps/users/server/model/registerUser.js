@@ -48,6 +48,29 @@ Meteor.methods({
                 }
             });
 
+            var wikiId = Wiki.insert({
+                type: 'org',
+                admin: {
+                    name: options.username,
+                    id: newUserId
+                },
+                scope: {
+                    name: profile.scopeMain.name,
+                    id: scopeId
+                },
+                secure: {
+                    type: 'org',
+                    admin: {
+                        name: options.username,
+                        id: newUserId
+                    },
+                    scope: {
+                        name: profile.scopeMain.name,
+                        id: scopeId
+                    }
+                }
+            });
+
             secureProfile.scopeMain.id = scopeId;
 
             Meteor.users.upsert({_id:newUserId}, {
@@ -58,6 +81,8 @@ Meteor.methods({
                     'profile.scopeSelected': {type: 'org', id:scopeId, name:profile.scopeMain.name}
                 }
             });
+
+            UserScope.upsert({_id: scopeId}, {$set:{'wiki.id': wikiId, 'secure.wiki.id': wikiId}});
             return true;
         } else {
             return false;
