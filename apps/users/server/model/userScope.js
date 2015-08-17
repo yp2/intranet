@@ -6,7 +6,7 @@ Meteor.publish('userScopes', function () {
         opt = {};
 
     sel.allowedUsers= this.userId;
-    opt.fields = {_id: 1, name: 1, type: 1};
+    opt.fields = {secure:0};
 
     console.log('pub userScopes:', UserScope.find(sel, opt).count());
     return UserScope.find(sel, opt)

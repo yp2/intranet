@@ -1,0 +1,45 @@
+/**
+ * Created by daniel on 17.08.15.
+ */
+Meteor.methods({
+    addWikiCategory: function (categoryData) {
+        check(categoryData, {
+            name: String
+        });
+
+        var user,
+            scopeSelected,
+            wiki;
+
+        user = Meteor.users.findOne(this.userId);
+
+        if (Meteor.isServer) {
+            scopeSelected = UserScope.findOne({_id: user.profile.scopeSelected.id, 'secure.allowedUsers': user._id});
+        } else {
+            scopeSelected = UserScope.findOne({_id: user.profile.scopeSelected.id, 'allowedUsers': user._id});
+        }
+        if (!scopeSelected) {
+            throw new Meteor.Error(403, 'Not allowed to add category')
+        }
+
+        if (Meteor.isServer) {
+            wiki = Wiki.findOne({_id: scopeSelected.wiki.id, 'secure.scope.id': scopeSelected._id});
+        } else {
+            wiki = Wiki.findOne({_id: scopeSelected.wiki.id, 'scope.id': scopeSelected._id});
+        }
+
+        if (!wiki){
+            throw new Meteor.Error(404, "Wiki doesn't exists")
+        }
+
+        Wiki.upsert({_id: wiki._id}, {
+            $push:{categories: categoryData.name, 'secure.categories': categoryData.name}
+        });
+        
+        if(Meteor.isServer){
+            console.log(wiki.secure.categories === wiki.categories);
+        }
+        
+        return true
+    }
+})

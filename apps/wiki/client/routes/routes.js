@@ -6,7 +6,7 @@ FlowRouter.route("/wiki/test", {
     name: 'wikiTest'
 });
 
-FlowRouter.route('/wiki', {
+FlowRouter.route('/wiki/:category', {
     action: function (params, queryParams) {
         BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('mainWiki'))
     },

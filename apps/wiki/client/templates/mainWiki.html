@@ -1,29 +1,41 @@
 <template name="mainWiki">
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                Wiki
-                {{#if scopeTypeIsOrg}}
-                    <small>for {{scopeName}} organization profile</small>
-                    {{else}}
-                    <small>for {{scopeName}} personal profile</small>
-                {{/if}}
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="{{pathFor 'mainDash'}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                <li class="active">Wiki</li>
-            </ol>
-        </section>
+    {{#if Template.subscriptionsReady}}
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    {{canAddCategory}}
+                    Wiki
+                    {{#if scopeTypeIsOrg}}
+                        <small>for {{scopeName}} organization profile</small>
+                        {{else}}
+                        <small>for {{scopeName}} personal profile</small>
+                    {{/if}}
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{pathFor 'mainDash'}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li class="active">Wiki</li>
+                </ol>
+            </section>
 
-        <!-- Main content -->
-        <section class="content">
-            <div class="row">
-                <button type="button" class="btn btn-default bg-maroon add-article">Add Article</button>
-                <button type="button" class="btn btn-default bg-purple add-category">Add Wiki Category</button>
-            </div>
-            <!-- Your Page Content Here -->
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <button type="button" class="btn btn-default bg-maroon add-article">Add Article</button>
+                    {{#if canAddCategory}}
+                        <button type="button" class="btn btn-default bg-purple add-category">Add Wiki Category</button>
+                    {{/if}}
+                    <ul>
+                        {{#each categories}}
+                            <li>{{this}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <!-- Your Page Content Here -->
 
-        </section><!-- /.content -->
-    </div><!-- /.content-wrapper -->
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+    {{else}}
+        {{> loading}}
+    {{/if}}
 </template>
