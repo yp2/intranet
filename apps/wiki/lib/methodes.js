@@ -36,10 +36,6 @@ Meteor.methods({
             $push:{categories: categoryData.name, 'secure.categories': categoryData.name}
         });
         
-        if(Meteor.isServer){
-            console.log(wiki.secure.categories === wiki.categories);
-        }
-        
         return true
     }
 })
