@@ -32,6 +32,8 @@ Meteor.methods({
             throw new Meteor.Error(404, "Wiki doesn't exists")
         }
 
+        //TODO: sprawdzanie czy już istnieje taka kategoria
+
         Wiki.upsert({_id: wiki._id}, {
             $push:{categories: categoryData.name, 'secure.categories': categoryData.name}
         });
