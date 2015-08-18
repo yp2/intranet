@@ -13,6 +13,10 @@ Meteor.methods({
 
         user = Meteor.users.findOne(this.userId);
 
+        if (categoryData.name.length === 0) {
+            throw new Meteor.Error(500, 'Empty category name');
+        }
+
         if (Meteor.isServer) {
             scopeSelected = UserScope.findOne({_id: user.profile.scopeSelected.id, 'secure.allowedUsers': user._id});
         } else {
@@ -32,7 +36,11 @@ Meteor.methods({
             throw new Meteor.Error(404, "Wiki doesn't exists")
         }
 
-        //TODO: sprawdzanie czy już istnieje taka kategoria
+        if(Meteor.isServer && _.contains(wiki.secure.categories, categoryData.name)) {
+            throw  new Meteor.Error(303, "Category exists")
+        } else if (Meteor.isClient && _.contains(wiki.categories, categoryData.name)) {
+            throw  new Meteor.Error(303, "Category exists")
+        }
 
         Wiki.upsert({_id: wiki._id}, {
             $push:{categories: categoryData.name, 'secure.categories': categoryData.name}

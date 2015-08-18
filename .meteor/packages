@@ -26,3 +26,5 @@ less
 percolate:migrations
 momentjs:moment
 matb33:collection-hooks
+reactive-var
+reactive-dict

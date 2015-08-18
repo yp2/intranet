@@ -4,11 +4,10 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    {{canAddCategory}}
                     Wiki
                     {{#if scopeTypeIsOrg}}
                         <small>for {{scopeName}} organization profile</small>
-                        {{else}}
+                    {{else}}
                         <small>for {{scopeName}} personal profile</small>
                     {{/if}}
                 </h1>
@@ -23,7 +22,8 @@
                 <div class="row">
                     <button type="button" class="btn btn-default bg-maroon add-article">Add Article</button>
                     {{#if canAddCategory}}
-                        <button type="button" class="btn btn-default bg-purple add-category">Add Wiki Category</button>
+                        <button type="button" class="btn btn-default bg-purple add-category-modal">Add Wiki Category
+                        </button>
                     {{/if}}
                     <ul>
                         {{#each categories}}
@@ -32,10 +32,40 @@
                     </ul>
                 </div>
                 <!-- Your Page Content Here -->
+                <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog"
+                     aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span
+                                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" id="addCategoryModalLabel">Add Category</h4>
+                            </div>
+                            <form role="form">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="inputAddCategory">Category name</label>
+                                        <input type="text" class="form-control" id="inputAddCategory"
+                                               placeholder="Category name">
+                                        <label class="control-label" style="display: none">
+                                            <i class="fa fa-times-circle-o"></i> <span class="category-error"></span></label>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left btn-flat" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary btn-flat add-category">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            </section><!-- /.content -->
-        </div><!-- /.content-wrapper -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
     {{else}}
         {{> loading}}
     {{/if}}
+
 </template>
