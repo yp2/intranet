@@ -12,7 +12,6 @@ kadira:blaze-layout
 arillo:flow-router-helpers
 tomwasd:flow-router-autoscroll
 tkornblit:icheck
-yp2:admin-lte
 accounts-base
 accounts-password
 accounts-google
@@ -28,3 +27,4 @@ momentjs:moment
 matb33:collection-hooks
 reactive-var
 reactive-dict
+yp2:admin-lte

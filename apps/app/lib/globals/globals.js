@@ -24,3 +24,21 @@ MyApp.mainDashRegions = function (contentTemplate) {
     }
     return regions
 };
+
+MyApp.informLayout = function () {
+    if (Meteor.isClient) {
+        var mainDashLayout = Blaze.getView($('div.wrapper')[0]).templateInstance(),
+            renderedTemplates = mainDashLayout.renderedTemplates.get();
+        mainDashLayout.renderedTemplates.set(renderedTemplates + 1);
+
+    }
+};
+
+//MyApp.informLayoutSubtract = function () {
+//    if (Meteor.isClient) {
+//        var mainDashLayout = Blaze.getView($('div.wrapper')[0]).templateInstance(),
+//            renderedTemplates = mainDashLayout.renderedTemplates.get();
+//        mainDashLayout.renderedTemplates.set(renderedTemplates - 1);
+//
+//    }
+//}

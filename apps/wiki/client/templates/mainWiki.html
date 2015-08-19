@@ -21,17 +21,65 @@
             <section class="content">
                 <div class="row">
                     <button type="button" class="btn btn-default bg-maroon add-article">Add Article</button>
-                    {{#if canAddCategory}}
-                        <button type="button" class="btn btn-default bg-purple add-category-modal">Add Wiki Category
-                        </button>
-                    {{/if}}
-                    <ul>
-                        {{#each categories}}
-                            <li>{{this}}</li>
-                        {{/each}}
-                    </ul>
+                        <!--{{#if canAddCategory}}-->
+                    <!--<button type="button" class="btn btn-default bg-purple add-category-modal">Add Wiki Category-->
+                    <!--</button>-->
+                        <!--{{/if}}-->
                 </div>
-                <!-- Your Page Content Here -->
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-sm-12">
+                        <div class="box box-default">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Wiki Categories</h3>
+
+                                <div class="box-tools pull-right">
+                                    {{#if canAddCategory}}
+                                        <button class="btn btn-box-tool bg-purple add-category-modal">Add Wiki
+                                            Category
+                                        </button>
+                                    {{/if}}
+                                    <!--<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>-->
+                                    <!--<button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>-->
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<ul class="nav nav-pills nav-stacked">-->
+                                        <div class="list-group">
+                                            {{#each categories}}
+                                                <a href="{{pathFor 'mainWiki' category=this}}" class="list-group-item">
+                                                    {{this}}
+                                                    <span class="pull-right">
+                                                <button class="btn btn-xs btn-danger delete-category" data-category="{{this}}">
+                                                    <i class="fa fa-times"></i> Delete
+                                                </button>
+                                            </span>
+                                                </a>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="info-box col-md-6">
+                                            <span class="info-box-icon bg-red"><i class="fa fa-star-o"></i></span>
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">Likes</span>
+                                                <span class="info-box-number">93,139</span>
+                                            </div><!-- /.info-box-content -->
+                                        </div><!-- /.info-box -->
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                            <!-- /.box-body -->
+                            <div class="box-footer no-padding">
+                            </div>
+                            <!-- /.footer -->
+                        </div>
+                    </div>
+                </div>
+                <!--{{>addCategoryModal}}-->
                 <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog"
                      aria-labelledby="addCategoryModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -41,7 +89,7 @@
                                         aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                 <h4 class="modal-title" id="addCategoryModalLabel">Add Category</h4>
                             </div>
-                            <form role="form">
+                            <form role="form" class="add-category-form">
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="inputAddCategory">Category name</label>
@@ -59,7 +107,6 @@
                         </div>
                     </div>
                 </div>
-
             </section>
             <!-- /.content -->
         </div>

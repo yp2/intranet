@@ -10,10 +10,10 @@ Template.mainDashContent.onCreated(function () {
 });
 
 Template.mainDashContent.onRendered(function () {
-    //add your statement here
+
 });
 
 Template.mainDashContent.onDestroyed(function () {
-    //add your statement here
+
 });
 
