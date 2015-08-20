@@ -77,6 +77,9 @@ Meteor.methods({
 
         wiki = checkResult.wiki;
 
+        //TODO: can't delete categories with articles
+
+
         if(Meteor.isServer && !_.contains(wiki.secure.categories, data.category)) {
             throw  new Meteor.Error(303, "Category doesn't exists")
         } else if (Meteor.isClient && !_.contains(wiki.categories, data.category)) {

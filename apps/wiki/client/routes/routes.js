@@ -9,7 +9,12 @@ FlowRouter.route("/wiki/test", {
 FlowRouter.route('/wiki/:category', {
     action: function (params, queryParams) {
         console.log(params);
-        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('mainWiki'))
+        if (params.category === 'main') {
+            BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('mainWiki'));
+        } else {
+            BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('wikiCategory'));
+
+        }
     },
     name: 'mainWiki'
 });
