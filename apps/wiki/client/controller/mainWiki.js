@@ -22,14 +22,6 @@ Template.mainWiki.events({
 
         console.log(t.categoryToDelete.get());
         
-        //Meteor.call('deleteCategory',$(e.currentTarget).data(), t.category, function (error, result) {
-        //    if(error) {
-        //        sAlert.addError(error.reason, "Can't delete category")
-        //    }
-        //    if (result) {
-        //        sAlert.addSuccess('Category deleted');
-        //    }
-        //});
     }
 });
 
@@ -37,10 +29,8 @@ Template.mainWiki.onCreated(function () {
     var self = this;
 
     self.autorun(function () {
-        self.category = FlowRouter.getParam('category');
-        console.log('category', self.category);
-        var wikiSub = self.subscribe('scopeWiki', self.category);
-        var articleSub = self.subscribe('articlesForWikiCategory', self.category)
+        var wikiSub = self.subscribe('scopeWiki');
+        var articleSub = self.subscribe('articlesForWikiCategory', self.category);
         self.wiki = function () {
             console.log('wiki',Wiki.find().count());
             return Wiki.findOne()

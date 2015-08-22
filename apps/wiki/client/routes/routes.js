@@ -6,15 +6,16 @@ FlowRouter.route("/wiki/test", {
     name: 'wikiTest'
 });
 
-FlowRouter.route('/wiki/:category', {
+FlowRouter.route('/main/wiki', {
     action: function (params, queryParams) {
-        console.log(params);
-        if (params.category === 'main') {
             BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('mainWiki'));
-        } else {
-            BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('wikiCategory'));
-
-        }
     },
     name: 'mainWiki'
+});
+
+FlowRouter.route('/wiki/:category', {
+    action: function (params, queryParams) {
+        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('wikiCategory'));
+    },
+    name: 'wikiCategory'
 });

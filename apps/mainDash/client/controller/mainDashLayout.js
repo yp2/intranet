@@ -16,7 +16,6 @@ Template.mainDashLayout.events({
 
 Template.mainDashLayout.onCreated(function () {
     var self = this;
-    console.log('created', self);
     self.renderedTemplates = new ReactiveVar(0);
     self.autorun(function () {
         var userId = Meteor.userId();
@@ -33,7 +32,6 @@ Template.mainDashLayout.onRendered(function () {
     var self = this;
 
     Deps.autorun(function () {
-        console.log(self.renderedTemplates.get());
         if (self.renderedTemplates.get() === 4){
             var body = $('body');
                 body.removeClass();

@@ -5,8 +5,8 @@ FlowRouter.route("/", {
     name: 'mainDash'
 
 });
-FlowRouter.notFound = {
-    action: function() {
-        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('404'));
-    }
-};
+//FlowRouter.notFound = {
+//    action: function() {
+//        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('404'));
+//    }
+//};

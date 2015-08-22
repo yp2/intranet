@@ -49,7 +49,7 @@
                                         <!--<ul class="nav nav-pills nav-stacked">-->
                                         <div class="list-group">
                                             {{#each categories}}
-                                                <a href="{{pathFor 'mainWiki' category=this}}" class="list-group-item">
+                                                <a href="{{pathFor 'wikiCategory' category=this}}" class="list-group-item">
                                                     {{this}}
                                                     <span class="pull-right">
                                                 <button class="btn btn-xs btn-danger delete-category-modal" data-category="{{this}}">
