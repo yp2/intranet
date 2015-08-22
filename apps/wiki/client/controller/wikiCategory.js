@@ -14,21 +14,24 @@ Template.wikiCategory.onCreated(function () {
 
     self.autorun(function () {
         self.category = FlowRouter.getParam('category');
+
         console.log(self.category);
 
-        var wikiSub = self.subscribe('scopeWiki', self.category);
+        var wikiSub = self.subscribe('scopeWiki');
+
         var articleSub = self.subscribe('articlesForWikiCategory', self.category);
-        var wikiA = Wiki.findOne();
+
+        var wikiScope = [];
 
         if (wikiSub.ready()) {
+            wikiScope = Wiki.findOne();
+            console.log('wiki categories', _.contains(wikiScope.categories, self.category));
             //Todo 404 on Wiki.findOne()=== undefined
-            if (wikiA === undefined) {
+            if (typeof scopeWiki === undefined || (wikiScope && !_.contains(wikiScope.categories, self.category))) {
+                //sprawdzamy cz mamy kategorie w kategirach i wtedy 404
                 console.log('404');
-                FlowRouter.go('mainWiki', {category: 'main'})
+                FlowRouter.go('404')
             }
-        }
-        self.wiki = function () {
-            return wikiA;
         }
     })
 });
