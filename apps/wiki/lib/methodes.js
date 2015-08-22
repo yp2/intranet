@@ -2,7 +2,7 @@
  * Created by daniel on 17.08.15.
  */
 
-var wikiAction = {
+MyApp.wikiAction = {
     checkUserWiki: function (user) {
         var scopeSelected,
             wiki;
@@ -21,12 +21,27 @@ var wikiAction = {
             wiki = Wiki.findOne({_id: scopeSelected.wiki.id, 'scope.id': scopeSelected._id});
         }
 
-        if (!wiki){
+        if (!wiki) {
             throw new Meteor.Error(404, "Wiki doesn't exists")
         }
-        return {scopeSelected: scopeSelected, wiki:wiki}
+        return {scopeSelected: scopeSelected, wiki: wiki}
+    },
+    wikiCategoryCheck: function (data) {
+        var category = data.category;
+        var wiki = data.wiki;
+
+        if (!category || !category.length) {
+            throw new Meteor.Error(400, "You must supply category name");
+        }
+
+        if (Meteor.isServer && !_.contains(wiki.secure.categories, category)) {
+            throw  new Meteor.Error(303, "Category doesn't exists")
+        } else if (Meteor.isClient && !_.contains(wiki.categories, category)) {
+            throw  new Meteor.Error(303, "Category doesn't exists")
+        }
+
     }
-}
+};
 
 Meteor.methods({
     addWikiCategory: function (categoryData) {
@@ -44,52 +59,108 @@ Meteor.methods({
             throw new Meteor.Error(500, 'Empty category name');
         }
 
-        checkResult = wikiAction.checkUserWiki(user);
+        checkResult = MyApp.wikiAction.checkUserWiki(user);
         wiki = checkResult.wiki;
 
-        if(Meteor.isServer && _.contains(wiki.secure.categories, categoryData.name)) {
+        if (Meteor.isServer && _.contains(wiki.secure.categories, categoryData.name)) {
             throw  new Meteor.Error(303, "Category exists")
         } else if (Meteor.isClient && _.contains(wiki.categories, categoryData.name)) {
             throw  new Meteor.Error(303, "Category exists")
         }
 
         Wiki.upsert({_id: wiki._id}, {
-            $push:{categories: categoryData.name, 'secure.categories': categoryData.name}
+            $push: {categories: categoryData.name, 'secure.categories': categoryData.name}
         });
-        
+
         return true
     },
-    deleteCategory: function(data, category) {
+    deleteCategory: function (data, category) {
         console.log(data, category);
         if (category !== 'main') {
             throw new Meteor.Error(400, "Can't delete category not in main category")
         }
-        if (!data.category || !data.category.length) {
-            throw new Meteor.Error(400, "You must supply category name");
-        }
+        //if (!data.category || !data.category.length) {
+        //    throw new Meteor.Error(400, "You must supply category name");
+        //}
         var user,
             wiki,
             checkResult;
 
         user = Meteor.users.findOne(this.userId);
 
-        checkResult = wikiAction.checkUserWiki(user);
+        checkResult = MyApp.wikiAction.checkUserWiki(user);
 
         wiki = checkResult.wiki;
 
         //TODO: can't delete categories with articles
 
-
-        if(Meteor.isServer && !_.contains(wiki.secure.categories, data.category)) {
-            throw  new Meteor.Error(303, "Category doesn't exists")
-        } else if (Meteor.isClient && !_.contains(wiki.categories, data.category)) {
-            throw  new Meteor.Error(303, "Category doesn't exists")
-        }
+        MyApp.wikiAction.wikiCategoryCheck({category: data.category, wiki: wiki});
 
         Wiki.update({_id: wiki._id}, {
-            $pull:{categories: data.category, 'secure.categories': data.category}
+            $pull: {categories: data.category, 'secure.categories': data.category}
         });
 
         return true
+    },
+    addArticle: function (data) {
+        check(data, {
+            category: String
+        });
+
+        var category = data.category,
+            user = Meteor.users.findOne(this.userId),
+            checkResult,
+            wiki,
+            scope;
+
+        //if (!category || !category.length) {
+        //    throw new Meteor.Error(400, "You must supply category name");
+        //}
+
+
+        checkResult = MyApp.wikiAction.checkUserWiki(user);
+        wiki = checkResult.wiki;
+        scope = checkResult.scopeSelected;
+
+        if (category === 'main') {
+            if (Meteor.isServer) {
+                wiki.secure.categories.push('main')
+            } else {
+                wiki.categories.push('main')
+            }
+        }
+
+        if (Meteor.isServer && !_.contains(wiki.secure.categories, category)) {
+            throw  new Meteor.Error(303, "Category doesn't exists")
+        } else if (Meteor.isClient && !_.contains(wiki.categories, category)) {
+            throw  new Meteor.Error(303, "Category doesn't exists")
+        }
+
+        var artFields = {
+            title: "New Title",
+            content: "New Article",
+            status: 'draft',
+            author: {
+                id: user._id,
+                username: user.username
+            },
+            wiki: {
+                id: wiki._id,
+                type: wiki.type
+            },
+            scope: {
+                id: scope._id,
+                name: scope.name
+            },
+            tags: [],
+            category: category
+        };
+        var artSecure = {secure: {}};
+        _.extend(artSecure.secure , artFields);
+
+        artFields.secure = artSecure.secure;
+        
+        console.log(artFields);
+        return WikiArticle.insert(artFields);
     }
 });

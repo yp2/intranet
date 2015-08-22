@@ -19,3 +19,10 @@ FlowRouter.route('/wiki/:category', {
     },
     name: 'wikiCategory'
 });
+
+FlowRouter.route('/wiki/:category/:articleId', {
+    action: function (params, queryParams) {
+        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('articleEdit'))
+    },
+    name: 'editArticle'
+});

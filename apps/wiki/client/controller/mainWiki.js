@@ -19,15 +19,27 @@ Template.mainWiki.events({
 
         t.categoryToDelete.set($(e.currentTarget).data());
         t.showDeleteCategoryModal.set('true');
+    },
+    'click .add-article': function (e, t) {
+        e.preventDefault();
+        Meteor.call('addArticle', {category: t.category}, function(error, result){
+            if (error) {
+                sAlert.addError(error.reason, 'Add article Error');
+            }
+            if (result) {
+                var alertConfig = _.clone(sAlert.settings);
+                alertConfig.onRouteClose = false;
 
-        console.log(t.categoryToDelete.get());
-        
+                sAlert.addSuccess('Article added', "", alertConfig);
+                FlowRouter.go('editArticle', {category: t.category, articleId: result})
+            }
+        })
     }
 });
 
 Template.mainWiki.onCreated(function () {
     var self = this;
-
+    self.category = 'main';
     self.autorun(function () {
         var wikiSub = self.subscribe('scopeWiki');
         var articleSub = self.subscribe('articlesForWikiCategory', self.category);

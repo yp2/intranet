@@ -29,7 +29,8 @@ Template.wikiCategory.onCreated(function () {
             var cat = self.category();
             if (typeof scopeWiki === undefined || !_.contains(scopeWiki.categories, cat)) {
                 FlowRouter.go('404')
-            } self.wiki = function () {
+            }
+            self.wiki = function () {
                 return Wiki.findOne();
             }
         }

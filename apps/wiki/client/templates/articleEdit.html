@@ -1,5 +1,6 @@
 <template name="articleEdit">
 <!-- Content Wrapper. Contains page content -->
+    {{#if Template.subscriptionsReady }}
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -8,8 +9,13 @@
                 <small>Optional description</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
+                <li><a href="{{pathFor 'mainDash'}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li><a href="{{pathFor 'mainWiki'}}"><i class="fa fa-wikipedia-w"></i> Wiki</a></li>
+                {{#unless checkMainCategory currentCategory}}
+                    <li><a href="{{pathFor 'wikiCategory' category=currentCategory}}"><i class="fa fa-wikipedia-w"></i> {{currentCategory}}</a></li>
+                {{/unless}}
+                <li class="active"><i class="ion-document"></i> {{currentArticle.title}}</li>
+
             </ol>
         </section>
 
@@ -20,4 +26,7 @@
 
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
+        {{else}}
+        {{>loading}}
+        {{/if}}
 </template>
