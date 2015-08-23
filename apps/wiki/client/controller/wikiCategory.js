@@ -21,10 +21,10 @@ Template.wikiCategory.onCreated(function () {
             return context.params.category
         };
 
-        var wikiSub = self.subscribe('scopeWiki');
+        //var wikiSub = self.subscribe('scopeWiki');
         var articleSub = self.subscribe('articlesForWikiCategory', self.category());
         
-        if (wikiSub.ready()) {
+        //if (wikiSub.ready()) {
             var scopeWiki = Wiki.findOne();
             var cat = self.category();
             if (typeof scopeWiki === undefined || !_.contains(scopeWiki.categories, cat)) {
@@ -32,8 +32,8 @@ Template.wikiCategory.onCreated(function () {
             }
             self.wiki = function () {
                 return Wiki.findOne();
-            }
-        }
+            };
+        //}
 
     })
 });

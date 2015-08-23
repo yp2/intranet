@@ -1,4 +1,4 @@
-<template name="articleEdit">
+<template name="wikiArticle">
 <!-- Content Wrapper. Contains page content -->
     {{#if Template.subscriptionsReady }}
     <div class="content-wrapper">
@@ -21,9 +21,14 @@
 
         <!-- Main content -->
         <section class="content">
-
             <!-- Your Page Content Here -->
-
+            {{#with currentArticle}}
+            {{#if edit }}
+                {{> editArticle}}
+            {{else }}
+                {{> viewArticle}}
+            {{/if}}
+            {{/with}}
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
         {{else}}

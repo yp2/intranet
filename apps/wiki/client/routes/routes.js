@@ -22,7 +22,7 @@ FlowRouter.route('/wiki/:category', {
 
 FlowRouter.route('/wiki/:category/:articleId', {
     action: function (params, queryParams) {
-        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('articleEdit'))
+        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('wikiArticle'))
     },
-    name: 'editArticle'
+    name: 'wikiArticle'
 });

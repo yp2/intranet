@@ -40,6 +40,22 @@ MyApp.wikiAction = {
             throw  new Meteor.Error(303, "Category doesn't exists")
         }
 
+    },
+    wikiArticleCheck: function (data) {
+        var articleId = data.articleId,
+            wikiId = data.wikiId,
+            scopeId = data.scopeId,
+            article;
+
+        if (Meteor.isServer){
+            article = WikiArticle.findOne({_id: articleId, "secure.wiki.id": wikiId, 'secure.scope.id': scopeId})
+        } else {
+            article = WikiArticle.findOne({_id: articleId, "wiki.id": wikiId, 'scope.id': scopeId})
+        }
+        if(!article) {
+            throw new Meteor.Error(404, "Article not found")
+        }
+        return article
     }
 };
 
@@ -162,5 +178,55 @@ Meteor.methods({
         
         console.log(artFields);
         return WikiArticle.insert(artFields);
+    },
+    saveArticleContent: function (data) {
+        check(data, {
+            id: String,
+            content: String
+        });
+
+        var user = Meteor.users.findOne(this.userId),
+            checkResult,
+            wiki,
+            scope;
+
+        checkResult = MyApp.wikiAction.checkUserWiki(user);
+        wiki = checkResult.wiki;
+        scope = checkResult.scopeSelected;
+
+        MyApp.wikiAction.wikiArticleCheck({articleId: data.id, wikiId: wiki._id, scopeId: scope._id});
+
+        WikiArticle.update({_id: data.id}, {$set: {content: data.content, 'secure.content': data.content}})
+
+        return true
+    },
+    publishArticle: function(data){
+        check(data, {
+            id: String
+        });
+
+        var user = Meteor.users.findOne(this.userId),
+            checkResult,
+            wiki,
+            scope,
+            modifier,
+            article;
+
+        checkResult = MyApp.wikiAction.checkUserWiki(user);
+        wiki = checkResult.wiki;
+        scope = checkResult.scopeSelected;
+        
+
+        article = MyApp.wikiAction.wikiArticleCheck({articleId: data.id, wikiId: wiki._id, scopeId: scope._id});
+
+        if (article.status === "published") {
+            modifier = {status: 'draft', 'secure.status': 'draft'}
+        } else {
+            modifier = {status: 'published', 'secure.status': 'published'}
+        }
+
+        WikiArticle.update({_id:data.id}, {$set: modifier});
+
+        return modifier.status;
     }
 });

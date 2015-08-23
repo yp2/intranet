@@ -24,6 +24,7 @@ Template.mainDashLayout.onCreated(function () {
             FlowRouter.go('login')
         }
         self.subscribe('userScopes');
+        self.subscribe('scopeWiki');
     })
 });
 

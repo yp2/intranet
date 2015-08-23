@@ -1,0 +1,123 @@
+<template name="editArticle">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-solid">
+                <!--<div class="box-header with-border"><h3 class="box-title">Article Editor</h3></div>-->
+                <form role="form">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="articleTitle">Article Title</label>
+                                    <input type="text" class="form-control" id="articleTitle"
+                                           placeholder="Article title" value="{{title}}">
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="articleTags">Article Tags</label>
+                                    <input type="text" class="form-control" id="articleTags" placeholder="Article tags"
+                                           value="">
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <dl class="dl-horizontal article-meta">
+                                            <dt>Status:</dt>
+                                            <dd>{{status}}</dd>
+                                            <dt>Author:</dt>
+                                            <dd>{{author.username}}</dd>
+                                            <dt>Created:</dt>
+                                            <dd>{{timeFromNow createdAt}}</dd>
+                                            <dt>Modified:</dt>
+                                            <dd>{{timeFromNow modifiedAt}}</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-md-5">
+                                    {{#if isPublished}}
+                                        <button class="btn btn-block btn-flat btn-default article-publish">Article in draft</button>
+                                    {{else}}
+                                        <button class="btn btn-block btn-flat btn-success article-publish">Publish Article</button>
+                                    {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Editor</h3>
+
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <!--<div class="btn-group">-->
+                            <!--<button class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown"-->
+                                    <!--aria-expanded="false"><i class="fa fa-wrench"></i></button>-->
+                            <!--<ul class="dropdown-menu" role="menu">-->
+                                <!--<li><a href="#">Action</a></li>-->
+                                <!--<li><a href="#">Another action</a></li>-->
+                                <!--<li><a href="#">Something else here</a></li>-->
+                                <!--<li class="divider"></li>-->
+                                <!--<li><a href="#">Separated link</a></li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--{{> CodeMirror id="wiki-editor" name="wikiEditor" options=editorOptions reactiveVar="articleContent1"}}-->
+                            {{> CodeMirror id="wiki-editor" name="wikiEditor" options=editorOptions code=editorCode }}
+                        </div>
+
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Preview</h3>
+
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <!--<div class="btn-group">-->
+                            <!--<button class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown"-->
+                                    <!--aria-expanded="false"><i class="fa fa-wrench"></i></button>-->
+                            <!--<ul class="dropdown-menu" role="menu">-->
+                                <!--<li><a href="#">Action</a></li>-->
+                                <!--<li><a href="#">Another action</a></li>-->
+                                <!--<li><a href="#">Something else here</a></li>-->
+                                <!--<li class="divider"></li>-->
+                                <!--<li><a href="#">Separated link</a></li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{#markdown}}{{articlePreview}}{{/markdown}}
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</template>

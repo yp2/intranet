@@ -31,7 +31,7 @@ Template.mainWiki.events({
                 alertConfig.onRouteClose = false;
 
                 sAlert.addSuccess('Article added', "", alertConfig);
-                FlowRouter.go('editArticle', {category: t.category, articleId: result})
+                FlowRouter.go('wikiArticle', {category: t.category, articleId: result})
             }
         })
     }
@@ -41,10 +41,9 @@ Template.mainWiki.onCreated(function () {
     var self = this;
     self.category = 'main';
     self.autorun(function () {
-        var wikiSub = self.subscribe('scopeWiki');
+        //var wikiSub = self.subscribe('scopeWiki');
         var articleSub = self.subscribe('articlesForWikiCategory', self.category);
         self.wiki = function () {
-            console.log('wiki',Wiki.find().count());
             return Wiki.findOne()
         }
 

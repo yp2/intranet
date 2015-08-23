@@ -1,0 +1,19 @@
+<template name="viewArticle">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="box box-solid">
+                <div class="box-header with-border"><h4 class="box-title">{{title}}</h4>
+                    <span class="pull-right">Created: <strong>{{timeFromNow createdAt}}</strong> by <strong>{{author.username}}</strong></span></div>
+                <div class="box-body">{{#markdown}}{{content}}{{/markdown}}</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="box box-solid">
+                <div class="box-header with-border"><h4 class="box-title">Actions</h4></div>
+                <div class="box-body">
+                    <button class="btn bg-orange btn-flat btn-block edit-article">Edit article</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

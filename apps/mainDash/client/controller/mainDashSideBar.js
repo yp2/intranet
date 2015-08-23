@@ -1,5 +1,11 @@
 Template.mainDashSideBar.helpers({
-    //add you helpers here
+    currentWiki: function () {
+        return Template.instance().wiki()
+    },
+    wikiCategories: function () {
+        var wiki = Template.instance().wiki();
+        return wiki.categories
+    }
 });
 
 Template.mainDashSideBar.events({
@@ -7,7 +13,13 @@ Template.mainDashSideBar.events({
 });
 
 Template.mainDashSideBar.onCreated(function () {
-    //add your statement here
+    var self = this;
+
+    self.autorun(function () {
+        self.wiki = function () {
+            return Wiki.findOne();
+        }
+    })
 });
 
 Template.mainDashSideBar.onRendered(function () {

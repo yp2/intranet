@@ -1,6 +1,5 @@
-Template.articleEdit.helpers({
+Template.wikiArticle.helpers({
     currentArticle: function (){
-        console.log('helper');
         return Template.instance().currentArticle();
     },
     currentCategory: function () {
@@ -8,15 +7,24 @@ Template.articleEdit.helpers({
     },
     checkMainCategory: function(category) {
         return category === 'main'
+    },
+    edit: function () {
+        return FlowRouter.getQueryParam('edit')
+    },
+
+});
+
+Template.wikiArticle.events({
+    'click .edit-article': function (e, t) {
+        e.preventDefault();
+        FlowRouter.setQueryParams({edit: true})
     }
 });
 
-Template.articleEdit.events({
-    //add your events here
-});
-
-Template.articleEdit.onCreated(function () {
+Template.wikiArticle.onCreated(function () {
     var self = this;
+    var artContent;
+    Session.set('articleContent','');
 
     self.autorun(function () {
         self.category = function () {
@@ -29,15 +37,14 @@ Template.articleEdit.onCreated(function () {
             var context = FlowRouter.current();
             return context.params.articleId
         };
-        
-        console.log(self.category(), self.articleId());
-        var wikiSub = self.subscribe('scopeWiki');
+
+        //var wikiSub = self.subscribe('scopeWiki');
         var articleSub = self.subscribe('articlesForWikiCategory', self.category());
 
-        if (wikiSub.ready() && articleSub.ready()) {
+        if (articleSub.ready()) {
             var scopeWiki = Wiki.findOne();
             var curArticle = WikiArticle.findOne({_id: self.articleId()});
-            console.log(scopeWiki, curArticle);
+            artContent = curArticle.content;
 
             if (self.category() === 'main') {
                 scopeWiki.categories.push("main")
@@ -45,23 +52,23 @@ Template.articleEdit.onCreated(function () {
 
             if (typeof scopeWiki === undefined || typeof curArticle === undefined ||
                 !_.contains(scopeWiki.categories, self.category())) {
-                console.log('adadasd');
                 FlowRouter.go('404');
             }
             self.currentArticle = function () {
                 return WikiArticle.findOne({_id: self.articleId()});
-            }
+            };
 
         }
 
-    })
+    });
+
 });
 
-Template.articleEdit.onRendered(function () {
+Template.wikiArticle.onRendered(function () {
     //add your statement here
 });
 
-Template.articleEdit.onDestroyed(function () {
-    //add your statement here
+Template.wikiArticle.onDestroyed(function () {
+    Session.set('articleContent', "");
 });
 
