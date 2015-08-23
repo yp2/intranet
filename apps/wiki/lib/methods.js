@@ -200,6 +200,27 @@ Meteor.methods({
 
         return true
     },
+    saveArticleTitle: function (data) {
+        check(data, {
+            id: String,
+            title: String
+        });
+
+        var user = Meteor.users.findOne(this.userId),
+            checkResult,
+            wiki,
+            scope;
+
+        checkResult = MyApp.wikiAction.checkUserWiki(user);
+        wiki = checkResult.wiki;
+        scope = checkResult.scopeSelected;
+
+        MyApp.wikiAction.wikiArticleCheck({articleId: data.id, wikiId: wiki._id, scopeId: scope._id});
+
+        WikiArticle.update({_id: data.id}, {$set: {title: data.title, 'secure.title': data.title}});
+
+        return true
+    },
     publishArticle: function(data){
         check(data, {
             id: String
