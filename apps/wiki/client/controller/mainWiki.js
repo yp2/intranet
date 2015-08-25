@@ -7,6 +7,9 @@ Template.mainWiki.helpers({
         var wiki = Template.instance().wiki();
         return wiki ? wiki.categories : [];
         //return Wiki.findOne().categories || []
+    },
+    currentCategory: function () {
+        return Template.instance().category()
     }
 });
 
@@ -22,7 +25,7 @@ Template.mainWiki.events({
     },
     'click .add-article': function (e, t) {
         e.preventDefault();
-        Meteor.call('addArticle', {category: t.category}, function(error, result){
+        Meteor.call('addArticle', {category: t.category()}, function(error, result){
             if (error) {
                 sAlert.addError(error.reason, 'Add article Error');
             }
@@ -31,7 +34,7 @@ Template.mainWiki.events({
                 alertConfig.onRouteClose = false;
 
                 sAlert.addSuccess('Article added', "", alertConfig);
-                FlowRouter.go('wikiArticle', {category: t.category, articleId: result})
+                FlowRouter.go('wikiArticle', {category: t.category(), articleId: result})
             }
         })
     }
@@ -39,10 +42,15 @@ Template.mainWiki.events({
 
 Template.mainWiki.onCreated(function () {
     var self = this;
-    self.category = 'main';
+    self.showAddCategoryModal = new ReactiveVar(false);
+    self.showDeleteCategoryModal = new ReactiveVar(false);
+    self.categoryToDelete = new ReactiveVar(null);
+    self.category = function () {
+        return 'main'
+    };
     self.autorun(function () {
         //var wikiSub = self.subscribe('scopeWiki');
-        var articleSub = self.subscribe('articlesForWikiCategory', self.category);
+        //var articleSub = self.subscribe('articlesForWikiCategory', self.category());
         self.wiki = function () {
             return Wiki.findOne()
         }
@@ -53,9 +61,6 @@ Template.mainWiki.onCreated(function () {
 Template.mainWiki.onRendered(function () {
     //add your statement here
     var self = this;
-    self.showAddCategoryModal = new ReactiveVar(false);
-    self.showDeleteCategoryModal = new ReactiveVar(false);
-    self.categoryToDelete = new ReactiveVar(null);
 
     Deps.autorun(function () {
         if (self.showAddCategoryModal.get()) {

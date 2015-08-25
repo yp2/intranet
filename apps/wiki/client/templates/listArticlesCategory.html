@@ -1,37 +1,51 @@
 <template name="listArticlesCategory">
-    <!--<div class="row">-->
-    <!--<div class="col-md-9">-->
-    <!--</div>-->
-    <!--<div class="col-md-3">-->
-    <!--<div class="form-group">-->
-    <!--<select class="form-control input-sm col-xs-6">-->
-    <!--<option>by Author</option>-->
-    <!--<option>by Title</option>-->
-    <!--<option>by Date - Created</option>-->
-    <!--<option>by Date - Modified</option>-->
-    <!--</select>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
     <div class="row">
-        <div class="box">
-            <div class="box-body">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Created</th>
-                        <th>Modified</th>
-                    </tr>
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <form role="form">
+                <div class="form-group ">
+                    <select class="form-control input-sm">
+                        <option>option 1</option>
+                        <option>option 2</option>
+                        <option>option 3</option>
+                        <option>option 4</option>
+                        <option>option 5</option>
+                    </select>
+                </div>
+            </form>
 
-                    </thead>
-                </table>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="list-group">
                 {{#each categoryArticles}}
-                    {{title}}
-                {{/each}}
+                    <a href="{{pathFor 'wikiArticle' category=currentCategory articleId=_id}}" class="list-group-item">
+                        <h4 class="list-group-item-heading"><strong>{{title}}</strong></h4>
+                        <span class="">by {{author.username}}</span>
+                        <span class="pull-right">Created: {{timeFromNow createdAt}}
+                        {{#if modifiedAt}}
+                            Modified: {{timeFromNow modifiedAt}}
+                        {{/if}}
+                        </span>
+                    </a>
 
+                {{/each}}
             </div>
         </div>
     </div>
+    <!--<div class="row">-->
+    <!--<div class="box">-->
+    <!--<div class="box-body">-->
+    <!--<div class="list-group">-->
+    <!--<a href="#" class="list-group-item active">-->
+    <!--<h4 class="list-group-item-heading">List group item heading</h4>-->
+    <!--<p class="list-group-item-text">...</p>-->
+    <!--</a>-->
+    <!--</div>-->
+
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
 </template>

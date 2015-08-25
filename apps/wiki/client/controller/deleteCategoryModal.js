@@ -13,7 +13,7 @@ Template.deleteCategoryModal.events({
 
         var parentTemplate = t.parentTemplate();
 
-        Meteor.call('deleteCategory',parentTemplate.categoryToDelete.get(), parentTemplate.category, function (error, result) {
+        Meteor.call('deleteCategory',parentTemplate.categoryToDelete.get(), parentTemplate.category(), function (error, result) {
             if(error) {
                 $('#deleteCategoryModal').modal('hide');
                 sAlert.addError(error.reason, "Can't delete category")

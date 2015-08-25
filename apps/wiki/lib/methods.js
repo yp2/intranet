@@ -112,6 +112,23 @@ Meteor.methods({
 
         MyApp.wikiAction.wikiCategoryCheck({category: data.category, wiki: wiki});
 
+        var artCount;
+        if (Meteor.isServer) {
+            artCount = WikiArticle.find({
+                'secure.wiki.id': wiki._id,
+                'secure.category': data.category
+            }).count()
+        } else {
+            artCount = WikiArticle.find({
+                'wiki.id': wiki._id,
+                category: data.category
+            }).count()
+        }
+
+        if (artCount) {
+            throw new Meteor.Error(200, "Can't delete category. Articles exist for category.");
+        }
+
         Wiki.update({_id: wiki._id}, {
             $pull: {categories: data.category, 'secure.categories': data.category}
         });

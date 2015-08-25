@@ -61,11 +61,12 @@ Template.editArticle.events({
                         sAlert.addSuccess("Article in draft")
                     }
                 }
-
-
             }
         )
-
+    },
+    'click .article-view': function (e, t) {
+        e.preventDefault();
+        FlowRouter.setQueryParams({edit:undefined})
     }
 });
 

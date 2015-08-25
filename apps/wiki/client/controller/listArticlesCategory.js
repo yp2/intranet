@@ -1,6 +1,9 @@
 Template.listArticlesCategory.helpers({
     categoryArticles: function () {
         return Template.instance().categoryArticles()
+    },
+    currentCategory: function () {
+        return Template.instance().data.category;
     }
 });
 
@@ -14,6 +17,10 @@ Template.listArticlesCategory.onCreated(function () {
     self.articleSortData = new ReactiveVar(null);
     var category = self.data.category;
 
+    self.autorun(function () {
+        var articleSub = self.subscribe('articlesForWikiCategory', category);
+    })
+
     self.categoryArticles = function () {
         console.log('aaa');
         var sortData = self.articleSortData.get();
@@ -21,7 +28,7 @@ Template.listArticlesCategory.onCreated(function () {
             return WikiArticle.find({
                 status:'published', category: category
             },
-                {sort:{title:1}}).fetch()
+                {sort:{title: -1}}).fetch()
         }
     }
 });
