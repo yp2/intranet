@@ -28,7 +28,7 @@ Template.listArticlesCategory.onCreated(function () {
             return WikiArticle.find({
                 status:'published', category: category
             },
-                {sort:{title: -1}}).fetch()
+                {sort:{titleSlug: 1}}).fetch()
         }
     }
 });

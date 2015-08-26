@@ -49,11 +49,15 @@ MyApp.wikiAction = {
 
         if (Meteor.isServer){
             article = WikiArticle.findOne({_id: articleId, "secure.wiki.id": wikiId, 'secure.scope.id': scopeId})
+            if(!article) {
+                throw new Meteor.Error(404, "Article not found")
+            }
         } else {
             article = WikiArticle.findOne({_id: articleId, "wiki.id": wikiId, 'scope.id': scopeId})
-        }
-        if(!article) {
-            throw new Meteor.Error(404, "Article not found")
+            if(!article) {
+                console.log('404, "Article not found"');
+                throw new Meteor.Error(404, "Article not found");
+            }
         }
         return article
     }
@@ -226,7 +230,9 @@ Meteor.methods({
         var user = Meteor.users.findOne(this.userId),
             checkResult,
             wiki,
-            scope;
+            scope,
+            title = data.title,
+            titleSlug = s.slugify(title);
 
         checkResult = MyApp.wikiAction.checkUserWiki(user);
         wiki = checkResult.wiki;
@@ -234,7 +240,16 @@ Meteor.methods({
 
         MyApp.wikiAction.wikiArticleCheck({articleId: data.id, wikiId: wiki._id, scopeId: scope._id});
 
-        WikiArticle.update({_id: data.id}, {$set: {title: data.title, 'secure.title': data.title}});
+        if (Meteor.isServer) {
+            WikiArticle.update({_id: data.id}, {$set: {
+                title: title,
+                titleSlug: titleSlug,
+                'secure.title': title,
+                'secure.titleSlug': titleSlug
+            }});
+        } else {
+            WikiArticle.update({_id: data.id}, {$set: {title: title, titleSlug: titleSlug}});
+        }
 
         return true
     },

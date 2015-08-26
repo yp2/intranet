@@ -37,15 +37,24 @@ Template.editArticle.events({
             }
         })
     },
-    'keyup #articleTitle, blur #articleTitle': function(e,t) {
-        e.preventDefault();
-        var saveData = {id: t.parentTemplate().articleId(), title: e.currentTarget.value};
+    //'keyup #articleTitle, blur #articleTitle': function(e,t) {
+    //    e.preventDefault();
+    //    var saveData = {id: t.parentTemplate().articleId(), title: e.currentTarget.value};
+    //    Meteor.call('saveArticleTitle', saveData, function (error, result) {
+    //        if(error) {
+    //            sAlert.addError(error.reason, "Save error");
+    //        }
+    //    })
+    //},
+    'keyup #articleTitle, blur #articleTitle': _.debounce(function (e){
+        var saveData = {id: this._id, title: e.currentTarget.value};
         Meteor.call('saveArticleTitle', saveData, function (error, result) {
             if(error) {
                 sAlert.addError(error.reason, "Save error");
             }
-        })
-    },
+        });
+    }, 2000),
+
     'click .article-publish': function (e, t) {
         e.preventDefault();
 
