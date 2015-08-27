@@ -158,7 +158,9 @@ Meteor.methods({
         checkResult = MyApp.wikiAction.checkUserWiki(user);
         wiki = checkResult.wiki;
         scope = checkResult.scopeSelected;
-
+        
+        console.log(wiki);
+        
         if (category === 'main') {
             if (Meteor.isServer) {
                 wiki.secure.categories.push('main')

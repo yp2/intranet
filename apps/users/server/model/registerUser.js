@@ -58,6 +58,7 @@ Meteor.methods({
                     name: profile.scopeMain.name,
                     id: scopeId
                 },
+                categories: [],
                 secure: {
                     type: 'org',
                     admin: {
@@ -67,7 +68,8 @@ Meteor.methods({
                     scope: {
                         name: profile.scopeMain.name,
                         id: scopeId
-                    }
+                    },
+                    categories: []
                 }
             });
 

@@ -7,7 +7,6 @@ Meteor.startup(function () {
     }
 });
 
-
 Migrations.add({
     version: 1,
     name: "Wiki main category",
