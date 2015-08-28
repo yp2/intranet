@@ -65,10 +65,19 @@ Template.wikiArticle.onCreated(function () {
 });
 
 Template.wikiArticle.onRendered(function () {
-    //add your statement here
+    $('<link>', {
+            href: 'http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/github.min.css',
+            rel: 'stylesheet'
+        }
+    ).appendTo('head')
 });
 
 Template.wikiArticle.onDestroyed(function () {
     Session.set('articleContent', "");
+    $('<link>', {
+            href: 'http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/github.min.css',
+            rel: 'stylesheet'
+        }
+    ).remove('head')
 });
 

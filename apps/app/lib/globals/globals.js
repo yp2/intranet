@@ -1,5 +1,6 @@
 // App
 
+_ = lodash;
 MyApp = {};
 
 MyApp._mainDashRegions = {

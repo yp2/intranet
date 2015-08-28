@@ -34,9 +34,9 @@ MyApp.wikiAction = {
             throw new Meteor.Error(400, "You must supply category name");
         }
 
-        if (Meteor.isServer && !_.contains(wiki.secure.categories, category)) {
+        if (Meteor.isServer && !lodash.find(wiki.secure.categories, lodash.matches({title:category}))) {
             throw  new Meteor.Error(303, "Category doesn't exists")
-        } else if (Meteor.isClient && !_.contains(wiki.categories, category)) {
+        } else if (Meteor.isClient && !_.find(wiki.categories, _.matches({title: category}))) {
             throw  new Meteor.Error(303, "Category doesn't exists")
         }
 
@@ -88,8 +88,13 @@ Meteor.methods({
             throw  new Meteor.Error(303, "Category exists")
         }
 
+        var newCategory = {
+            title: categoryData.name,
+            titleSlug: s.slugify(categoryData.name)
+        };
+
         Wiki.upsert({_id: wiki._id}, {
-            $push: {categories: categoryData.name, 'secure.categories': categoryData.name}
+            $push: {categories: newCategory, 'secure.categories': newCategory}
         });
 
         return true
@@ -98,6 +103,9 @@ Meteor.methods({
         console.log(data, category);
         if (category !== 'main') {
             throw new Meteor.Error(400, "Can't delete category not in main category")
+        }
+        if (data.category === "main") {
+            throw new Meteor.Error(500, "Can't dalete main category");
         }
         //if (!data.category || !data.category.length) {
         //    throw new Meteor.Error(400, "You must supply category name");
@@ -111,8 +119,6 @@ Meteor.methods({
         checkResult = MyApp.wikiAction.checkUserWiki(user);
 
         wiki = checkResult.wiki;
-
-        //TODO: can't delete categories with articles
 
         MyApp.wikiAction.wikiCategoryCheck({category: data.category, wiki: wiki});
 
@@ -134,7 +140,8 @@ Meteor.methods({
         }
 
         Wiki.update({_id: wiki._id}, {
-            $pull: {categories: data.category, 'secure.categories': data.category}
+            $pull: {categories: {title: data.category}, "secure.categories": {title: data.category}}
+
         });
 
         return true

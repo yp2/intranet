@@ -24,10 +24,10 @@ Template.editArticle.helpers({
 
 Template.editArticle.events({
     //add your events here
-    "keyup .CodeMirror, change .CodeMirror": function (e, t) {
+    "keyup .CodeMirror, change .CodeMirror": _.debounce(function (e, t) {
         e.preventDefault();
         var code = t.find("#wiki-editor").value,
-            saveData = {content: code, id: t.parentTemplate().articleId()};
+            saveData = {content: code, id: this._id};
 
         Session.set("articleContent", code);
 
@@ -36,16 +36,8 @@ Template.editArticle.events({
                 sAlert.addError(error.reason, "Save error")
             }
         })
-    },
-    //'keyup #articleTitle, blur #articleTitle': function(e,t) {
-    //    e.preventDefault();
-    //    var saveData = {id: t.parentTemplate().articleId(), title: e.currentTarget.value};
-    //    Meteor.call('saveArticleTitle', saveData, function (error, result) {
-    //        if(error) {
-    //            sAlert.addError(error.reason, "Save error");
-    //        }
-    //    })
-    //},
+    }, 500),
+
     'keyup #articleTitle, blur #articleTitle': _.debounce(function (e){
         var saveData = {id: this._id, title: e.currentTarget.value};
         Meteor.call('saveArticleTitle', saveData, function (error, result) {
@@ -53,7 +45,7 @@ Template.editArticle.events({
                 sAlert.addError(error.reason, "Save error");
             }
         });
-    }, 2000),
+    }, 500),
 
     'click .article-publish': function (e, t) {
         e.preventDefault();

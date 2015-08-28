@@ -5,8 +5,9 @@ Template.mainWiki.helpers({
     },
     categories: function () {
         var wiki = Template.instance().wiki();
-        return wiki ? wiki.categories : [];
-        //return Wiki.findOne().categories || []
+        var result = wiki ? wiki.categories : [];
+        result = _.pull(_.pluck(result, 'title'), "main").sort(new Intl.Collator('en', { sensitivity: 'base' }).compare);
+        return result;
     },
     currentCategory: function () {
         return Template.instance().category()

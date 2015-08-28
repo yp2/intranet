@@ -16,17 +16,32 @@ Template.listArticlesCategory.onCreated(function () {
 
     self.articleSortData = new ReactiveVar(null);
     var category = self.data.category;
+    var status = self.data.draft ? "draft":"published";
+    var user = Meteor.user();
+    var scopeSelected = UserScope.findOne({_id: user.profile.scopeSelected.id});
+    var wiki = Wiki.findOne({_id: scopeSelected.wiki.id});
+
+    if (wiki.admin.id !== user._id) {
+        status = "published"
+    }
 
     self.autorun(function () {
         var articleSub = self.subscribe('articlesForWikiCategory', category);
     })
 
     self.categoryArticles = function () {
-        console.log('aaa');
         var sortData = self.articleSortData.get();
+        var sel = {
+            status: status,
+            category: category
+        };
+        if (self.data.mine) {
+            _.assign(sel, {"author.id": user.id})
+        }
+
         if (!sortData){
             return WikiArticle.find({
-                status:'published', category: category
+                status: status, category: category
             },
                 {sort:{titleSlug: 1}}).fetch()
         }
