@@ -24,7 +24,9 @@
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Articles for Main Category</a></li>
-                                <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Drafts for Main Category</a></li>
+                                {{#if wikiAdmin}}
+                                    <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Drafts for Main Category</a></li>
+                                {{/if}}
                                 <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Mine Articles</a></li>
                                 <!--<li class="dropdown">-->
                                     <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">-->
@@ -50,9 +52,11 @@
                                     {{>listArticlesCategory category=currentCategory draft=false mine=false}}
                                 </div>
                                 <!-- /.tab-pane -->
-                                <div class="tab-pane" id="tab_2">
-                                    {{>listArticlesCategory category=currentCategory draft=true mine=false}}
-                                </div>
+                                {{#if wikiAdmin}}
+                                    <div class="tab-pane" id="tab_2">
+                                        {{>listArticlesCategory category=currentCategory draft=true mine=false}}
+                                    </div>
+                                {{/if}}
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="tab_3">
                                     {{>listArticlesCategory category=currentCategory draft=true mine=false}}

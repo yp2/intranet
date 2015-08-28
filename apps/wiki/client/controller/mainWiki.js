@@ -1,7 +1,6 @@
 Template.mainWiki.helpers({
     canAddCategory: function () {
-        //return Boolean(Template.instance().category === 'main');
-        return true;
+        return Boolean(Template.instance().category() === 'main');
     },
     categories: function () {
         var wiki = Template.instance().wiki();
@@ -11,6 +10,9 @@ Template.mainWiki.helpers({
     },
     currentCategory: function () {
         return Template.instance().category()
+    },
+    wikiAdmin: function () {
+        return Template.instance().wiki().admin.id === Meteor.user()._id
     }
 });
 
