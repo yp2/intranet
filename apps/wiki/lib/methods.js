@@ -12,7 +12,7 @@ MyApp.wikiAction = {
             scopeSelected = UserScope.findOne({_id: user.profile.scopeSelected.id, 'allowedUsers': user._id});
         }
         if (!scopeSelected) {
-            throw new Meteor.Error(403, 'Not allowed to add category')
+            throw new Meteor.Error(403, 'Not allowed to add/edit category')
         }
 
         if (Meteor.isServer) {
@@ -34,7 +34,7 @@ MyApp.wikiAction = {
             throw new Meteor.Error(400, "You must supply category name");
         }
 
-        if (Meteor.isServer && !lodash.find(wiki.secure.categories, lodash.matches({title:category}))) {
+        if (Meteor.isServer && !lodash.find(wiki.secure.categories, lodash.matches({title: category}))) {
             throw  new Meteor.Error(303, "Category doesn't exists")
         } else if (Meteor.isClient && !_.find(wiki.categories, _.matches({title: category}))) {
             throw  new Meteor.Error(303, "Category doesn't exists")
@@ -47,14 +47,14 @@ MyApp.wikiAction = {
             scopeId = data.scopeId,
             article;
 
-        if (Meteor.isServer){
+        if (Meteor.isServer) {
             article = WikiArticle.findOne({_id: articleId, "secure.wiki.id": wikiId, 'secure.scope.id': scopeId})
-            if(!article) {
+            if (!article) {
                 throw new Meteor.Error(404, "Article not found")
             }
         } else {
             article = WikiArticle.findOne({_id: articleId, "wiki.id": wikiId, 'scope.id': scopeId})
-            if(!article) {
+            if (!article) {
                 console.log('404, "Article not found"');
                 throw new Meteor.Error(404, "Article not found");
             }
@@ -82,9 +82,9 @@ Meteor.methods({
         checkResult = MyApp.wikiAction.checkUserWiki(user);
         wiki = checkResult.wiki;
 
-        if (Meteor.isServer && _.contains(wiki.secure.categories, categoryData.name)) {
+        if (Meteor.isServer && lodash.find(wiki.secure.categories, lodash.matches({title: categoryData.name}))) {
             throw  new Meteor.Error(303, "Category exists")
-        } else if (Meteor.isClient && _.contains(wiki.categories, categoryData.name)) {
+        } else if (Meteor.isClient && _.find(wiki.categories, _.matches({title: categoryData.name}))) {
             throw  new Meteor.Error(303, "Category exists")
         }
 
@@ -99,6 +99,50 @@ Meteor.methods({
 
         return true
     },
+    editWikiCategory: function (data) {
+        check(data, {
+            title: String,
+            wikiId: String,
+            newTitle: String
+        });
+
+        var user,
+            wiki,
+            checkResult;
+
+        user = Meteor.users.findOne(this.userId);
+
+        if (!data.newTitle.length){
+            throw new Meteor.Error(500, "You must supply category name");
+        }
+
+        checkResult = MyApp.wikiAction.checkUserWiki(user)
+        wiki = checkResult.wiki;
+
+        MyApp.wikiAction.wikiCategoryCheck({category:data.title, wiki: wiki});
+
+        Wiki.update({
+                _id: wiki._id,
+                "secure.categories.title": data.title,
+                'categories.title': data.title
+            },
+            {
+                $set:{
+                    "secure.categories.$.title": data.newTitle,
+                    'secure.categories.$.titleSlug': s.slugify(data.newTitle),
+                    'categories.$.title': data.newTitle,
+                    'categories.$.titleSlug': s.slugify(data.newTitle)
+                }
+            });
+        //if(Meteor.isServer) {
+        //    Wiki.update({_id: wiki._id, "secure.categories.title": data.title},
+        //        {$set:{"secure.categories.$.title": data.newTitle, 'secure.categories.$.titleSlug': s.slugify(data.newTitle)}})
+        //} else {
+        //
+        //}
+        return true
+    },
+
     deleteCategory: function (data, category) {
         console.log(data, category);
         if (category !== 'main') {
@@ -165,9 +209,9 @@ Meteor.methods({
         checkResult = MyApp.wikiAction.checkUserWiki(user);
         wiki = checkResult.wiki;
         scope = checkResult.scopeSelected;
-        
+
         console.log(wiki);
-        
+
         if (category === 'main') {
             if (Meteor.isServer) {
                 wiki.secure.categories.push('main')
@@ -202,10 +246,10 @@ Meteor.methods({
             category: category
         };
         var artSecure = {secure: {}};
-        _.extend(artSecure.secure , artFields);
+        _.extend(artSecure.secure, artFields);
 
         artFields.secure = artSecure.secure;
-        
+
         console.log(artFields);
         return WikiArticle.insert(artFields);
     },
@@ -250,19 +294,21 @@ Meteor.methods({
         MyApp.wikiAction.wikiArticleCheck({articleId: data.id, wikiId: wiki._id, scopeId: scope._id});
 
         if (Meteor.isServer) {
-            WikiArticle.update({_id: data.id}, {$set: {
-                title: title,
-                titleSlug: titleSlug,
-                'secure.title': title,
-                'secure.titleSlug': titleSlug
-            }});
+            WikiArticle.update({_id: data.id}, {
+                $set: {
+                    title: title,
+                    titleSlug: titleSlug,
+                    'secure.title': title,
+                    'secure.titleSlug': titleSlug
+                }
+            });
         } else {
             WikiArticle.update({_id: data.id}, {$set: {title: title, titleSlug: titleSlug}});
         }
 
         return true
     },
-    publishArticle: function(data){
+    publishArticle: function (data) {
         check(data, {
             id: String
         });
@@ -277,7 +323,7 @@ Meteor.methods({
         checkResult = MyApp.wikiAction.checkUserWiki(user);
         wiki = checkResult.wiki;
         scope = checkResult.scopeSelected;
-        
+
 
         article = MyApp.wikiAction.wikiArticleCheck({articleId: data.id, wikiId: wiki._id, scopeId: scope._id});
 
@@ -287,7 +333,7 @@ Meteor.methods({
             modifier = {status: 'published', 'secure.status': 'published'}
         }
 
-        WikiArticle.update({_id:data.id}, {$set: modifier});
+        WikiArticle.update({_id: data.id}, {$set: modifier});
 
         return modifier.status;
     }

@@ -20,19 +20,19 @@ Template.wikiCategory.onCreated(function () {
             var context = FlowRouter.current();
             return context.params.category
         };
+        var user = Meteor.user();
 
         //var wikiSub = self.subscribe('scopeWiki');
         var articleSub = self.subscribe('articlesForWikiCategory', self.category());
         
         //if (wikiSub.ready()) {
-            var scopeWiki = Wiki.findOne();
+            self.wiki = function () {
+                return MyApp.getWikiForUser(user);
+            };
             var cat = self.category();
-            if (typeof scopeWiki === undefined || !_.contains(scopeWiki.categories, cat)) {
+            if (typeof scopeWiki === undefined || !_.find(self.wiki().categories, _.matches({title: cat}))) {
                 FlowRouter.go('404')
             }
-            self.wiki = function () {
-                return Wiki.findOne();
-            };
         //}
 
     })

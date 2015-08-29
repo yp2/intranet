@@ -35,6 +35,14 @@ MyApp.informLayout = function () {
     }
 };
 
+MyApp.getWikiForUser = function (user) {
+    var scopeSelected = UserScope.findOne({_id: user.profile.scopeSelected.id});
+    if (!scopeSelected) {
+        throw new Meteor.Error(404, "No scope for user");
+    }
+    return Wiki.findOne({_id: scopeSelected.wiki.id});
+};
+
 //MyApp.informLayoutSubtract = function () {
 //    if (Meteor.isClient) {
 //        var mainDashLayout = Blaze.getView($('div.wrapper')[0]).templateInstance(),

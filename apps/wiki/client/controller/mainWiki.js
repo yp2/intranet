@@ -13,6 +13,9 @@ Template.mainWiki.helpers({
     },
     wikiAdmin: function () {
         return Template.instance().wiki().admin.id === Meteor.user()._id
+    },
+    currentWiki: function () {
+        return Template.instance().wiki();
     }
 });
 
@@ -24,7 +27,13 @@ Template.mainWiki.events({
         e.preventDefault();
 
         t.categoryToDelete.set($(e.currentTarget).data());
-        t.showDeleteCategoryModal.set('true');
+        t.showDeleteCategoryModal.set(true);
+    },
+    'click .edit-category-modal': function (e, t) {
+        e.preventDefault();
+        var data = $(e.currentTarget).data();
+        t.categoryToEdit.set({category: data.category, wikiId: data.wikiid})
+        t.showEditCategoryModal.set(true)
     },
     'click .add-article': function (e, t) {
         e.preventDefault();
@@ -47,15 +56,19 @@ Template.mainWiki.onCreated(function () {
     var self = this;
     self.showAddCategoryModal = new ReactiveVar(false);
     self.showDeleteCategoryModal = new ReactiveVar(false);
+    self.showEditCategoryModal = new ReactiveVar(false);
+    self.categoryToEdit = new ReactiveVar(null);
     self.categoryToDelete = new ReactiveVar(null);
+
     self.category = function () {
         return 'main'
     };
     self.autorun(function () {
         //var wikiSub = self.subscribe('scopeWiki');
         //var articleSub = self.subscribe('articlesForWikiCategory', self.category());
+        var user = Meteor.user();
         self.wiki = function () {
-            return Wiki.findOne()
+            return MyApp.getWikiForUser(user);
         }
 
     });
@@ -72,6 +85,9 @@ Template.mainWiki.onRendered(function () {
         if (self.showDeleteCategoryModal.get()){
             $('#deleteCategoryModal').modal('show');
         }
+        if (self.showEditCategoryModal.get()){
+            $("#editCategoryModal").modal('show');
+        }
     });
 });
 
@@ -80,5 +96,6 @@ Template.mainWiki.onDestroyed(function () {
     var self = this;
     self.showAddCategoryModal.set(false);
     self.showDeleteCategoryModal.set(false);
+    self.showEditCategoryModal.set(false);
 });
 
