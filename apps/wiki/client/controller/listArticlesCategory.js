@@ -36,13 +36,12 @@ Template.listArticlesCategory.onCreated(function () {
             category: category
         };
         if (self.data.mine) {
-            _.assign(sel, {"author.id": user.id})
+            _.assign(sel, {"author.id": user._id});
+            delete sel.status
         }
-
+        console.log(sel);
         if (!sortData){
-            return WikiArticle.find({
-                status: status, category: category
-            },
+            return WikiArticle.find(sel,
                 {sort:{titleSlug: 1}}).fetch()
         }
     }
