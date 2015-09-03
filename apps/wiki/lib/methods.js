@@ -39,7 +39,19 @@ MyApp.wikiAction = {
         } else if (Meteor.isClient && !_.find(wiki.categories, _.matches({title: category}))) {
             throw  new Meteor.Error(303, "Category doesn't exists")
         }
+        return true
 
+    },
+    wikiCategoryExistCheck: function (data) {
+        var categoryTitle = data.title,
+            wiki = data.wiki;
+
+        if (Meteor.isServer && lodash.find(wiki.secure.categories, lodash.matches({title: categoryTitle}))) {
+            throw  new Meteor.Error(303, "Category exists")
+        } else if (Meteor.isClient && _.find(wiki.categories, _.matches({title: categoryTitle}))) {
+            throw  new Meteor.Error(303, "Category exists")
+        }
+        return true
     },
     wikiArticleCheck: function (data) {
         var articleId = data.articleId,
@@ -66,7 +78,7 @@ MyApp.wikiAction = {
 Meteor.methods({
     addWikiCategory: function (categoryData) {
         check(categoryData, {
-            name: String
+            title: String
         });
 
         var user,
@@ -75,22 +87,23 @@ Meteor.methods({
 
         user = Meteor.users.findOne(this.userId);
 
-        if (categoryData.name.length === 0) {
+        if (categoryData.title.length === 0) {
             throw new Meteor.Error(500, 'Empty category name');
         }
 
         checkResult = MyApp.wikiAction.checkUserWiki(user);
         wiki = checkResult.wiki;
 
-        if (Meteor.isServer && lodash.find(wiki.secure.categories, lodash.matches({title: categoryData.name}))) {
-            throw  new Meteor.Error(303, "Category exists")
-        } else if (Meteor.isClient && _.find(wiki.categories, _.matches({title: categoryData.name}))) {
-            throw  new Meteor.Error(303, "Category exists")
-        }
+        MyApp.wikiAction.wikiCategoryExistCheck({title: categoryData.title, wiki: wiki});
+        //if (Meteor.isServer && lodash.find(wiki.secure.categories, lodash.matches({title: categoryData.title}))) {
+        //    throw  new Meteor.Error(303, "Category exists")
+        //} else if (Meteor.isClient && _.find(wiki.categories, _.matches({title: categoryData.title}))) {
+        //    throw  new Meteor.Error(303, "Category exists")
+        //}
 
         var newCategory = {
-            title: categoryData.name,
-            titleSlug: s.slugify(categoryData.name)
+            title: categoryData.title,
+            titleSlug: s.slugify(categoryData.title)
         };
 
         Wiki.upsert({_id: wiki._id}, {
@@ -120,6 +133,7 @@ Meteor.methods({
         wiki = checkResult.wiki;
 
         MyApp.wikiAction.wikiCategoryCheck({category:data.title, wiki: wiki});
+        MyApp.wikiAction.wikiCategoryExistCheck({title: data.newTitle, wiki: wiki});
 
         Wiki.update({
                 _id: wiki._id,
@@ -134,12 +148,6 @@ Meteor.methods({
                     'categories.$.titleSlug': s.slugify(data.newTitle)
                 }
             });
-        //if(Meteor.isServer) {
-        //    Wiki.update({_id: wiki._id, "secure.categories.title": data.title},
-        //        {$set:{"secure.categories.$.title": data.newTitle, 'secure.categories.$.titleSlug': s.slugify(data.newTitle)}})
-        //} else {
-        //
-        //}
         return true
     },
 

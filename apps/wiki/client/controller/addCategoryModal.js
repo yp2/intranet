@@ -7,7 +7,7 @@ Template.addCategoryModal.events({
         e.preventDefault();
 
         var categoryData = {
-            name: t.$("#inputAddCategory").val()
+            title: t.$("#inputAddCategory").val()
         };
 
         Meteor.call("addWikiCategory", categoryData, function (error, result) {
