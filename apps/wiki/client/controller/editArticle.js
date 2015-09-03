@@ -26,7 +26,7 @@ Template.editArticle.events({
     //add your events here
     "keyup .CodeMirror, change .CodeMirror": _.debounce(function (e, t) {
         e.preventDefault();
-        var code = t.find("#wiki-editor").value,
+        var code = e.currentTarget.CodeMirror.getTextArea().value,
             saveData = {content: code, id: this._id};
 
         Session.set("articleContent", code);
@@ -36,8 +36,7 @@ Template.editArticle.events({
                 sAlert.addError(error.reason, "Save error")
             }
         })
-    }, 500),
-
+    }, 1000),s
     'keyup #articleTitle, blur #articleTitle': _.debounce(function (e){
         var saveData = {id: this._id, title: e.currentTarget.value};
         Meteor.call('saveArticleTitle', saveData, function (error, result) {
