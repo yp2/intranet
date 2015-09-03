@@ -36,7 +36,7 @@ Template.editArticle.events({
                 sAlert.addError(error.reason, "Save error")
             }
         })
-    }, 1000),s
+    }, 1000),
     'keyup #articleTitle, blur #articleTitle': _.debounce(function (e){
         var saveData = {id: this._id, title: e.currentTarget.value};
         Meteor.call('saveArticleTitle', saveData, function (error, result) {
