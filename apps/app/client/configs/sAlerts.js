@@ -2,12 +2,12 @@ Meteor.startup(function () {
 
     sAlert.config({
         effect: 'flip',
-        position: 'top-right',
+        position: 'bottom-left',
         timeout: 5000,
         html: true,
         onRouteClose: true,
-        stack: true,
-        offset: 91
+        stack: false,
+        offset: 0
     });
 
     sAlert._add = function(type, msg, title, config ) {

@@ -44,7 +44,7 @@ Template.wikiArticle.events({
 
 Template.wikiArticle.onCreated(function () {
     var self = this;
-    var artContent;
+    //var artContent;
     Session.set('articleContent','');
 
     self.autorun(function () {
@@ -65,14 +65,9 @@ Template.wikiArticle.onCreated(function () {
         if (articleSub.ready()) {
             var scopeWiki = Wiki.findOne();
             var curArticle = WikiArticle.findOne({_id: self.articleId()});
-            artContent = curArticle.content;
-
-            if (self.category() === 'main') {
-                scopeWiki.categories.push("main")
-            }
 
             if (typeof scopeWiki === undefined || typeof curArticle === undefined ||
-                !_.contains(scopeWiki.categories, self.category())) {
+                !_.some(scopeWiki.categories, {title: self.category()})) {
                 FlowRouter.go('404');
             }
             self.currentArticle = function () {

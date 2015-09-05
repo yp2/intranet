@@ -218,8 +218,6 @@ Meteor.methods({
         wiki = checkResult.wiki;
         scope = checkResult.scopeSelected;
 
-        console.log(wiki);
-
         if (category === 'main') {
             if (Meteor.isServer) {
                 wiki.secure.categories.push('main')
@@ -258,7 +256,6 @@ Meteor.methods({
 
         artFields.secure = artSecure.secure;
 
-        console.log(artFields);
         return WikiArticle.insert(artFields);
     },
     saveArticleContent: function (data) {
