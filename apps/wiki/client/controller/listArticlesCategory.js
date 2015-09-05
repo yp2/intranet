@@ -39,7 +39,6 @@ Template.listArticlesCategory.onCreated(function () {
             _.assign(sel, {"author.id": user._id});
             delete sel.status
         }
-        console.log(sel);
         if (!sortData){
             return WikiArticle.find(sel,
                 {sort:{titleSlug: 1}}).fetch()

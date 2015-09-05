@@ -344,5 +344,43 @@ Meteor.methods({
         WikiArticle.update({_id: data.id}, {$set: modifier});
 
         return modifier.status;
+    },
+    deleteArticle: function (data) {
+        //article can delete: owner and admin of wiki or scope
+        check(data, {
+            id: String
+        });
+
+        var user = Meteor.users.findOne(this.userId),
+            wiki,
+            article,
+            checkResult,
+            scope;
+
+        checkResult = MyApp.wikiAction.checkUserWiki(user);
+        wiki = checkResult.wiki;
+        scope = checkResult.scopeSelected;
+
+        article = MyApp.wikiAction.wikiArticleCheck({articleId: data.id, wikiId: wiki._id, scopeId: scope._id})
+
+        if (Meteor.isServer) {
+            if (article.secure.author.id === user._id ||
+                MyApp.user.isScopeAdmin(user, scope) ||
+                MyApp.user.isWikiAdmin(user, wiki)) {
+                WikiArticle.remove({_id: article._id});
+            } else {
+                throw new Meteor.Error(500, "You can't delete this article");
+            }
+        } else if (Meteor.isClient){
+            if (article.author.id === user._id ||
+                MyApp.user.isScopeAdmin(user, scope) ||
+                MyApp.user.isWikiAdmin(user, wiki)) {
+                WikiArticle.remove({_id: article._id});
+            } else {
+                throw new Meteor.Error(500, "You can't delete this article");
+            }
+        }
+        return true
     }
 });
+

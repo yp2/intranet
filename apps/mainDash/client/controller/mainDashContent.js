@@ -6,7 +6,6 @@ Template.mainDashContent.events({
 });
 
 Template.mainDashContent.onCreated(function () {
-    //add your statement here
 });
 
 Template.mainDashContent.onRendered(function () {

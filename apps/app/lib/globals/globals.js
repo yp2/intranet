@@ -36,12 +36,36 @@ MyApp.informLayout = function () {
 };
 
 MyApp.getWikiForUser = function (user) {
+    var scopeSelected = MyApp.getScopeForUser(user);
+    return Wiki.findOne({_id: scopeSelected.wiki.id});
+};
+
+MyApp.getScopeForUser= function (user) {
     var scopeSelected = UserScope.findOne({_id: user.profile.scopeSelected.id});
     if (!scopeSelected) {
         throw new Meteor.Error(404, "No scope for user");
     }
-    return Wiki.findOne({_id: scopeSelected.wiki.id});
-};
+    return scopeSelected
+}
+
+MyApp.user = {
+    isWikiAdmin: function (user, wiki) {
+        if (Meteor.isServer) {
+            return wiki.secure.admin.id === user._id;
+        }
+        if (Meteor.isClient) {
+            return wiki.admin.id === user._id;
+        }
+    },
+    isScopeAdmin: function (user, scope) {
+        if (Meteor.isServer) {
+            return scope.secure.admin.id === user._id;
+        }
+        if (Meteor.isClient){
+            return scope.admin.id === user._id;
+        }
+    }
+}
 
 //MyApp.informLayoutSubtract = function () {
 //    if (Meteor.isClient) {

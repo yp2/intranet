@@ -12,6 +12,10 @@
                 <div class="box-header with-border"><h4 class="box-title">Actions</h4></div>
                 <div class="box-body">
                     <button class="btn bg-orange btn-flat btn-block edit-article">Edit article</button>
+                    {{#if canDeleteArticle this}}
+                        <button class="btn bg-red btn-flat btn-block delete-article">Delete article</button>
+
+                    {{/if}}
                 </div>
             </div>
         </div>

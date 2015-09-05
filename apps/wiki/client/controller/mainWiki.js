@@ -16,6 +16,9 @@ Template.mainWiki.helpers({
     },
     currentWiki: function () {
         return Template.instance().wiki();
+    },
+    currentList: function (tabId) {
+        return Session.get('user.articleList') === tabId ? 'active': "";
     }
 });
 
@@ -49,6 +52,11 @@ Template.mainWiki.events({
                 FlowRouter.go('wikiArticle', {category: t.category(), articleId: result})
             }
         })
+    },
+    'click .article.list' : function (e, t) {
+        e.preventDefault();
+        //console.log(e.currentTarget.firstChild.hash);
+        Session.set('user.articleList', e.currentTarget.firstChild.hash)
     }
 });
 
@@ -59,6 +67,8 @@ Template.mainWiki.onCreated(function () {
     self.showEditCategoryModal = new ReactiveVar(false);
     self.categoryToEdit = new ReactiveVar(null);
     self.categoryToDelete = new ReactiveVar(null);
+    
+    Session.setDefault('user.articleList', "#tab_1");
 
     self.category = function () {
         return 'main'

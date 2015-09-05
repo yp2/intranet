@@ -23,11 +23,11 @@
                     <div class="col-md-6">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Articles for Main Category</a></li>
+                                <li class="article list {{currentList '#tab_1'}}"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Articles for Main Category</a></li>
                                 {{#if wikiAdmin}}
-                                    <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Drafts for Main Category</a></li>
+                                    <li class="article list {{currentList '#tab_2'}}"><a href="#tab_2" data-toggle="tab" aria-expanded="false">Drafts for Main Category</a></li>
                                 {{/if}}
-                                <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Mine Articles</a></li>
+                                <li class="article list {{currentList '#tab_3'}}"><a href="#tab_3" data-toggle="tab" aria-expanded="false">Mine Articles</a></li>
                                 <!--<li class="dropdown">-->
                                     <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">-->
                                         <!--Dropdown <span class="caret"></span>-->
@@ -48,17 +48,17 @@
                                 <!--</li>-->
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" id="tab_1">
+                                <div class="tab-pane {{currentList '#tab_1'}}" id="tab_1">
                                     {{>listArticlesCategory category=currentCategory draft=false mine=false}}
                                 </div>
                                 <!-- /.tab-pane -->
                                 {{#if wikiAdmin}}
-                                    <div class="tab-pane" id="tab_2">
+                                    <div class="tab-pane {{currentList '#tab_2'}}" id="tab_2">
                                         {{>listArticlesCategory category=currentCategory draft=true mine=false}}
                                     </div>
                                 {{/if}}
                                 <!-- /.tab-pane -->
-                                <div class="tab-pane" id="tab_3">
+                                <div class="tab-pane {{currentList '#tab_3'}}" id="tab_3" >
                                     {{>listArticlesCategory category=currentCategory draft=true mine=true}}
                                 </div>
                                 <!-- /.tab-pane -->
