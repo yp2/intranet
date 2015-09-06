@@ -28,7 +28,7 @@ Migrations.add({
     version: 2,
     name: "Wiki main category",
     up: function () {
-        Wiki.update({}, {$addToSet: {categories: "main", "secure.categories": "makin"}}, {multi: true})
+        Wiki.update({}, {$addToSet: {categories: "main", "secure.categories": "main"}}, {multi: true})
     }
 });
 
