@@ -7,7 +7,9 @@ Template.confirmModal.events({
 });
 
 Template.confirmModal.onCreated(function () {
-    //add your statement here
+    var self = this;
+
+    //self.parentTemplate().events['click .']
 });
 
 Template.confirmModal.onRendered(function () {

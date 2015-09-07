@@ -4,6 +4,11 @@ Template.viewArticle.helpers({
         var wiki = MyApp.getWikiForUser(user);
         var scope = MyApp.getScopeForUser(user);
         return article.author.id === user._id || MyApp.user.isScopeAdmin(user, scope) || MyApp.user.isWikiAdmin(user, wiki)
+    },
+    modalData: function () {
+        return {
+            id: 'deleteArticle'
+        }
     }
 });
 
