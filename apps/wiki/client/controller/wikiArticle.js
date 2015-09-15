@@ -18,28 +18,7 @@ Template.wikiArticle.events({
         e.preventDefault();
         FlowRouter.setQueryParams({edit: true})
     },
-    'click .delete-article': function (e,t) {
-        e.preventDefault();
-        Meteor.call('deleteArticle', {id: t.articleId()}, function (error, result) {
-            if (error) {
-                sAlert.addError(error.reason, "Delete Article Error");
-            }
-            if (result) {
-                var alertConfig,
-                    currentCategory = t.category();
-                alertConfig = _.clone(sAlert.settings);
-                alertConfig.onRouteClose = false;
-                sAlert.addSuccess('Article Deleted', "", alertConfig);
-                if (currentCategory === 'main') {
-                    FlowRouter.go('mainWiki')
-                } else{
-                    FlowRouter.go('wikiCategory', currentCategory)
-                }
 
-
-            }
-        })
-    }
 });
 
 Template.wikiArticle.onCreated(function () {
