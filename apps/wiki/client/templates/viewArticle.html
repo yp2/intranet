@@ -13,10 +13,7 @@
                 <div class="box-body">
                     <button class="btn bg-orange btn-flat btn-block edit-article">Edit article</button>
                     {{#if canDeleteArticle this}}
-                        <!--<button class="btn bg-red btn-flat btn-block delete-article">Delete article</button>-->
-                        <!--<button data-id="deleteArticle" class="btn bg-red btn-flat btn-block confirm-modal-btn-deleteArticle">Delete article</button>-->
                         <button data-id="deleteArticle" class="btn bg-red btn-flat btn-block confirm-modal-btn">Delete article</button>
-                        <button data-id="deleteArticle1" class="btn bg-red btn-flat btn-block confirm-modal-btn">Delete article 1</button>
 
                     {{/if}}
                 </div>
@@ -24,5 +21,4 @@
         </div>
     </div>
     {{>confirmModal data=modalData}}
-    {{>confirmModal data=modalData1}}
 </template>
