@@ -14,8 +14,13 @@
                     <button class="btn bg-orange btn-flat btn-block edit-article">Edit article</button>
                     {{#if canDeleteArticle this}}
                         <button data-id="deleteArticle" class="btn bg-red btn-flat btn-block confirm-modal-btn">Delete article</button>
-
                     {{/if}}
+                    {{#if isPublished}}
+                        <button class="btn btn-block btn-flat btn-default article-publish">Change status to: Draft</button>
+                    {{else}}
+                        <button class="btn btn-block btn-flat btn-success article-publish">Change status to: Publish</button>
+                    {{/if}}
+
                 </div>
             </div>
         </div>

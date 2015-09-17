@@ -5,11 +5,15 @@ Template.viewArticle.helpers({
         var scope = MyApp.getScopeForUser(user);
         return article.author.id === user._id || MyApp.user.isScopeAdmin(user, scope) || MyApp.user.isWikiAdmin(user, wiki)
     },
+    isPublished: function () {
+        var article = Template.instance().parentTemplate().currentArticle();
+        return article.status === 'published'
+    },
     modalData: function () {
         var articleId = Template.instance().articleId();
         var category = Template.instance().category();
         var article = WikiArticle.findOne({_id: articleId});
-
+        
         return {
             id: 'deleteArticle',
             actionBtnLabel: 'Delete Article',
@@ -30,10 +34,8 @@ Template.viewArticle.helpers({
                         if (currentCategory === 'main') {
                             FlowRouter.go('mainWiki')
                         } else{
-                            FlowRouter.go('wikiCategory', currentCategory)
+                            FlowRouter.go('wikiCategory', {category:currentCategory})
                         }
-
-
                     }
                 })
             }
@@ -42,7 +44,24 @@ Template.viewArticle.helpers({
 });
 
 Template.viewArticle.events({
+    'click .article-publish': function (e, t) {
+        e.preventDefault();
 
+        var article = t.parentTemplate().currentArticle();
+        Meteor.call('publishArticle', {id: article._id}, function (error, result) {
+                if (error) {
+                    sAlert.addError(error.reason, "Publish article error");
+                }
+                if (result) {
+                    if (result === 'published') {
+                        sAlert.addSuccess("Article published")
+                    } else {
+                        sAlert.addSuccess("Article in draft")
+                    }
+                }
+            }
+        )
+    }
 });
 
 Template.viewArticle.onCreated(function () {

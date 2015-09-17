@@ -1,0 +1,6 @@
+MainDashLayout:
+    usersScopes - all scopes for user
+    scopeWiki - wiki for current selected user scope
+
+WikiArticle:
+    articlesForWikiCategory - articles for category in wiki in selected scope

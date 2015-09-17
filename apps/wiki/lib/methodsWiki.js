@@ -217,20 +217,8 @@ Meteor.methods({
         checkResult = MyApp.wikiAction.checkUserWiki(user);
         wiki = checkResult.wiki;
         scope = checkResult.scopeSelected;
-
-        if (category === 'main') {
-            if (Meteor.isServer) {
-                wiki.secure.categories.push('main')
-            } else {
-                wiki.categories.push('main')
-            }
-        }
-
-        if (Meteor.isServer && !_.contains(wiki.secure.categories, category)) {
-            throw  new Meteor.Error(303, "Category doesn't exists")
-        } else if (Meteor.isClient && !_.contains(wiki.categories, category)) {
-            throw  new Meteor.Error(303, "Category doesn't exists")
-        }
+        
+        MyApp.wikiAction.wikiCategoryCheck({category:data.category, wiki: wiki});
 
         var artFields = {
             title: "New Title",

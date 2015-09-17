@@ -1,0 +1,7 @@
+<template name="articleStatus">
+    {{# if $eq status "draft" }}
+        <span class="label label-default">draft</span>
+    {{ else }}
+        <span class="label label-success">published</span>
+    {{/if}}
+</template>

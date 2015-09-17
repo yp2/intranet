@@ -22,7 +22,7 @@
             <div class="list-group">
                 {{#each categoryArticles}}
                     <a href="{{pathFor 'wikiArticle' category=currentCategory articleId=_id}}" class="list-group-item">
-                        <h4 class="list-group-item-heading"><strong>{{title}}</strong></h4>
+                        <h4 class="list-group-item-heading"><strong>{{title}}</strong><span class="pull-right"><small>{{>articleStatus status=status}}</small></span></h4>
                         <span class="">by {{author.username}}</span>
                         <span class="pull-right">Created: {{timeFromNow createdAt}}
                         {{#if modifiedAt}}

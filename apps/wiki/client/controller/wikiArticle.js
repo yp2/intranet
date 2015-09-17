@@ -17,7 +17,7 @@ Template.wikiArticle.events({
     'click .edit-article': function (e, t) {
         e.preventDefault();
         FlowRouter.setQueryParams({edit: true})
-    },
+    }
 
 });
 
