@@ -16,6 +16,9 @@ Template.mainDashLayout.events({
 
 Template.mainDashLayout.onCreated(function () {
     var self = this;
+
+    Session.set('showInviteUserDialog', false);
+
     self.renderedTemplates = new ReactiveVar(0);
     self.autorun(function () {
         var userId = Meteor.userId();
@@ -42,9 +45,15 @@ Template.mainDashLayout.onRendered(function () {
                     MeteorAdminLTE.run()
                 });
         }
+        if (Session.get('showInviteUserDialog')) {
+            $("#inviteUserDialog").modal('show')
+        } else {
+            $("#inviteUserDialog").modal('hide')
+        }
     })
 });
 
 Template.mainDashLayout.onDestroyed(function () {
+    Session.set('showInviteUserDialog', false);
 });
 

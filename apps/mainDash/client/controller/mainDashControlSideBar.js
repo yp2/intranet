@@ -3,11 +3,15 @@ Template.mainDashControlSideBar.helpers({
 });
 
 Template.mainDashControlSideBar.events({
-    //add your events here
+    'click .btn.invite-user': function (e, t) {
+        console.log(e,t);
+        Session.set('showInviteUserDialog', true);
+    }
+
 });
 
 Template.mainDashControlSideBar.onCreated(function () {
-    //add your statement here
+    var self = this;
 });
 
 Template.mainDashControlSideBar.onRendered(function () {
@@ -15,11 +19,11 @@ Template.mainDashControlSideBar.onRendered(function () {
 
     if (self.view.isRendered) {
         MyApp.informLayout()
-
     }
+
 });
 
 Template.mainDashControlSideBar.onDestroyed(function () {
-    //add your statement here
+
 });
 

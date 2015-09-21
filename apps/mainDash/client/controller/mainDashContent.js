@@ -3,6 +3,9 @@ Template.mainDashContent.helpers({
 });
 
 Template.mainDashContent.events({
+    'click .test-btn':function (e, t){
+        Session.set('showInviteUserDialog', true);
+    }
 });
 
 Template.mainDashContent.onCreated(function () {

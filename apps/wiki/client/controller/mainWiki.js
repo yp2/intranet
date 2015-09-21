@@ -103,9 +103,13 @@ Template.mainWiki.onRendered(function () {
 
 Template.mainWiki.onDestroyed(function () {
     //add your statement here
+    console.log('mainwiki dest');
     var self = this;
     self.showAddCategoryModal.set(false);
     self.showDeleteCategoryModal.set(false);
     self.showEditCategoryModal.set(false);
+    Session.set('showInviteUserDialog', false)
+    $(".modal-backdrop").remove();
+    $('body').removeClass('modal-open');
 });
 
