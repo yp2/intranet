@@ -3,7 +3,7 @@ Template.inviteUserDialog.helpers({
 });
 
 Template.inviteUserDialog.events({
-    'show.bs.modal #inviteUserDialog': function (e,t){
+    'shown.bs.modal #inviteUserDialog': function (e,t){
         t.$('#inviteUserEmail').focus()
     },
     'hide.bs.modal #inviteUserDialog': function (e, t) {
