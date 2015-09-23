@@ -49,10 +49,10 @@ MyApp.getScopeForUser= function (user) {
         throw new Meteor.Error(404, "No scope for user");
     }
     return scopeSelected
-}
+};
 
 MyApp.user = {
-    isWikiAdmin: function (user, wiki) {
+    isWikiAdmin (user, wiki) {
         if (Meteor.isServer) {
             return wiki.secure.admin.id === user._id;
         }
@@ -60,7 +60,7 @@ MyApp.user = {
             return wiki.admin.id === user._id;
         }
     },
-    isScopeAdmin: function (user, scope) {
+    isScopeAdmin (user, scope) {
         if (Meteor.isServer) {
             return scope.secure.admin.id === user._id;
         }
@@ -68,7 +68,7 @@ MyApp.user = {
             return scope.admin.id === user._id;
         }
     }
-}
+};
 
 //MyApp.informLayoutSubtract = function () {
 //    if (Meteor.isClient) {

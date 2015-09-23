@@ -1,7 +1,12 @@
 
 Meteor.startup(function () {
     // code to run on server at startup
-
     process.env.MAIL_URL = Meteor.settings.email.SMTPCreds;
-    console.log(MyApp);
+    
+    let debug = Meteor.settings.debug;
+    let version = Meteor.release;
+    console.log("-----------------------------------------------------------");
+    console.log(`${version}`);
+    console.log(`Debug mode: ${debug}`);
+    console.log("-----------------------------------------------------------");
 });

@@ -7,7 +7,7 @@ if (typeof MyApp === 'undefined' ) {
 }
 
 MyApp.email = {
-    test: function () {
+    test () {
         console.log('test');
     }
-}
+};

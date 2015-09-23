@@ -46,3 +46,7 @@ reload
 random
 ejson
 spacebars
+ecmascript
+ecmascript-collections
+promise
+es5-shim
