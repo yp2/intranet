@@ -1,6 +1,10 @@
 /**
  * Created by daniel on 21.09.15.
  */
+if (typeof MyApp === 'undefined' ) {
+    MyApp = {}
+}
+
 MyApp.forms = {
     serialize: function (form) {
         // id, class or e.currentTarget

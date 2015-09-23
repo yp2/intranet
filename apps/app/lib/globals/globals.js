@@ -1,7 +1,10 @@
 // App
 
 _ = lodash;
-MyApp = {};
+
+if (typeof MyApp === 'undefined' ) {
+    MyApp = {}
+}
 
 MyApp._mainDashRegions = {
     header: "mainDashHeader",
