@@ -8,5 +8,10 @@ Meteor.startup(function () {
     console.log("-----------------------------------------------------------");
     console.log(`${version}`);
     console.log(`Debug mode: ${debug}`);
+
+    if (Meteor.isServer) {
+        Migrations.migrateTo('latest');
+    }
+
     console.log("-----------------------------------------------------------");
 });
