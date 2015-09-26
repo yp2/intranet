@@ -1,7 +1,8 @@
 {
-    "debug": true,
-    "email": {
-        "SMTPCreds": "smtp://postmaster%40sandbox4180100a665e4585a04350277f1cbe46.mailgun.org:3c17ae8515299963459a12eedfe79e1c@smtp.mailgun.org:587"
-    }
-
+  "debug": true,
+  "email": {
+    "SMTPCreds": ""
+  },
+  "hijackEmail": true,
+  "hijackEmailAddress": "a@a.pl"
 }

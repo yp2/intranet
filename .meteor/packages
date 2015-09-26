@@ -50,3 +50,4 @@ ecmascript
 ecmascript-collections
 promise
 es5-shim
+yp2:hijack-email

@@ -13,16 +13,23 @@ Meteor.methods({
             throw new Meteor.Error(406, "Incorrect email address");
         }
 
-        this.unblock();
 
         if (Meteor.isServer){
             console.log(this.connection.httpHeaders.host);
-            Email.send({
+            console.log(HijackEmail({
                 from: 'admin@intranet.pl',
-                to: 'daniel.derezinski@gmail.com',
+                to: email,
                 subject: 'test',
                 text: 'adsasd'
-            })
+            }));
+
+            this.unblock();
+            Email.send(HijackEmail({
+                from: 'admin@intranet.pl',
+                to: email,
+                subject: 'test',
+                text: 'adsasd'
+            }))
         }
 
         return true;
