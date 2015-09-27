@@ -12,3 +12,13 @@ FlowRouter.route('/login', {
     },
     name: 'login'
 });
+
+FlowRouter.route("/user/register/:invitationId", {
+    action: function (params, queryParams) {
+        console.log('invitation id: ', params );
+        Session.set("invitation", params.invitationId);
+        
+        BlazeLayout.render('notLoggedLayout', {content: "userRegister"})
+    },
+    name: "userRegisterInvitation"
+});

@@ -1,7 +1,8 @@
 {
   "debug": true,
   "email": {
-    "SMTPCreds": ""
+    "SMTPCreds": "",
+    "invitationFrom": "admin@domain.com"
   },
   "hijackEmail": true,
   "hijackEmailAddress": "a@a.pl"

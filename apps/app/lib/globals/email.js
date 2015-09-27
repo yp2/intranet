@@ -6,8 +6,18 @@ if (typeof MyApp === 'undefined' ) {
     MyApp = {}
 }
 
-MyApp.email = {
-    test () {
-        console.log('test');
+MyApp.email = {};
+
+if (Meteor.isServer){
+    MyApp.email.invitation = {
+        contentText (type, url) {
+            "use strict";
+            return `You have been invited to participate in ${type}. Click in this link ${url} to join`
+        },
+        subject (type) {
+            "use strict";
+            return `Invitation from ${type}`
+        }
+        }
     }
-};
+

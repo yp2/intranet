@@ -12,11 +12,19 @@
                 <form role="form" class="invite-user-form">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="inviteUserEmail">User email</label>
-                            <input type="email" class="form-control" id="inviteUserEmail"
-                                   placeholder="User email" required name="invite-user-email">
-                            <label class="control-label" style="display: none">
-                                <i class="fa fa-times-circle-o"></i> <span class="user-email-error"></span></label>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label for="inviteUserEmail">User email</label>
+                                    <input type="email" class="form-control" id="inviteUserEmail"
+                                           placeholder="User email" required name="invite-user-email">
+                                    <label class="sending-email" style="display: none">
+                                        <i class="fa fa-spinner fa-spin"></i><span> Sending</span>
+                                    </label>
+                                    <label class="control-label" style="display: none">
+                                        <i class="fa fa-times-circle-o"></i> <span class="user-email-error"></span></label>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 <div class="modal-footer">

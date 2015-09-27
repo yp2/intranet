@@ -17,14 +17,27 @@ Template.inviteUserDialog.events({
         // fields not validate no event
         if (e){
             var formData = MyApp.forms.serialize($(e.currentTarget));
-            var data = {invitedUserEmail: formData['invite-user-email']};
+            var invitingUser = Meteor.user();
+            console.log(invitingUser);
+            var data = {
+                invitedUserEmail: formData['invite-user-email'],
+                invitingId: invitingUser._id,
+                type: 'org,',
+                typeId: invitingUser._id
+            };
+            t.$('span.user-email-error').html('').closest('div').removeClass('has-error has-success');
+            t.$('span.user-email-error').closest('label').hide();
+            t.$('.sending-email').show();
             Meteor.call("inviteUser", data, function (error, result) {
                 if (error) {
                     if (error.error === 406) {
+                        t.$('.sending-email').hide();
                         t.$('span.user-email-error').html(error.reason).closest('div').addClass('has-error');
                         t.$('span.user-email-error').closest('label').show();
                     } else {
-                        sAlert.addError(error.reason, "Error sending invitation email")
+                        t.$('.sending-email').hide();
+                        Session.set('showInviteUserDialog', false);
+                        sAlert.addError(error.reason, "Error sending invitation email");
                     }
                 }
                 if (result) {
@@ -32,8 +45,11 @@ Template.inviteUserDialog.events({
                     t.$('span.user-email-error').removeClass('has-error').addClass('has-success');
                     t.$('span.user-email-error').closest('label').hide();
                     t.$('.invite-user-form')[0].reset();
+                    t.$('.sending-email').hide();
                     sAlert.addSuccess("Invitation email send");
                 }
+
+
             })
         }
 
