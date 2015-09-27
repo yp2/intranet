@@ -22,18 +22,14 @@ Meteor.methods({
         }
 
         if (Meteor.isServer){
+            var inviting = Meteor.users.findOne(this.userId);
+
+            data.invitingUsername = inviting.username;
+            data.typeName = inviting.username;
 
             var invId = Invitation.addInvitation(data),
-                inviting = Meteor.users.findOne(this.userId),
                 invUrl= 'http://' + this.connection.httpHeaders.host + FlowRouter.path("/user/register/:invitationId",{invitationId:invId}),
                 type = `${inviting.username} organization`;
-
-            console.log(HijackEmail({
-                from: Meteor.settings.email.invitationFrom,
-                to: email,
-                subject: MyApp.email.invitation.subject(inviting.username),
-                text: MyApp.email.invitation.contentText(type, invUrl)
-            }));
 
             Email.send(HijackEmail({
                 from: Meteor.settings.email.invitationFrom,

@@ -18,11 +18,10 @@ Template.inviteUserDialog.events({
         if (e){
             var formData = MyApp.forms.serialize($(e.currentTarget));
             var invitingUser = Meteor.user();
-            console.log(invitingUser);
             var data = {
                 invitedUserEmail: formData['invite-user-email'],
                 invitingId: invitingUser._id,
-                type: 'org,',
+                type: 'org',
                 typeId: invitingUser._id
             };
             t.$('span.user-email-error').html('').closest('div').removeClass('has-error has-success');

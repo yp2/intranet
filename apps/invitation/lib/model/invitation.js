@@ -18,9 +18,13 @@ Invitation.before.update(function (userId, doc, fieldNames, modifier, options) {
 Invitation.addInvitation = function (options) {
     return Invitation.insert({
         user:{email: options.invitedUserEmail},
-        inviting:{id: options.invitingId},
+        inviting:{
+            id: options.invitingId,
+            username: options.invitingUsername
+        },
         type: {
             type: options.type,
+            name: options.typeName,
             id: options.typeId
         },
         valid: true
