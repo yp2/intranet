@@ -301,6 +301,40 @@ Meteor.methods({
 
         return true
     },
+    saveArticleTitleNew: function (data) {
+        //check(data, {
+        //    id: String,
+        //    title: String
+        //});
+
+        var user = Meteor.users.findOne(this.userId),
+            checkResult,
+            wiki,
+            scope,
+            title = data.title,
+            titleSlug = s.slugify(title);
+
+        checkResult = MyApp.wikiAction.checkUserWiki(user);
+        wiki = checkResult.wiki;
+        scope = checkResult.scopeSelected;
+
+        MyApp.wikiAction.wikiArticleCheck({articleId: data.id, wikiId: wiki._id, scopeId: scope._id});
+
+        if (Meteor.isServer) {
+            WikiArticle.update({_id: data.id}, {
+                $set: {
+                    title: title,
+                    titleSlug: titleSlug,
+                    'secure.title': title,
+                    'secure.titleSlug': titleSlug
+                }
+            });
+        } else {
+            WikiArticle.update({_id: data.id}, {$set: {title: title, titleSlug: titleSlug}});
+        }
+
+        return true
+    },
     publishArticle: function (data) {
         check(data, {
             id: String

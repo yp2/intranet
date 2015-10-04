@@ -5,9 +5,6 @@ Template.wikiArticle.helpers({
     currentCategory: function () {
         return Template.instance().category()
     },
-    checkMainCategory: function(category) {
-        return category === 'main'
-    },
     edit: function () {
         return FlowRouter.getQueryParam('edit')
     }

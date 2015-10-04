@@ -1,5 +1,10 @@
 <template name="categoryContHeader">
-    Category: <a href="{{pathFor 'wikiCategory' category=category}}">{{category}}</a>
+    Category:
+    {{#if checkMainCategory category}}
+        <a href="{{pathFor 'mainWiki'}}">Main category</a>
+    {{else}}
+        <a href="{{pathFor 'wikiCategory' category=category}}">{{category}}</a>
+    {{/if}}
     <small><a href="{{pathFor 'mainWiki'}}">Wiki</a>
         {{#if scopeTypeIsOrg}}
             for {{scopeName}} organization profile

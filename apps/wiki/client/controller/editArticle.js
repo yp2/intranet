@@ -1,3 +1,5 @@
+"use strict";
+
 Template.editArticle.helpers({
     articlePreview: function () {
         return Session.get('articleContent')
@@ -12,13 +14,17 @@ Template.editArticle.helpers({
         }
     },
     editorCode: function () {
-        var content = Template.instance().parentTemplate().currentArticle().content;
+        var content = this.content;
         Session.set('articleContent', content);
+        console.log('aaaa', this);
         return content
     },
     isPublished: function () {
-        var article = Template.instance().parentTemplate().currentArticle();
+        var article = this;
         return article.status === 'published'
+    },
+    editTitle () {
+        return Template.instance().editTitle.get();
     }
 });
 
@@ -36,7 +42,7 @@ Template.editArticle.events({
                 sAlert.addError(error.reason, "Save error")
             }
         })
-    }, 1000),
+    }, 500),
     'keyup #articleTitle, blur #articleTitle': _.debounce(function (e){
         var saveData = {id: this._id, title: e.currentTarget.value};
         Meteor.call('saveArticleTitle', saveData, function (error, result) {
@@ -67,11 +73,17 @@ Template.editArticle.events({
     'click .article-view': function (e, t) {
         e.preventDefault();
         FlowRouter.setQueryParams({edit:undefined})
+    },
+    'click .edit-title' (e, t) {
+        e.preventDefault();
+        t.editTitle.set(true);
+        t.$("#articleTittle").focus();
     }
 });
 
 Template.editArticle.onCreated(function () {
-    //add your statement here
+    var self = this;
+    self.editTitle = new ReactiveVar(false);
 });
 
 Template.editArticle.onRendered(function () {
