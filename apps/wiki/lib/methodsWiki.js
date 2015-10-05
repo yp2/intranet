@@ -301,7 +301,7 @@ Meteor.methods({
 
         return true
     },
-    saveArticleTitleNew: function (data) {
+    saveArticleTitleNew: function (obj, value, formClass) {
         //check(data, {
         //    id: String,
         //    title: String
@@ -311,17 +311,17 @@ Meteor.methods({
             checkResult,
             wiki,
             scope,
-            title = data.title,
+            title = value,
             titleSlug = s.slugify(title);
 
         checkResult = MyApp.wikiAction.checkUserWiki(user);
         wiki = checkResult.wiki;
         scope = checkResult.scopeSelected;
 
-        MyApp.wikiAction.wikiArticleCheck({articleId: data.id, wikiId: wiki._id, scopeId: scope._id});
+        MyApp.wikiAction.wikiArticleCheck({articleId: obj._id, wikiId: wiki._id, scopeId: scope._id});
 
         if (Meteor.isServer) {
-            WikiArticle.update({_id: data.id}, {
+            WikiArticle.update({_id: obj._id}, {
                 $set: {
                     title: title,
                     titleSlug: titleSlug,
@@ -330,7 +330,7 @@ Meteor.methods({
                 }
             });
         } else {
-            WikiArticle.update({_id: data.id}, {$set: {title: title, titleSlug: titleSlug}});
+            WikiArticle.update({_id: obj._id}, {$set: {title: title, titleSlug: titleSlug}});
         }
 
         return true

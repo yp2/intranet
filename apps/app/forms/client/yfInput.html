@@ -1,3 +1,10 @@
 <template name="yfInput">
-    {{> Template.dynamic template=getTmpl data=getParams}}
+    <div class="form-group">
+        <input {{getParams}}>
+        <!--<span class="yfForms save-success" ><i class="fa fa-floppy-o"></i></span>-->
+        {{#if error}}
+            <label class="control-label yfForms error-label">
+                <i class="fa fa-times-circle-o"></i> <span class="yfForms error-text">{{error}}</span></label>
+        {{/if}}
+    </div>
 </template>

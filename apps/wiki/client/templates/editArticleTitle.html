@@ -1,7 +1,7 @@
 <template name="editArticleTitle">
     <div class="row">
         <div class="col-md-6">
-            {{> yfInput field="title" method="saveArticleTitleNew" collection="WikiArticle" }}
+            {{> yfInput obj=this field="title" method="saveArticleTitleNew" collection="WikiArticle" formClass=articleForm}}
         </div>
     </div>
 

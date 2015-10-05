@@ -14,3 +14,4 @@ WikiArticle.before.update(function (userId, doc, fieldNames, modifier, options) 
     modifier.$set.modifiedAt = modDate;
     modifier.$set.modifiedBy = userId
 });
+
