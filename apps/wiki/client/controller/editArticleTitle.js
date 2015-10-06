@@ -5,6 +5,7 @@ Template.editArticleTitle.helpers({
 
 Template.editArticleTitle.events({
     "blur input" (e, t) {
+        e.preventDefault();
         t.parentTemplate().editTitle.set(false);
     }
 });

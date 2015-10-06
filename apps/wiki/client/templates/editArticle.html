@@ -9,18 +9,6 @@
                             {{> editArticleTitle }}
                         </div>
                         <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    {{> editArticleTitle }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            {{> yfInput obj=this field="title" method="saveArticleTitleNew" collection="WikiArticle" form=articleForm}}
-                        </div>
-                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="articleTags">Article Tags</label>
                                 <input type="text" class="form-control" id="articleTags" placeholder="Article tags"
@@ -55,7 +43,7 @@
                     {{#if editTitle}}
                         {{> editArticleTitle }}
                     {{else}}
-                        <h3 class="box-title">Editor</h3> <a href="#" class="edit-title"><i
+                        <h3 class="box-title">{{title}}</h3> <a href="#" class="edit-title"><i
                             class="fa fa-pencil-square-o"></i></a>
 
                     {{/if}}
