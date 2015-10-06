@@ -12,8 +12,6 @@ yfValidators = {
     },
     required (value) {
         "use strict";
-        console.log('validator value', value);
-        //yfValidators.valueExist(value);
         if (value.length <= 0) {
             throw new Meteor.Error(406, "Value required");
         }

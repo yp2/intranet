@@ -1,5 +1,5 @@
 
-// można przenieść collection
+// TODO: add type to EJSON
 yfForm = class yfForm {
     constructor (fields, collection) {
         "use strict";
@@ -19,11 +19,9 @@ yfForm = class yfForm {
     }
 
     valValidators (field, value) {
-        console.log('wwww');
         let cleanedValue = value;
         if (typeof field.validators !== "undefined") {
             field.validators.forEach(function (validator) {
-                console.log('aaa');
                 cleanedValue = validator(cleanedValue)
             })
         }

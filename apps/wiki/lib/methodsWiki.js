@@ -301,7 +301,7 @@ Meteor.methods({
 
         return true
     },
-    saveArticleTitleNew: function (obj, value, formClass) {
+    saveArticleTitleNew: function (obj, value) {
         //check(data, {
         //    id: String,
         //    title: String

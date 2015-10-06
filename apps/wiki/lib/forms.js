@@ -3,11 +3,12 @@
  */
 
 "use strict";
+
 let articleFormFields = {
-    title: {
+    title: new yfInputField( {
         validators : [yfValidators.required],
         type: String
-    }
+    })
 };
 
 MyApp.articleForm = new yfForm(articleFormFields, WikiArticle);

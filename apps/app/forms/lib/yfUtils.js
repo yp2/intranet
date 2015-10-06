@@ -3,21 +3,25 @@
  */
 
 yfUtils = {
-    procParams (params) {
-        "use strict";
-
-        if (typeof params.obj === "undefined") {
-            params.obj = Template.parentData()
-        }
-        console.log('utils', params, Template.instance());
-    },
     fieldParams (params) {
         "use strict";
+        
+        if (!params.field || !Match.test(params.field, String)) {
+            throw new Meteor.Error(404, "Field name not set");
+        }
 
-        Match.test(params.field, String);
+        if (typeof params.obj === "undefined") {
+            if (! Template.parentData().data ) {
+                throw new Meteor.Error(404, "No object defined");
+            }
+            params.obj = Template.parentData().data.obj;
+        }
+
+        if (typeof params.obj === "undefined") {
+            throw new Meteor.Error(404, "No object defined");
+        }
 
         let stdClasses = ' form-control yfForms';
-        this.procParams(params);
 
         let flParams = {
             "class": params.class ? params.class + stdClasses: stdClasses,
@@ -43,6 +47,70 @@ yfUtils = {
         let spField = field.split(".");
         while(spField.length && (obj = obj[spField.shift()]));
         return obj;
-}
+    },
+    saveField (t,value) {
+        "use strict";
+
+        let field = null;
+
+        if (typeof t.data.form !== 'undefined') {
+            field = t.data.form.fields[t.data.field];
+        }
+
+        if (typeof t.data.method !== "undefined") {
+            Meteor.call(t.data.method, t.data.obj, value, function(error, result) {
+                if (error) {
+                    // error save callback
+                    if (field) {
+                        yfUtils.runFieldCallbacks(t, field.saveErrorCallbacks)
+                    }
+
+                    t.fieldError.set(error);
+                }
+                if (result) {
+                    // save success callback
+                    if (field) {
+                        yfUtils.runFieldCallbacks(t, field.saveSuccessCallbacks)
+                    }
+                }
+            })
+        } else {
+            console.log("No save method defined for field ",t.data.field);
+        }
+    },
+    runFieldCallbacks (t, callbacks) {
+        "use strict";
+        callbacks.forEach(function (callback) {
+            callback(t);
+        })
+    },
+    procField (e,t) {
+        "use strict";
+        t.fieldError.set(null);
+
+        // value from field
+        let val = t.$(e.currentTarget).val();
+
+        if (typeof t.data.form !== "undefined") {
+            let field = t.data.form.fields[t.data.field];
+            try {
+                val = t.data.form.validateField(t.data.field, val);
+
+                yfUtils.saveField(t, val);
+                // validate success callbacks
+                yfUtils.runFieldCallbacks(t, field.successCallbacks);
+
+            } catch (error) {
+                // validate error callback
+                yfUtils.runFieldCallbacks(t, field.errorCallbacks);
+
+                t.fieldError.set(error)
+            }
+        } else {
+            // no form class no field validation and callbacks
+            yfUtils.saveField(t, val);
+        }
+
+    }
 
 }

@@ -3,42 +3,32 @@
         <div class="col-lg-9">
             <div class="box box-solid">
                 <!--<div class="box-header with-border"><h3 class="box-title">Article Editor</h3></div>-->
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                {{> editArticleTitle }}
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            {{> yfInput obj=this field="title" method="saveArticleTitleNew" collection="WikiArticle" formClass=articleForm}}
-                                        </div>
-                                    </div>
-
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="articleTags">Article Tags</label>
-                                    <input type="text" class="form-control" id="articleTags" placeholder="Article tags"
-                                           value="">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {{> editArticleTitle }}
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    {{> editArticleTitle }}
                                 </div>
-                                    </div>
-                            <!--<div class="col-md-4">-->
-                                <!--<div class="row">-->
-                                    <!--<div class="col-md-12">-->
-                                        <!--<dl class="dl-horizontal article-meta">-->
-                                            <!--<dt>Status:</dt>-->
-                                            <!--<dd>{{status}}</dd>-->
-                                            <!--<dt>Author:</dt>-->
-                                            <!--<dd>{{author.username}}</dd>-->
-                                            <!--<dt>Created:</dt>-->
-                                            <!--<dd>{{timeFromNow createdAt}}</dd>-->
-                                            <!--<dt>Modified:</dt>-->
-                                            <!--<dd>{{timeFromNow modifiedAt}}</dd>-->
-                                        <!--</dl>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
+                            </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {{> yfInput obj=this field="title" method="saveArticleTitleNew" collection="WikiArticle" form=articleForm}}
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="articleTags">Article Tags</label>
+                                <input type="text" class="form-control" id="articleTags" placeholder="Article tags"
+                                       value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-lg-3">
@@ -46,9 +36,11 @@
                 <div class="box-header with-border"><h4 class="box-title">Actions</h4></div>
                 <div class="box-body">
                     {{#if isPublished}}
-                        <button class="btn btn-block btn-flat btn-default article-publish">Change status to: Draft</button>
+                        <button class="btn btn-block btn-flat btn-default article-publish">Change status to: Draft
+                        </button>
                     {{else}}
-                        <button class="btn btn-block btn-flat btn-success article-publish">Change status to: Publish</button>
+                        <button class="btn btn-block btn-flat btn-success article-publish">Change status to: Publish
+                        </button>
                     {{/if}}
                     <button class="btn btn-block btn-flat bg-orange article-view">View Article</button>
                 </div>
@@ -63,22 +55,23 @@
                     {{#if editTitle}}
                         {{> editArticleTitle }}
                     {{else}}
-                        <h3 class="box-title">Editor</h3> <a href="#" class="edit-title"><i class="fa fa-pencil-square-o"></i></a>
+                        <h3 class="box-title">Editor</h3> <a href="#" class="edit-title"><i
+                            class="fa fa-pencil-square-o"></i></a>
 
                     {{/if}}
 
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                         <!--<div class="btn-group">-->
-                            <!--<button class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown"-->
-                                    <!--aria-expanded="false"><i class="fa fa-wrench"></i></button>-->
-                            <!--<ul class="dropdown-menu" role="menu">-->
-                                <!--<li><a href="#">Action</a></li>-->
-                                <!--<li><a href="#">Another action</a></li>-->
-                                <!--<li><a href="#">Something else here</a></li>-->
-                                <!--<li class="divider"></li>-->
-                                <!--<li><a href="#">Separated link</a></li>-->
-                            <!--</ul>-->
+                        <!--<button class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown"-->
+                        <!--aria-expanded="false"><i class="fa fa-wrench"></i></button>-->
+                        <!--<ul class="dropdown-menu" role="menu">-->
+                        <!--<li><a href="#">Action</a></li>-->
+                        <!--<li><a href="#">Another action</a></li>-->
+                        <!--<li><a href="#">Something else here</a></li>-->
+                        <!--<li class="divider"></li>-->
+                        <!--<li><a href="#">Separated link</a></li>-->
+                        <!--</ul>-->
                         <!--</div>-->
                     </div>
                 </div>
@@ -104,15 +97,15 @@
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                         <!--<div class="btn-group">-->
-                            <!--<button class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown"-->
-                                    <!--aria-expanded="false"><i class="fa fa-wrench"></i></button>-->
-                            <!--<ul class="dropdown-menu" role="menu">-->
-                                <!--<li><a href="#">Action</a></li>-->
-                                <!--<li><a href="#">Another action</a></li>-->
-                                <!--<li><a href="#">Something else here</a></li>-->
-                                <!--<li class="divider"></li>-->
-                                <!--<li><a href="#">Separated link</a></li>-->
-                            <!--</ul>-->
+                        <!--<button class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown"-->
+                        <!--aria-expanded="false"><i class="fa fa-wrench"></i></button>-->
+                        <!--<ul class="dropdown-menu" role="menu">-->
+                        <!--<li><a href="#">Action</a></li>-->
+                        <!--<li><a href="#">Another action</a></li>-->
+                        <!--<li><a href="#">Something else here</a></li>-->
+                        <!--<li class="divider"></li>-->
+                        <!--<li><a href="#">Separated link</a></li>-->
+                        <!--</ul>-->
                         <!--</div>-->
                     </div>
                 </div>
@@ -130,3 +123,19 @@
         </div>
     </div>
 </template>
+<!--<div class="col-md-4">-->
+<!--<div class="row">-->
+<!--<div class="col-md-12">-->
+<!--<dl class="dl-horizontal article-meta">-->
+<!--<dt>Status:</dt>-->
+<!--<dd>{{status}}</dd>-->
+<!--<dt>Author:</dt>-->
+<!--<dd>{{author.username}}</dd>-->
+<!--<dt>Created:</dt>-->
+<!--<dd>{{timeFromNow createdAt}}</dd>-->
+<!--<dt>Modified:</dt>-->
+<!--<dd>{{timeFromNow modifiedAt}}</dd>-->
+<!--</dl>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->

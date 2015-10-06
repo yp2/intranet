@@ -16,7 +16,6 @@ Template.editArticle.helpers({
     editorCode: function () {
         var content = this.content;
         Session.set('articleContent', content);
-        console.log('aaaa', this);
         return content
     },
     isPublished: function () {

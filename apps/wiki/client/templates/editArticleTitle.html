@@ -1,9 +1,5 @@
 <template name="editArticleTitle">
-    <div class="row">
-        <div class="col-md-6">
-            {{> yfInput obj=this field="title" method="saveArticleTitleNew" collection="WikiArticle" formClass=articleForm}}
-        </div>
-    </div>
+        {{> yfInput obj=this field="title" placeholder="Article title" method="saveArticleTitleNew" collection="WikiArticle" form=articleForm}}
 
         <!--<div class="row">-->
             <!--<div class="col-lg-8">-->
