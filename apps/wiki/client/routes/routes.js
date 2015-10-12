@@ -1,10 +1,10 @@
-FlowRouter.route("/wiki/test", {
-    action: function (params, queryParams) {
-        //var regions = _.extend({content: "wikiTest"}, MyApp.mainDashRegions);
-        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('wikiTest'))
-    },
-    name: 'wikiTest'
-});
+//FlowRouter.route("/wiki/test", {
+//    action: function (params, queryParams) {
+//        //var regions = _.extend({content: "wikiTest"}, MyApp.mainDashRegions);
+//        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('wikiTest'))
+//    },
+//    name: 'wikiTest'
+//});
 
 FlowRouter.route('/main/wiki', {
     action: function (params, queryParams) {

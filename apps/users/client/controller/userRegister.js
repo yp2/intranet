@@ -14,8 +14,8 @@ Template.userRegister.helpers({
 });
 
 Template.userRegister.events({
-    'submit .register-form' : function (event) {
-        event.preventDefault();
+    'submit .register-form' : function (e,t) {
+        e.preventDefault();
 
         var options,
             password = $('#password-input'),
@@ -29,47 +29,48 @@ Template.userRegister.events({
             options = {
                 email: $("#email-input").val(),
                 password: password.val(),
-                password2: password2.val()
+                password2: password2.val(),
+                invitation: t.inv() || {}
             };
             console.log('form opt', options);
-            //Meteor.call('registerOrganization', options, function(error, result){
-            //    if (error) {
-            //        if (error.error = 403) {
-            //            var errorMsg = error.reason,
-            //                errorSpan = $('span.email-error');
-            //
-            //            if (errorMsg === 'Username already exists.') {
-            //                errorMsg = errorMsg.replace(/Username/, 'Email')
-            //            }
-            //
-            //            errorSpan.html(errorMsg);
-            //            errorSpan.closest('div').addClass('has-error');
-            //            errorSpan.closest('label').toggle();
-            //        } else if (error.error = 'passwords') {
-            //            var passwordSpan = $('span.password-error');
-            //            passwordSpan.html(error.reason);
-            //            passwordSpan.closest('div').addClass('has-error');
-            //            passwordSpan.closest('label').toggle();
-            //        } else {
-            //            console.log(error.reason);
-            //        }
-            //    }
-            //    if (result) {
-            //        var alertConfig,
-            //            msg,
-            //            title;
-            //
-            //        Meteor.loginWithPassword(options.email, options.password);
-            //        alertConfig = _.clone(sAlert.settings);
-            //        alertConfig.onRouteClose = false;
-            //
-            //        title = "Organization created !";
-            //        msg = "Welcome " + options.email + " to Intranet App";
-            //
-            //        sAlert.addSuccess(msg, title, alertConfig);
-            //        FlowRouter.go('mainDash');
-            //    }
-            //})
+            Meteor.call('registerUser', options, function(error, result){
+                if (error) {
+                    if (error.error = 403) {
+                        var errorMsg = error.reason,
+                            errorSpan = $('span.email-error');
+
+                        if (errorMsg === 'Username already exists.') {
+                            errorMsg = errorMsg.replace(/Username/, 'Email')
+                        }
+
+                        errorSpan.html(errorMsg);
+                        errorSpan.closest('div').addClass('has-error');
+                        errorSpan.closest('label').toggle();
+                    } else if (error.error = 'passwords') {
+                        var passwordSpan = $('span.password-error');
+                        passwordSpan.html(error.reason);
+                        passwordSpan.closest('div').addClass('has-error');
+                        passwordSpan.closest('label').toggle();
+                    } else {
+                        console.log(error.reason);
+                    }
+                }
+                if (result) {
+                    var alertConfig,
+                        msg,
+                        title;
+
+                    Meteor.loginWithPassword(options.email, options.password);
+                    alertConfig = _.clone(sAlert.settings);
+                    alertConfig.onRouteClose = false;
+
+                    title = "Account created !";
+                    msg = "Welcome " + options.email + " to Intranet App";
+
+                    sAlert.addSuccess(msg, title, alertConfig);
+                    FlowRouter.go('mainDash');
+                }
+            })
 
         } else {
             password2.closest('div').addClass('has-error');
