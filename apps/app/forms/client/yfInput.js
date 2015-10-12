@@ -2,7 +2,7 @@
 
 Template.yfInput.helpers({
     getParams () {
-        return yfUtils.fieldParams(this);
+        return yfForm.fieldParams(this);
     },
 
     error () {
@@ -18,7 +18,7 @@ Template.yfInput.helpers({
 // todo refactoring
 Template.yfInput.events({
     'keyup input, change input': _.debounce(function(e, t){
-        yfUtils.procField(e,t);
+        yfForm.processField(e,t);
     }, 500 )
 });
 
