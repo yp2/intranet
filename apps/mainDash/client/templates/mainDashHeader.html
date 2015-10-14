@@ -109,6 +109,33 @@
                             </li>
                         </ul>
                     </li>
+
+                    <li class="dropdown tasks-menu scope-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-cog"></i>
+                            <!--<span class="label label-danger">9</span>-->
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">Select scope</li>
+                            <li>
+                                <!-- Inner menu: contains the tasks -->
+                                <ul class="menu">
+                                    {{#each scopes}}
+                                        <li><!-- Task item -->
+                                            <a href="#" data-id="{{_id}}" class="change-scope">
+                                                <h3>
+                                                    <span class="scope-selected {{selected}}"><i class="fa fa-check"></i></span>{{scopeDesc}}
+                                                    {{#if scopeIsOrg}}<small class="pull-right">organization</small>{{/if}}
+                                                </h3>
+                                            </a>
+                                        </li><!-- end task item -->
+                                    {{/each}}
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->

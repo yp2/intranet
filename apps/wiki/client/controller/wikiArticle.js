@@ -39,16 +39,17 @@ Template.wikiArticle.onCreated(function () {
         var articleSub = self.subscribe('articlesForWikiCategory', self.category());
 
         if (articleSub.ready()) {
-            var scopeWiki = Wiki.findOne();
-            var curArticle = WikiArticle.findOne({_id: self.articleId()});
-
-            if (typeof scopeWiki === undefined || typeof curArticle === undefined ||
-                !_.some(scopeWiki.categories, {title: self.category()})) {
-                FlowRouter.go('404');
-            }
             self.currentArticle = function () {
                 return WikiArticle.findOne({_id: self.articleId()});
             };
+
+            var scopeWiki = Wiki.findOne();
+            var curArticle = self.currentArticle();
+
+            if (typeof scopeWiki === "undefined" || !_.some(scopeWiki.categories, {title: self.category()}) ||
+                typeof curArticle === "undefined") {
+                return FlowRouter.go('404');
+            }
 
         }
 

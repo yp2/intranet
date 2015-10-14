@@ -66,8 +66,9 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <!--{{> CodeMirror id="wiki-editor" name="wikiEditor" options=editorOptions reactiveVar="articleContent1"}}-->
-                            {{> CodeMirror id="wiki-editor" name="wikiEditor" options=editorOptions code=editorCode }}
+                            <div class="codemirror-wrapper">
+                                {{> CodeMirror id="wiki-editor" name="wikiEditor" options=editorOptions code=editorCode }}
+                            </div>
                         </div>
 
                     </div>

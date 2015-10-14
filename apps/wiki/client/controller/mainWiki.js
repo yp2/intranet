@@ -12,7 +12,8 @@ Template.mainWiki.helpers({
         return Template.instance().category()
     },
     wikiAdmin: function () {
-        return Template.instance().wiki().admin.id === Meteor.user()._id
+        var wiki = Template.instance().wiki();
+        return wiki ? wiki.admin.id === Meteor.user()._id : false;
     },
     currentWiki: function () {
         return Template.instance().wiki();
@@ -103,12 +104,11 @@ Template.mainWiki.onRendered(function () {
 
 Template.mainWiki.onDestroyed(function () {
     //add your statement here
-    console.log('mainwiki dest');
     var self = this;
     self.showAddCategoryModal.set(false);
     self.showDeleteCategoryModal.set(false);
     self.showEditCategoryModal.set(false);
-    Session.set('showInviteUserDialog', false)
+    Session.set('showInviteUserDialog', false);
     $(".modal-backdrop").remove();
     $('body').removeClass('modal-open');
 });

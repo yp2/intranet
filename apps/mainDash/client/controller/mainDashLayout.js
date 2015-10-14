@@ -26,8 +26,10 @@ Template.mainDashLayout.onCreated(function () {
         if (!userId && !loggingIn) {
             FlowRouter.go('login')
         }
+        var user = Meteor.user();
+
         self.subscribe('userScopes');
-        self.subscribe('scopeWiki');
+        self.subscribe('scopeWiki', user.profile.scopeSelected.id);
     })
 });
 

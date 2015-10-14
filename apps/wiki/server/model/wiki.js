@@ -1,12 +1,11 @@
 /**
  * Created by daniel on 16.08.15.
  */
-Meteor.publish('scopeWiki', function() {
+Meteor.publish('scopeWiki', function(scopeSelectedId) {
     var sel,
-        opt,
-        user = Meteor.users.findOne({_id: this.userId});
+        opt;
 
-    sel = {'secure.scope.id': user.profile.scopeSelected.id};
+    sel = {'secure.scope.id': scopeSelectedId};
     opt = {fields: {secure: 0}};
 
     console.log("pub scopeWiki", sel, opt, Wiki.find(sel, opt).count());
