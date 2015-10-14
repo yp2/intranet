@@ -11,5 +11,7 @@ Template.registerHelper('scopeTypeIsOrg', function () {
 });
 
 Template.registerHelper('isWikiAdmin', function (user) {
-    return MyApp.getWikiForUser(user).admin.id === user._id;
+    var wiki = MyApp.getWikiForUser(user);
+    return wiki ? wiki.admin.id === user._id: false;
 })
+

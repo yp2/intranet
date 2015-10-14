@@ -39,6 +39,7 @@ Template.mainDashLayout.onRendered(function () {
 
     Deps.autorun(function () {
         if (self.renderedTemplates.get() === 4){
+        //if (self.renderedTemplates.get() && !(self.renderedTemplates.get() % 4)){
             var body = $('body');
                 body.removeClass();
                 body.addClass("skin-blue sidebar-mini");

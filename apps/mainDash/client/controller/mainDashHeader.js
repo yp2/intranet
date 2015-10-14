@@ -37,7 +37,9 @@ Template.mainDashHeader.events({
                 if (result) {
                     var current = FlowRouter.current();
                     if (current.route.name !== "mainDash") {
+                        console.log('aaaa');
                         FlowRouter.go("mainDash")
+                        
                     }
                 }
             });

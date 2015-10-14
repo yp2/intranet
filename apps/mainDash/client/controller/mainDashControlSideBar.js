@@ -23,7 +23,9 @@ Template.mainDashControlSideBar.onRendered(function () {
     var self = this;
 
     if (self.view.isRendered) {
-        MyApp.informLayout()
+        MyApp.informLayout();
+        var controlSidebar = MeteorAdminLTE.AdminLTE.controlSidebar;
+        controlSidebar ? controlSidebar.activate() : ""
     }
 
 });

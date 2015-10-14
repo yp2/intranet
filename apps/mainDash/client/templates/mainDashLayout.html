@@ -27,7 +27,7 @@
         {{else}}
             {{#if canShow }}
 
-                {{#if Template.subscriptionsReady}}
+                <!--{{#if Template.subscriptionsReady}}-->
                     {{> Template.dynamic template=header}}
                     {{> Template.dynamic template=sideBar}}
 
@@ -37,9 +37,9 @@
                     {{> Template.dynamic template=controlSideBar}}
                     {{>inviteUserDialog}}
 
-                {{else}}
-                    {{> loading }}
-                {{/if}}
+                <!--{{else}}-->
+                    <!--{{> loading }}-->
+                <!--{{/if}}-->
 
             {{/if}}
         {{/if}}
