@@ -44,11 +44,18 @@
             <!-- Settings tab content -->
             <div class="tab-pane" id="control-sidebar-settings-tab">
                 {{#if canInvite}}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="btn btn-flat btn-default btn-block invite-user">Invite user</div>
-                        </div>
-                    </div>
+                    <!--<h3 class="control-sidebar-heading">Invitation</h3>-->
+                    <ul class="control-sidebar-menu">
+                        <li>
+                            <a href="" class="invite-user">
+                                <i class="menu-icon fa fa-user-plus bg-green"></i>
+                                <div class="menu-info">
+                                    <h4 class="control-sidebar-subheading">Invite user</h4>
+                                    <p>for {{currentUser.profile.scopeMain.name}} organization scope</p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul><!-- /.control-sidebar-menu -->
                 {{/if}}
                 <form method="post">
                     <h3 class="control-sidebar-heading">General Settings</h3>
