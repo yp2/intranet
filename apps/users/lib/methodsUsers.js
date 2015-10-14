@@ -17,15 +17,27 @@ Meteor.methods({
             throw new Meteor.Error(406, "Incorrect email address");
         }
 
+
         if(Meteor.isClient) {
             return true
         }
 
         if (Meteor.isServer){
+            var user = Meteor.users.findOne({"emails.address": email});
+
             var inviting = Meteor.users.findOne(this.userId);
-            
+
             if (inviting.secure.profile.type !== "org") {
                 throw new Meteor.Error(403, "You can't invite users for your scope only for projects");
+            }
+
+            if (user) {
+                UserScope.update({_id: inviting.secure.profile.scopeMain.id},
+                    {$push: {
+                        allowedUsers: user._id,
+                        'secure.allowedUsers': user._id
+                    }});
+                return {msg: "User added to scope organization"}
             }
 
             data.invitingUsername = inviting.username;

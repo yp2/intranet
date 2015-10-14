@@ -45,7 +45,12 @@ Template.inviteUserDialog.events({
                     t.$('span.user-email-error').closest('label').hide();
                     t.$('.invite-user-form')[0].reset();
                     t.$('.sending-email').hide();
-                    sAlert.addSuccess("Invitation email send");
+                    if (result.hasOwnProperty('msg')) {
+                        sAlert.addSuccess(result.msg);
+                    } else {
+                        sAlert.addSuccess("Invitation email send");
+
+                    }
                 }
 
 
