@@ -9,7 +9,7 @@ Meteor.publish('scopeWiki', function(scopeSelectedId) {
     opt = {fields: {secure: 0}};
 
     console.log("pub scopeWiki", sel, opt, Wiki.find(sel, opt).count());
-    //Meteor._sleepForMs(1000);
+    //Meteor._sleepForMs(4000);
     return Wiki.find(sel, opt)
 
 })

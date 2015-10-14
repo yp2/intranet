@@ -19,6 +19,8 @@
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
+
+                {{#if parentSubsReady}}
                     <!-- Messages: style can be found in dropdown.less-->
                     <li class="dropdown messages-menu">
                         <!-- Menu toggle button -->
@@ -181,6 +183,7 @@
                             </li>
                         </ul>
                     </li>
+                    {{/if}}
                     <!-- Control Sidebar Toggle Button -->
                     <li>
                         <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>

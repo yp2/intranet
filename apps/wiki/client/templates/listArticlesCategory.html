@@ -19,21 +19,28 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="list-group">
-                {{#each categoryArticles}}
-                    <a href="{{pathFor 'wikiArticle' category=currentCategory articleId=_id}}" class="list-group-item">
-                        <h4 class="list-group-item-heading"><strong>{{title}}</strong><span class="pull-right"><small>{{>articleStatus status=status}}</small></span></h4>
-                        <span class="">by {{author.username}}</span>
+            {{#if Template.subscriptionsReady}}
+                <div class="list-group">
+                    {{#each categoryArticles}}
+                        <a href="{{pathFor 'wikiArticle' category=currentCategory articleId=_id}}"
+                           class="list-group-item">
+                            <h4 class="list-group-item-heading"><strong>{{title}}</strong><span class="pull-right"><small>{{>articleStatus status=status}}</small></span>
+                            </h4>
+                            <span class="">by {{author.username}}</span>
                         <span class="pull-right">Created: {{timeFromNow createdAt}}
-                        {{#if modifiedAt}}
-                            Modified: {{timeFromNow modifiedAt}}
-                        {{/if}}
+                            {{#if modifiedAt}}
+                                Modified: {{timeFromNow modifiedAt}}
+                            {{/if}}
                         </span>
-                    </a>
+                        </a>
 
-                {{/each}}
-            </div>
+                    {{/each}}
+                </div>
+            {{else}}
+                {{>elementLoading}}
+            {{/if}}
         </div>
+
     </div>
     <!--<div class="row">-->
     <!--<div class="box">-->

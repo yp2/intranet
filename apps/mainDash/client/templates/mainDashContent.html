@@ -2,31 +2,34 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <!--{{#if parentSubsReady}}-->
-                <!--reasdy-->
-                <!--{{else}}-->
-                <!--{{>loading}}-->
-                <!--{{/if}}-->
+            {{#if parentSubsReady}}
+                <section class="content-header">
+                    <h1>
+                        Page Header
+                        <small>Optional description</small>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                        <li class="active">Here</li>
+                    </ol>
+                </section>
 
-            <h1>
-                Page Header
-                <small>Optional description</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
-            </ol>
-        </section>
+                <!-- Main content -->
+                <section class="content">
+                    {{currentUser.username}}
+                    {{currentUser.profile.name}}
+                    {{currentUser.secure.profile.name}}
+                    <!-- Your Page Content Here -->
 
-        <!-- Main content -->
-        <section class="content">
-            {{currentUser.username}}
-            {{currentUser.profile.name}}
-            {{currentUser.secure.profile.name}}
-            <!-- Your Page Content Here -->
+                    <button class="btn btn-default btn-flat test-btn">Testuj</button>
+                </section><!-- /.content -->
 
-            <button class="btn btn-default btn-flat test-btn">Testuj</button>
-        </section><!-- /.content -->
+
+            {{else}}
+
+                {{>contentLoading}}
+
+            {{/if}}
+
     </div><!-- /.content-wrapper -->
 </template>

@@ -24,8 +24,10 @@ Template.mainDashControlSideBar.onRendered(function () {
 
     if (self.view.isRendered) {
         MyApp.informLayout();
-        var controlSidebar = MeteorAdminLTE.AdminLTE.controlSidebar;
-        controlSidebar ? controlSidebar.activate() : ""
+        // for layout subs ready
+        //var controlSidebar = MeteorAdminLTE.AdminLTE.controlSidebar;
+        //controlSidebar ? controlSidebar.activate() : ""
+        //MeteorAdminLTE.AdminLTE.controlSidebar.activate();
     }
 
 });

@@ -1,6 +1,6 @@
 <template name="mainWiki">
-    {{#if Template.subscriptionsReady}}
-        <div class="content-wrapper">
+    <div class="content-wrapper">
+        {{#if parentSubsReady}}
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
@@ -29,7 +29,8 @@
                                         <h3 class="box-title">Wiki Actions</h3>
                                     </div>
                                     <div class="box-body">
-                                        <button type="button" class="btn btn-block btn-flat bg-maroon add-article">Add Article
+                                        <button type="button" class="btn btn-block btn-flat bg-maroon add-article">Add
+                                            Article
                                         </button>
                                     </div>
                                 </div>
@@ -45,22 +46,24 @@
                                                 <a href="{{pathFor 'wikiCategory' category=this}}"
                                                    class="list-group-item">
                                                     {{this}}
-                                                        <div class="btn-group pull-right" role="group" >
-                                                            <button class="btn btn-xs btn-primary edit-category-modal"
-                                                                    data-wikiid="{{currentWiki._id}}" data-category="{{this}}">
-                                                                <i class="fa fa-pencil-square-o"></i>
-                                                            </button>
+                                                    <div class="btn-group pull-right" role="group">
+                                                        <button class="btn btn-xs btn-primary edit-category-modal"
+                                                                data-wikiid="{{currentWiki._id}}"
+                                                                data-category="{{this}}">
+                                                            <i class="fa fa-pencil-square-o"></i>
+                                                        </button>
 
-                                                            <button class="btn btn-xs btn-danger delete-category-modal"
-                                                                    data-category="{{this}}">
-                                                                <i class="fa fa-times"></i>
-                                                            </button>
-                                                        </div>
+                                                        <button class="btn btn-xs btn-danger delete-category-modal"
+                                                                data-category="{{this}}">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
+                                                    </div>
                                                 </a>
                                             {{/each}}
                                             {{#if canAddCategory}}
                                                 <!--<button class="btn btn-block btn-flat bg-purple add-category-modal">Add Category</button>-->
-                                                <a href="#" class="btn btn-block bg-purple add-category-modal">Add Category</a>
+                                                <a href="#" class="btn btn-block bg-purple add-category-modal">Add
+                                                    Category</a>
                                             {{/if}}
                                         </div>
                                     </div>
@@ -71,11 +74,17 @@
                     <div class="col-lg-8">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
-                                <li class="article list {{currentList '#tab_1'}}"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Articles for Main Category</a></li>
+                                <li class="article list {{currentList '#tab_1'}}"><a href="#tab_1" data-toggle="tab"
+                                                                                     aria-expanded="true">Articles for
+                                    Main Category</a></li>
                                 {{#if wikiAdmin}}
-                                    <li class="article list {{currentList '#tab_2'}}"><a href="#tab_2" data-toggle="tab" aria-expanded="false">Drafts for Main Category</a></li>
+                                    <li class="article list {{currentList '#tab_2'}}"><a href="#tab_2" data-toggle="tab"
+                                                                                         aria-expanded="false">Drafts
+                                        for Main Category</a></li>
                                 {{/if}}
-                                <li class="article list {{currentList '#tab_3'}}"><a href="#tab_3" data-toggle="tab" aria-expanded="false">Mine Articles</a></li>
+                                <li class="article list {{currentList '#tab_3'}}"><a href="#tab_3" data-toggle="tab"
+                                                                                     aria-expanded="false">Mine
+                                    Articles</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane {{currentList '#tab_1'}}" id="tab_1">
@@ -88,7 +97,7 @@
                                     </div>
                                 {{/if}}
                                 <!-- /.tab-pane -->
-                                <div class="tab-pane {{currentList '#tab_3'}}" id="tab_3" >
+                                <div class="tab-pane {{currentList '#tab_3'}}" id="tab_3">
                                     {{>listArticlesCategory category=currentCategory draft=true mine=true}}
                                 </div>
                                 <!-- /.tab-pane -->
@@ -103,10 +112,9 @@
                 {{>editCategoryModal }}
             </section>
             <!-- /.content -->
-        </div>
-        <!-- /.content-wrapper -->
-    {{else}}
-        {{> loading}}
-    {{/if}}
-
+        {{else}}
+            {{>contentLoading}}
+        {{/if}}
+    </div>
+    <!-- /.content-wrapper -->
 </template>

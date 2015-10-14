@@ -1,36 +1,39 @@
 <template name="wikiArticle">
-<!-- Content Wrapper. Contains page content -->
-    {{#if Template.subscriptionsReady }}
+    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                {{>categoryContHeader category=currentCategory}}
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="{{pathFor 'mainDash'}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                <li><a href="{{pathFor 'mainWiki'}}"><i class="fa fa-wikipedia-w"></i> Wiki</a></li>
-                {{#unless checkMainCategory currentCategory}}
-                    <li><a href="{{pathFor 'wikiCategory' category=currentCategory}}"><i class="fa fa-wikipedia-w"></i> {{currentCategory}}</a></li>
-                {{/unless}}
-                <li class="active"><i class="ion-document"></i> {{currentArticle.title}}</li>
+        {{#if Template.subscriptionsReady }}
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    {{>categoryContHeader category=currentCategory}}
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{pathFor 'mainDash'}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="{{pathFor 'mainWiki'}}"><i class="fa fa-wikipedia-w"></i> Wiki</a></li>
+                    {{#unless checkMainCategory currentCategory}}
+                        <li><a href="{{pathFor 'wikiCategory' category=currentCategory}}"><i
+                                class="fa fa-wikipedia-w"></i> {{currentCategory}}</a></li>
+                    {{/unless}}
+                    <li class="active"><i class="ion-document"></i> {{currentArticle.title}}</li>
 
-            </ol>
-        </section>
+                </ol>
+            </section>
 
-        <!-- Main content -->
-        <section class="content">
-            <!-- Your Page Content Here -->
-            {{#with currentArticle}}
-            {{#if edit }}
-                {{> editArticle}}
-            {{else }}
-                {{> viewArticle}}
-            {{/if}}
-            {{/with}}
-        </section><!-- /.content -->
-    </div><!-- /.content-wrapper -->
+            <!-- Main content -->
+            <section class="content">
+                <!-- Your Page Content Here -->
+                {{#with currentArticle}}
+                    {{#if edit }}
+                        {{> editArticle}}
+                    {{else }}
+                        {{> viewArticle}}
+                    {{/if}}
+                {{/with}}
+            </section>
+            <!-- /.content -->
         {{else}}
-        {{>loading}}
+            {{>contentLoading}}
         {{/if}}
+    </div>
+    <!-- /.content-wrapper -->
 </template>

@@ -1,70 +1,58 @@
 <template name="mainDashSideBar">
     <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
+        {{#if parentSubsReady}}
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
 
-        <!-- sidebar: style can be found in sidebar.less -->
-        <section class="sidebar">
-            <!--{{#if parentSubsReady}}-->
-                <!--reasdy-->
-            <!--{{else}}-->
-                <!--{{>loading}}-->
-            <!--{{/if}}-->
-            <!-- Sidebar user panel (optional) -->
-            <div class="user-panel">
-                <div class="pull-left image">
-                    <img src="/packages/yp2_admin-lte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="/packages/yp2_admin-lte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                    </div>
+                    <div class="pull-left info">
+                        <p>{{currentUser.username}}</p>
+                        <!-- Status -->
+                        {{>userStatus}}
+                    </div>
                 </div>
-                <div class="pull-left info">
-                    <p>{{currentUser.username}}</p>
-                    <!-- Status -->
-                    {{>userStatus}}
-                </div>
-            </div>
 
-            <!-- search form (Optional) -->
-            <!--<form action="#" method="get" class="sidebar-form">-->
-            <!--<div class="input-group">-->
-            <!--<input type="text" name="q" class="form-control" placeholder="Search..." />-->
-            <!--<span class="input-group-btn">-->
-            <!--<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>-->
-            <!--</span>-->
-            <!--</div>-->
-            <!--</form>-->
-            <!-- /.search form -->
+                <!-- search form (Optional) -->
+                <!--<form action="#" method="get" class="sidebar-form">-->
+                <!--<div class="input-group">-->
+                <!--<input type="text" name="q" class="form-control" placeholder="Search..." />-->
+                <!--<span class="input-group-btn">-->
+                <!--<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>-->
+                <!--</span>-->
+                <!--</div>-->
+                <!--</form>-->
+                <!-- /.search form -->
 
-            <!-- Sidebar Menu -->
-            <ul class="sidebar-menu">
-                {{#if scopeTypeIsOrg}}
-                    <li class="header">ORGANIZATION</li>
-                {{else}}
-                    <li class="header">PERSONAL</li>
-                {{/if}}
-                <!-- Optionally, you can add icons to the links -->
-                <!-- Wiki categories -->
-                <li class="{{isActivePath regex='wiki' }}">
-                    <a href="{{pathFor 'mainWiki'}}"><i class="fa fa-wikipedia-w"></i> <span>Wiki</span></a>
-                </li>
-                <!--{{#if wikiCategories}}-->
-                    <!--<li class="treeview">-->
-                        <!--<a href="{{pathFor 'mainWiki'}}"><i class="fa fa-wikipedia-w"></i> <span>Wiki</span></a>-->
-                        <!--<ul class="treeview-menu">-->
-                            <!--{{#each wikiCategories}}-->
-                            <!--<li class="{{isActivePath regex=this}}"><a href="{{pathFor 'wikiCategory' category=this}}">{{this}}</a></li>-->
-                            <!--&lt;!&ndash;<li><a href="#">Link in level 2</a></li>&ndash;&gt;-->
-                            <!--{{/each}}-->
-                        <!--</ul>-->
-                    <!--</li>-->
-                <!--{{else}}-->
-                    <!--<li class="{{isActivePath regex='wiki' }}">-->
-                        <!--<a href="{{pathFor 'mainWiki'}}"><i class="fa fa-wikipedia-w"></i> <span>Wiki</span></a>-->
-                    <!--</li>-->
-                <!--{{/if}}-->
-                <!-- end wiki categories-->
-                <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+                <!-- Sidebar Menu -->
+                <ul class="sidebar-menu">
+                    {{#if scopeTypeIsOrg}}
+                        <li class="header">ORGANIZATION</li>
+                    {{else}}
+                        <li class="header">PERSONAL</li>
+                    {{/if}}
+                    <!-- Optionally, you can add icons to the links -->
+                    <!-- Wiki categories -->
+                    <li class="{{isActivePath regex='wiki' }}">
+                        <a href="{{pathFor 'mainWiki'}}"><i class="fa fa-wikipedia-w"></i> <span>Wiki</span></a>
+                    </li>
 
-            </ul>
-            <!-- /.sidebar-menu -->
-        </section>
+                    <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+
+                </ul>
+                <!-- /.sidebar-menu -->
+            </section>
+        {{else}}
+
+            {{>sidebarLoading}}
+
+        {{/if}}
+
+
         <!-- /.sidebar -->
     </aside>
 </template>
