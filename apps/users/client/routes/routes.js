@@ -20,3 +20,11 @@ FlowRouter.route("/user/register/:invitationId", {
     },
     name: "userRegisterInvitation"
 });
+
+FlowRouter.route("/user/register/", {
+    action: function (params, queryParams) {
+        //Session.set("invitation", params.invitationId);
+        BlazeLayout.render('notLoggedLayout', {content: "userRegister"})
+    },
+    name: "userRegister"
+});
