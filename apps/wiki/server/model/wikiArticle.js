@@ -19,5 +19,6 @@ Meteor.publish('articlesForWikiCategory', function(category){
     opt = {fields: {secure: 0}};
 
     console.log('pub articleForWikiCategory',sel, opt,  WikiArticle.find(sel, opt).count());
+    //Meteor._sleepForMs(3000);
     return WikiArticle.find(sel,opt);
 });
