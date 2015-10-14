@@ -23,6 +23,10 @@ Meteor.methods({
 
         if (Meteor.isServer){
             var inviting = Meteor.users.findOne(this.userId);
+            
+            if (inviting.secure.profile.type !== "org") {
+                throw new Meteor.Error(403, "You can't invite users for your scope only for projects");
+            }
 
             data.invitingUsername = inviting.username;
             data.typeName = inviting.username;

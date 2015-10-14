@@ -1,5 +1,10 @@
+"use strict";
+
 Template.mainDashControlSideBar.helpers({
-    //add you helpers here
+    canInvite () {
+        var user = Meteor.user();
+        return user.profile.type === "org" && user.profile.scopeMain.id === user.profile.scopeSelected.id;
+    }
 });
 
 Template.mainDashControlSideBar.events({
