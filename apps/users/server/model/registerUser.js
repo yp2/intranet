@@ -8,6 +8,8 @@ Meteor.methods({
             password2: String,
             invitation: Object
         });
+        
+        console.log('register options', options);
 
         if (!options.password.length || !options.password2.length ||
             (options.password !== options.password2)) {
@@ -20,10 +22,7 @@ Meteor.methods({
             // per = personal
             type: 'per',
             name: options.email
-            //scopeMain: {
-            //    type: 'org',
-            //    name: options.email.split('@')[1]
-            //}
+
         };
 
         var secureProfile = _.clone(profile);
@@ -52,7 +51,7 @@ Meteor.methods({
 
             let userScope = {
                 type: "per",
-                name: options.email.split('@')[1]
+                name: options.email.split('@')[0]
             };
 
             //user scope
@@ -109,6 +108,10 @@ Meteor.methods({
             };
 
             //secureProfile.scopeMain.id = scopeId;
+
+            if (!options.invitation.hasOwnProperty('type')) {
+                scopeSelected = userScope
+            }
 
             Meteor.users.upsert({_id:newUserId}, {
                 $set: {
