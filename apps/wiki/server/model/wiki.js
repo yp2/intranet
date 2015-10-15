@@ -5,11 +5,15 @@ Meteor.publish('scopeWiki', function(scopeSelectedId) {
     var sel,
         opt;
 
-    sel = {'secure.scope.id': scopeSelectedId};
-    opt = {fields: {secure: 0}};
+    var user = Meteor.users.findOne(this.userId);
 
-    console.log("pub scopeWiki", sel, opt, Wiki.find(sel, opt).count());
-    //Meteor._sleepForMs(4000);
-    return Wiki.find(sel, opt)
+    if (user.profile.scopeSelected.id === scopeSelectedId) {
+        sel = {'secure.scope.id': scopeSelectedId};
+        opt = {fields: {secure: 0}};
+
+        console.log("pub scopeWiki", sel, opt, Wiki.find(sel, opt).count());
+        //Meteor._sleepForMs(4000);
+        return Wiki.find(sel, opt)
+    }
 
 })

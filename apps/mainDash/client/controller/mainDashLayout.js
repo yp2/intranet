@@ -27,9 +27,9 @@ Template.mainDashLayout.onCreated(function () {
             FlowRouter.go('login')
         }
         var user = Meteor.user();
-
+        var scopeSelected = user ? user.profile.scopeSelected.id : "";
         self.subscribe('userScopes');
-        self.subscribe('scopeWiki', user.profile.scopeSelected.id);
+        self.subscribe('scopeWiki', scopeSelected);
     })
 });
 
