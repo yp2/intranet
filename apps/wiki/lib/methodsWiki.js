@@ -301,6 +301,34 @@ Meteor.methods({
 
         return true
     },
+
+    saveArticleFormMethod: function (dataForMethod) {
+        console.log('in save method');
+
+        //todo server side validation;
+
+        var title= dataForMethod.fieldsValue.title,
+            titleSlug = s.slugify(title),
+            content = dataForMethod.fieldsValue.content,
+            obj = dataForMethod.obj;
+
+        if (Meteor.isServer) {
+            WikiArticle.update({_id: obj._id}, {
+                $set: {
+                    title: title,
+                    titleSlug: titleSlug,
+                    content: content,
+                    'secure.title': title,
+                    'secure.titleSlug': titleSlug,
+                    'secure.content': content
+                }
+            });
+        } else {
+            WikiArticle.update({_id: obj._id}, {$set: {title: title, titleSlug: titleSlug, content: content}});
+        }
+        return true;
+    },
+
     saveArticleTitleNew: function (obj, value) {
         //check(data, {
         //    id: String,
