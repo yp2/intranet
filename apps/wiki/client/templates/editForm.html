@@ -1,9 +1,10 @@
 <template name="editForm">
     <!--{{> yfInput obj=this field="title" placeholder="Article title" method="saveArticleTitleNew" form=articleForm}}-->
+
     {{# yfForm obj=this method="saveArticleFormMethod" form=articleForm collection="WikiArticle"}}
         {{> yfInput obj=yfObj field="title" placeholder="Article title" }}
         {{> yfInput obj=yfObj field="content" placeholder="Article Content"}}
-        <!--<button type="submit" class="btn btn-default" disabled="{{yfFormCanSubmit}}">Save</button>-->
-        <button type="submit" class="btn btn-default">Save</button>
+        <button type="submit" class="btn btn-default" disabled="{{yfFormCanSubmit}}">Save</button>
+        <!--<button type="submit" class="btn btn-default">Save</button>-->
     {{/ yfForm}}
 </template>
