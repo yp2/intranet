@@ -83,6 +83,7 @@ Template.editArticle.events({
 Template.editArticle.onCreated(function () {
     var self = this;
     self.editTitle = new ReactiveVar(false);
+    self.subscribe('testColl');
 });
 
 Template.editArticle.onRendered(function () {

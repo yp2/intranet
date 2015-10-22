@@ -2,6 +2,7 @@
  * Created by daniel on 16.08.15.
  */
 WikiArticle = new Meteor.Collection('wikiArticle');
+TestColl = new Meteor.Collection('testColl');
 
 WikiArticle.before.insert(function (userId, doc) {
     var createDate = new Date();

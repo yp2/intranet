@@ -301,16 +301,31 @@ Meteor.methods({
 
         return true
     },
+    
+    saveObjFormMethod: function (dataForMethod) {
+        "use strict";
+
+        if (Meteor.isServer) {
+            global[dataForMethod.collection].insert(dataForMethod.fieldsValues);
+        } else {
+            window[dataForMethod.collection].insert(dataForMethod.fieldsValues);
+
+        }
+        return true
+
+    },
 
     saveArticleFormMethod: function (dataForMethod) {
         console.log('in save method');
 
         //todo server side validation;
 
-        var title= dataForMethod.fieldsValue.title,
+        var title= dataForMethod.fieldsValues.title,
             titleSlug = s.slugify(title),
-            content = dataForMethod.fieldsValue.content,
+            content = dataForMethod.fieldsValues.content,
             obj = dataForMethod.obj;
+
+        //throw new Meteor.Error('save', {field: 'title', reason: "exist"});
 
         if (Meteor.isServer) {
             WikiArticle.update({_id: obj._id}, {

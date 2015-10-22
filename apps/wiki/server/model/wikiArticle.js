@@ -2,6 +2,10 @@
  * Created by daniel on 17.08.15.
  */
 
+Meteor.publish('testColl', function () {
+    return TestColl.find();
+});
+
 Meteor.publish('articlesForWikiCategory', function(category){
     var sel,
         opt,
