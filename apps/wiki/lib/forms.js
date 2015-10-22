@@ -9,7 +9,7 @@ let lengthValidator = (function (length) {
         if (value.length >= length){
             return value
         }
-        throw new Meteor.Error(406, "To short");
+        throw new Meteor.Error('validation', "To short");
     }
 
 })(20);
