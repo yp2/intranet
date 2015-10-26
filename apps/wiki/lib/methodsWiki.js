@@ -306,6 +306,7 @@ Meteor.methods({
         "use strict";
 
         if (Meteor.isServer) {
+            throw new Meteor.Error('save', {field: 'content', reason: 'to Long'});
             global[dataForMethod.collection].insert(dataForMethod.fieldsValues);
         } else {
             window[dataForMethod.collection].insert(dataForMethod.fieldsValues);

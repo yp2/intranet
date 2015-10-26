@@ -4,15 +4,15 @@
 
 "use strict";
 
-let lengthValidator = (function (length) {
-    return function (value) {
-        if (value.length >= length){
-            return value
-        }
-        throw new Meteor.Error('validation', "To short");
-    }
-
-})(20);
+//let lengthValidator = (function (length) {
+//    return function (value) {
+//        if (value.length >= length){
+//            return value
+//        }
+//        throw new Meteor.Error('validation', "To short");
+//    }
+//
+//})(20);
 
 
 let articleFormFields = {
@@ -20,8 +20,8 @@ let articleFormFields = {
         validators : [yfValidators.required],
         type: String
     }),
-    content: new yfInputField({
-        validators: [yfValidators.required, lengthValidator],
+    content: new yfTextAreaField({
+        validators: [yfValidators.required],
         type: String
     })
 };

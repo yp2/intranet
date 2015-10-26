@@ -5,6 +5,34 @@ Template.mainDashSideBar.helpers({
     wikiCategories: function () {
         var wiki = Template.instance().wiki();
         return wiki.categories
+    },
+    modalData: function () {
+        return {
+
+            id: 'addProject',
+            actionBtnLabel: 'Add',
+            cancelBtnLabel: 'Cancel',
+            template: Template.mainDashSideBar,
+            modalTitle: "Add New Project",
+            modalBody: "addProjectForm",
+            modalBodyIsTemplate: true,
+            hideOnSuccess: false,
+            onShow: function (event, template) {
+                console.log('on show callback');
+            },
+            onHide: function (event, template) {
+                console.log('on hide callback');
+            },
+            confirmAction: function(event, template) {
+                event.preventDefault();
+                console.log('confirm action');
+                $("#addProjectForm").submit();
+            },
+            cancelAction: function(event, template) {
+                console.log('cancel action');
+            }
+        }
+
     }
 });
 
