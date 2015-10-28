@@ -5,9 +5,11 @@ Meteor.publish('userScopes', function () {
     var sel = {},
         opt = {};
 
-    sel.allowedUsers= this.userId;
-    opt.fields = {secure:0};
+    if (this.userId) {
+        sel.allowedUsers= this.userId;
+        opt.fields = {secure:0};
 
-    console.log('pub userScopes:', UserScope.find(sel, opt).count());
-    return UserScope.find(sel, opt)
+        console.log('pub userScopes:', UserScope.find(sel, opt).count());
+        return UserScope.find(sel, opt)
+    }
 });

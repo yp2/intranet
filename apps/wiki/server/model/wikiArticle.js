@@ -12,17 +12,21 @@ Meteor.publish('articlesForWikiCategory', function(category){
         user,
         wiki;
     //"scopeSelected" : { "type" : "org" , "id" : "PuWMyGkFrTyh7wmXT" , "name" : "c.pl"}
-    user = Meteor.users.findOne(this.userId);
-    wiki = Wiki.findOne({'secure.scope.id': user.profile.scopeSelected.id});
 
-    sel = {
-        'secure.category': category,
-        'secure.wiki.id': wiki._id,
-        'secure.scope.id': user.profile.scopeSelected.id
-    };
-    opt = {fields: {secure: 0}};
+    if (this.userId) {
+        user = Meteor.users.findOne(this.userId);
+        wiki = Wiki.findOne({'secure.scope.id': user.profile.scopeSelected.id});
 
-    console.log('pub articleForWikiCategory',sel, opt,  WikiArticle.find(sel, opt).count());
-    //Meteor._sleepForMs(3000);
-    return WikiArticle.find(sel,opt);
+        sel = {
+            'secure.category': category,
+            'secure.wiki.id': wiki._id,
+            'secure.scope.id': user.profile.scopeSelected.id
+        };
+        opt = {fields: {secure: 0}};
+
+        console.log('pub articleForWikiCategory',sel, opt,  WikiArticle.find(sel, opt).count());
+        //Meteor._sleepForMs(3000);
+        return WikiArticle.find(sel,opt);
+    }
+
 });
