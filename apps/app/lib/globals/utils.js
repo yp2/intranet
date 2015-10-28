@@ -21,3 +21,11 @@ MyApp.forms = {
         return formParams;
     }
 };
+
+MyApp.match = {
+    nonEmptyString: Match.Where(function (x) {
+        "use strict";
+        check(x, String);
+        return x.length > 0;
+    })
+}

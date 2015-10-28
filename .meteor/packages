@@ -15,8 +15,6 @@ accounts-base
 accounts-password
 accounts-google
 check
-juliancwirko:s-alert
-juliancwirko:s-alert-flip
 perak:codemirror
 okgrow:promise
 perak:markdown
@@ -52,3 +50,5 @@ promise
 es5-shim
 yp2:hijack-email
 yp2:yfform
+juliancwirko:s-alert
+juliancwirko:s-alert-flip

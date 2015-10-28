@@ -4,6 +4,7 @@
 
 "use strict";
 
+
 let projectFormFields = {
     title: new yfInputField({
         validators : [yfValidators.required],
@@ -15,7 +16,15 @@ let projectFormFields = {
     })
 }
 
-MyApp.projectForm = new yfForm(projectFormFields, 'Project');
+let formSuccessSave = [
+    function (t) {
+        t.$("form")[0].reset();
+        $("#confirmModaladdProject").modal('hide');
+        sAlert.addSuccess("Project added")
+    }
+]
+
+MyApp.projectForm = new yfForm(projectFormFields, 'Project',[],[], formSuccessSave);
 
 if (Meteor.isClient) {
     Template.registerHelper('projectForm', function () {

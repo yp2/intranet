@@ -30,6 +30,7 @@ Template.mainDashLayout.onCreated(function () {
         var scopeSelected = user ? user.profile.scopeSelected.id : "";
         self.subscribe('userScopes');
         self.subscribe('scopeWiki', scopeSelected);
+        self.subscribe('scopeProject', scopeSelected);
     })
 });
 

@@ -30,6 +30,7 @@ Template.mainDashSideBar.helpers({
             },
             cancelAction: function(event, template) {
                 console.log('cancel action');
+                $("#addProjectForm")[0].reset();
             }
         }
 
