@@ -12,7 +12,7 @@ let projectFormFields = {
     }),
     description: new yfTextAreaField({
         validators: [yfValidators.required],
-        type: String,
+        type: String
     })
 }
 
@@ -29,5 +29,21 @@ MyApp.projectForm = new yfForm(projectFormFields, 'Project',[],[], formSuccessSa
 if (Meteor.isClient) {
     Template.registerHelper('projectForm', function () {
         return MyApp.projectForm;
+    })
+}
+
+let projectAddUserFields = {
+    email: new yfInputField({
+        validators: [yfValidators.required, yfValidators.email],
+        type: String
+    })
+
+}
+
+MyApp.projectAddUserForm = new yfForm(projectAddUserFields, 'Project');
+
+if (Meteor.isClient) {
+    Template.registerHelper('projectAddUserForm', function () {
+        return MyApp.projectAddUserForm;
     })
 }

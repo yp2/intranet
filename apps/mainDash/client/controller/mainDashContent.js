@@ -2,10 +2,7 @@
 
 
 Template.mainDashContent.helpers({
-    projects () {
-        console.log(Project.find({}).fetch());
-        return Project.find({})
-    }
+
 });
 
 Template.mainDashContent.events({

@@ -22,9 +22,17 @@
                     <!-- Your Page Content Here -->
 
                     <button class="btn btn-default btn-flat test-btn">Testuj</button>
-
+                    <br/>
+                    Scope projects:
                     <ul>
-                        {{#each projects}}
+                        {{#each scopeProjects}}
+                            <li>{{title}}</li>
+                        {{/each}}
+                    </ul>
+
+                    Other projects:
+                    <ul>
+                        {{#each otherProjects}}
                             <li>{{title}}</li>
                         {{/each}}
                     </ul>

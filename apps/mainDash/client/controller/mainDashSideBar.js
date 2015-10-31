@@ -23,17 +23,43 @@ Template.mainDashSideBar.helpers({
             onHide: function (event, template) {
                 console.log('on hide callback');
             },
-            confirmAction: function(event, template) {
+            confirmAction: function (event, template) {
                 event.preventDefault();
                 console.log('confirm action');
                 $("#addProjectForm").submit();
             },
-            cancelAction: function(event, template) {
+            cancelAction: function (event, template) {
                 console.log('cancel action');
                 $("#addProjectForm")[0].reset();
             }
         }
-
+    },
+    projectAddUser: function () {
+        return {
+            id: 'projectAddUser',
+            actionBtnLabel: 'Add',
+            cancelBtnLabel: 'Cancel',
+            template: Template.mainDashSideBar,
+            modalTitle: "Invite user",
+            modalBody: "projectAddUserForm",
+            modalBodyIsTemplate: true,
+            hideOnSuccess: false,
+            onShow: function (event, template) {
+                console.log('on show callback');
+            },
+            onHide: function (event, template) {
+                console.log('on hide callback');
+            },
+            confirmAction: function (event, template) {
+                event.preventDefault();
+                console.log('confirm action');
+                //$("#addProjectForm").submit();
+            },
+            cancelAction: function (event, template) {
+                console.log('cancel action');
+                //$("#addProjectForm")[0].reset();
+            }
+        }
     }
 });
 

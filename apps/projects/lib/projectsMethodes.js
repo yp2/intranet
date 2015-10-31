@@ -14,7 +14,7 @@ Meteor.methods({
         check(fields, {
             title: String,
             description: String
-        })
+        });
 
 
         let user = Meteor.users.findOne(this.userId),
@@ -27,6 +27,7 @@ Meteor.methods({
             let objData = {
                 title: fields['title'],
                 description: fields['description'],
+                titleSlug: s.slugify(fields['title']),
                 scope: {
                     name: scope.name,
                     id: scope._id,
@@ -39,10 +40,26 @@ Meteor.methods({
                 }
             };
 
-            _.extend({secure: objData}, objData);
-            projectId = Project.insert(_.extend({secure: objData}, objData))
+            projectId = Project.insert(_.extend({secure: objData}, objData));
+
+            let wikiData = {
+                type: 'pro',
+                admin: {
+                    username: scope.secure.admin.name,
+                    id: scope.secure.admin.id
+                },
+                project: {
+                    title: fields['title'],
+                    id: projectId
+                },
+                categories: [{title: "main", titleSlug: "main"}]
+            };
+
+            Wiki.insert(_.extend({secure: wikiData}, wikiData));
 
         }
+
+
 
         return projectId
 
