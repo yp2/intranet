@@ -41,12 +41,25 @@ Meteor.methods({
                 let orgScope;
                 orgScope = UserScope.findOne({'admin.id': options.invitation.inviting.id});
                 UserScope.update({_id: orgScope._id}, {
-                    $push: {
+                    $addToSet: {
                         allowedUsers: newUserId,
                         'secure.allowedUsers': newUserId
                     }
                 });
                 scopeSelected = {type: orgScope.secure.type, id: orgScope._id, name: orgScope.name};
+                Invitation.update({_id: options.invitation._id}, {$set: {valid: false}})
+            } else if (options.invitation.hasOwnProperty('type') && options.invitation.type.type === 'pro')  {
+                let project;
+                project = Project.findOne(options.invitation.type.id);
+                if (project) {
+                    Project.update({_id: options.invitation.type.id}, {
+                        $addToSet : {
+                            allowedUsers: newUserId,
+                            'secure.allowedUsers': newUserId
+                        }
+                    });
+                    Invitation.update({_id: options.invitation._id}, {$set: {valid: false}})
+                }
             }
 
             let userScope = {
@@ -108,8 +121,9 @@ Meteor.methods({
             };
 
             //secureProfile.scopeMain.id = scopeId;
-
-            if (!options.invitation.hasOwnProperty('type')) {
+            //console.log('register', options.invitation.hasOwnProperty('type'), options.invitation.type === 'pro');
+            if (!options.invitation.hasOwnProperty('type') ||
+                (options.invitation.type.type === 'pro')) {
                 scopeSelected = userScope
             }
 

@@ -44,8 +44,15 @@ Template.mainDashSideBar.helpers({
             modalBody: "projectAddUserForm",
             modalBodyIsTemplate: true,
             hideOnSuccess: false,
-            onShow: function (event, template) {
-                console.log('on show callback');
+            onShow: function (e, t) {
+                //Session.set("projectId", t.elementData.projectId);
+                console.log('on show callback' );
+
+            },
+            onShown: function (e, t) {
+                t.$("#projectAddUserForm").data('projectId', t.elementData.projectId);
+
+                console.log('on shown callback', t.$("#projectAddUserForm").data());
             },
             onHide: function (event, template) {
                 console.log('on hide callback');
@@ -53,10 +60,13 @@ Template.mainDashSideBar.helpers({
             confirmAction: function (event, template) {
                 event.preventDefault();
                 console.log('confirm action');
+                //console.log(template);
+                $("#projectAddUserForm").submit();
                 //$("#addProjectForm").submit();
             },
             cancelAction: function (event, template) {
                 console.log('cancel action');
+                $("#projectAddUserForm")[0].reset();
                 //$("#addProjectForm")[0].reset();
             }
         }

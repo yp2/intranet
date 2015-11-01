@@ -38,7 +38,13 @@ Template.mainDashLayout.onCreated(function () {
 Template.mainDashLayout.onRendered(function () {
 
     var self = this;
-
+    self.autorun(function () {
+        if (Session.get('showInviteUserDialog')) {
+            $("#inviteUserDialog").modal('show')
+        } else {
+            $("#inviteUserDialog").modal('hide')
+        }
+    });
     Deps.autorun(function () {
         if (self.renderedTemplates.get() === 4){
         //if (self.renderedTemplates.get() && !(self.renderedTemplates.get() % 4)){
@@ -47,13 +53,9 @@ Template.mainDashLayout.onRendered(function () {
                 body.addClass("skin-blue sidebar-mini");
 
                 $(function () {
+                    $(document).off('click','.sidebar li a');
                     MeteorAdminLTE.run()
                 });
-        }
-        if (Session.get('showInviteUserDialog')) {
-            $("#inviteUserDialog").modal('show')
-        } else {
-            $("#inviteUserDialog").modal('hide')
         }
     })
 });

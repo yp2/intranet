@@ -40,7 +40,15 @@ let projectAddUserFields = {
 
 }
 
-MyApp.projectAddUserForm = new yfForm(projectAddUserFields, 'Project');
+let addUserSuccessSave = [
+    function (t) {
+        console.log('in callback');
+        t.$("form")[0].reset();
+        $("#confirmModalprojectAddUser").modal('hide');
+    }
+];
+
+MyApp.projectAddUserForm = new yfForm(projectAddUserFields, 'Project',[],[], addUserSuccessSave);
 
 if (Meteor.isClient) {
     Template.registerHelper('projectAddUserForm', function () {

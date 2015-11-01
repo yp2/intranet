@@ -17,7 +17,7 @@ Template.notLoggedLayout.onRendered(function () {
         // AdminLTE init
 
         $(function () {
-            MeteorAdminLTE.run()
+            //MeteorAdminLTE.run()
         });
         // end AdminLTE init
 

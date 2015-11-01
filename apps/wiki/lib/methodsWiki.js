@@ -107,7 +107,7 @@ Meteor.methods({
         };
 
         Wiki.upsert({_id: wiki._id}, {
-            $push: {categories: newCategory, 'secure.categories': newCategory}
+            $addToSet: {categories: newCategory, 'secure.categories': newCategory}
         });
 
         return true

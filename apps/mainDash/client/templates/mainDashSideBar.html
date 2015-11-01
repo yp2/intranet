@@ -1,20 +1,20 @@
 <template name="mainDashSideBar">
     <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
-        {{#if parentSubsReady}}
-            <!-- sidebar: style can be found in sidebar.less -->
-            <section class="sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            {{#if parentSubsReady}}
 
                 <!-- Sidebar user panel (optional) -->
                 <!--<div class="user-panel">-->
-                    <!--<div class="pull-left image">-->
-                        <!--<img src="/packages/yp2_admin-lte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>-->
-                    <!--</div>-->
-                    <!--<div class="pull-left info">-->
-                        <!--<p>{{currentUser.username}}</p>-->
-                        <!--&lt;!&ndash; Status &ndash;&gt;-->
-                        <!--{{>userStatus}}-->
-                    <!--</div>-->
+                <!--<div class="pull-left image">-->
+                <!--<img src="/packages/yp2_admin-lte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>-->
+                <!--</div>-->
+                <!--<div class="pull-left info">-->
+                <!--<p>{{currentUser.username}}</p>-->
+                <!--&lt;!&ndash; Status &ndash;&gt;-->
+                <!--{{>userStatus}}-->
+                <!--</div>-->
                 <!--</div>-->
 
                 <!-- search form (Optional) -->
@@ -44,29 +44,29 @@
                     <li class="header">Projects</li>
 
                     <li>
-                        <a data-id="addProject" href="#" class="add-project confirm-modal-btn"><i class="fa fa-plus"></i> <span>Add Project</span></a>
+                        <a data-id="addProject" href="#" class="add-project confirm-modal-btn"><i
+                                class="fa fa-plus"></i> <span>Add Project</span></a>
                     </li>
 
                     <li>
                         <div class="sidebar-project user-list"></div>
                     </li>
-
                     {{#if scopeProjects}}
-                        {{> sidebarProjectMenu projects=scopeProjects}}
+                        {{> sidebarProjectMenu projects=scopeProjects menuTitle="Scope projects"}}
+
                     {{/if}}
 
                     {{#if otherProjects}}
-                        {{> sidebarProjectMenu projects=otherProjects}}
+                        {{> sidebarProjectMenu projects=otherProjects menuTitle="Other projects"}}
                     {{/if}}
 
                 </ul>
                 <!-- /.sidebar-menu -->
-            </section>
-        {{else}}
+            {{else}}
+                {{>sidebarLoading}}
 
-            {{>sidebarLoading}}
-
-        {{/if}}
+            {{/if}}
+        </section>
 
 
         <!-- /.sidebar -->

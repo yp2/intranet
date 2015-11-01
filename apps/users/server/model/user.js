@@ -4,6 +4,15 @@ Meteor.users.deny({
     }
 });
 
+//Meteor.publish('invitationUser', function (email) {
+//    if (this.userId) {
+//        var sel = {'emails.address': email};
+//        console.log("pub invitationUser", Meteor.users.find(sel).count());
+//
+//        return Meteor.users.find(sel);
+//    }
+//})
+
 Accounts.onLogin(function (params) {
     if (params.type !== 'resume') {
         Meteor.users.upsert({_id: params.user._id}, {

@@ -1,13 +1,13 @@
 <template name="sidebarProjectMenu">
     <li class="treeview">
-        <a href="#"><i class="fa fa-cubes"></i> <span>Scope projects</span><i class="fa fa-angle-left pull-right"></i></a>
+        <a href="#"><i class="fa fa-cubes"></i> <span>{{menuTitle}}</span><i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu" style="display: none;">
             {{#each projects}}
                 <li class=""><a href="#"><i class="fa fa-archive"></i> {{title}} <i class="fa fa-angle-left pull-right"></i></a>
                     <ul class="treeview-menu" style="display: none;">
                         <li class="user-list">
 
-                            <a data-id="projectAddUser" class="sidebar-project user-element confirm-modal-btn"><i class="fa fa-plus"></i></a>
+                            <a data-id="projectAddUser"  data-project-id="{{_id}}" class="sidebar-project user-element confirm-modal-btn"><i class="fa fa-plus"></i></a>
                             <a class="sidebar-project user-element">GG</a>
                             <a class="sidebar-project user-element">AA</a>
                             <!--<div class="sidebar-project user-element add-user"><i class="fa fa-plus"></i></div>-->
@@ -30,5 +30,7 @@
             {{/each}}
         </ul>
     </li>
+
+
 </template>
 

@@ -2,13 +2,13 @@
  * Created by daniel on 23.09.15.
  */
 
-if (typeof MyApp === 'undefined' ) {
+if (typeof MyApp === 'undefined') {
     MyApp = {}
 }
 
 MyApp.email = {};
 
-if (Meteor.isServer){
+if (Meteor.isServer) {
     MyApp.email.invitation = {
         contentText (type, url) {
             "use strict";
@@ -18,6 +18,6 @@ if (Meteor.isServer){
             "use strict";
             return `Invitation from ${type}`
         }
-        }
     }
+}
 

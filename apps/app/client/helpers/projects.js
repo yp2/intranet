@@ -27,3 +27,7 @@ Template.registerHelper('projectWiki', function () {
     return Wiki.findOne({'project.id': this._id});
 
 })
+
+Template.registerHelper('isProjectAdmin', function () {
+    console.log();
+})
