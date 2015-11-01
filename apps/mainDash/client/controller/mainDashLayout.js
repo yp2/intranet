@@ -32,6 +32,7 @@ Template.mainDashLayout.onCreated(function () {
         self.subscribe('scopeWiki', scopeSelected);
         self.subscribe('userProjects');
         self.subscribe("projectWiki");
+        self.subscribe("appUsers");
     })
 });
 

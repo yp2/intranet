@@ -3,19 +3,14 @@
         <a href="#"><i class="fa fa-cubes"></i> <span>{{menuTitle}}</span><i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu" style="display: none;">
             {{#each projects}}
-                <li class=""><a href="#"><i class="fa fa-archive"></i> {{title}} <i class="fa fa-angle-left pull-right"></i></a>
+                <li class=""><a href="#" data-id="{{_id}}" class="project-link"><i class="fa fa-archive"></i> {{title}} <i class="fa fa-angle-left pull-right"></i></a>
                     <ul class="treeview-menu" style="display: none;">
                         <li class="user-list">
 
-                            <a data-id="projectAddUser"  data-project-id="{{_id}}" class="sidebar-project user-element confirm-modal-btn"><i class="fa fa-plus"></i></a>
-                            <a class="sidebar-project user-element">GG</a>
-                            <a class="sidebar-project user-element">AA</a>
-                            <!--<div class="sidebar-project user-element add-user"><i class="fa fa-plus"></i></div>-->
-                            <!--<div class="sidebar-project user-element"> </div>-->
-                            <!--<div class="sidebar-project user-element"> </div>-->
-                            <!--<div class="sidebar-project user-element"> </div>-->
-                            <!--<div class="sidebar-project user-element"> </div>-->
-                            <!--<div class="sidebar-project user-element"> </div>-->
+                            <!--<a data-id="projectAddUser"  data-project-id="{{_id}}" class="sidebar-project user-element confirm-modal-btn"><i class="fa fa-plus"></i></a>-->
+                            <!--{{# each projectUsers }}-->
+                                <!--{{>sidebarUserElement}}-->
+                            <!--{{/each}}-->
                         </li>
                         <li><a href="#{{projectWiki._id}}"><i class="fa fa-wikipedia-w"></i> Wiki</a></li>
                         <!--<li>-->
