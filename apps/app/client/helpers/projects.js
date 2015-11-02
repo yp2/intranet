@@ -22,12 +22,12 @@ Template.registerHelper("otherProjects", function () {
 });
 
 Template.registerHelper('projectWiki', function () {
-    console.log('helper this', this);
-
     return Wiki.findOne({'project.id': this._id});
+});
 
+Template.registerHelper('inProject', function () {
+    return FlowRouter.getParam("projectId")
 })
 
-Template.registerHelper('isProjectAdmin', function () {
-    console.log();
-})
+//Template.registerHelper('isProjectAdmin', function () {
+//})

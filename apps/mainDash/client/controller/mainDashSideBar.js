@@ -33,43 +33,6 @@ Template.mainDashSideBar.helpers({
                 $("#addProjectForm")[0].reset();
             }
         }
-    },
-    projectAddUser: function () {
-        return {
-            id: 'projectAddUser',
-            actionBtnLabel: 'Add',
-            cancelBtnLabel: 'Cancel',
-            template: Template.mainDashSideBar,
-            modalTitle: "Invite user",
-            modalBody: "projectAddUserForm",
-            modalBodyIsTemplate: true,
-            hideOnSuccess: false,
-            onShow: function (e, t) {
-                //Session.set("projectId", t.elementData.projectId);
-                console.log('on show callback' );
-
-            },
-            onShown: function (e, t) {
-                t.$("#projectAddUserForm").data('projectId', t.elementData.projectId);
-
-                console.log('on shown callback', t.$("#projectAddUserForm").data());
-            },
-            onHide: function (event, template) {
-                console.log('on hide callback');
-            },
-            confirmAction: function (event, template) {
-                event.preventDefault();
-                console.log('confirm action');
-                //console.log(template);
-                $("#projectAddUserForm").submit();
-                //$("#addProjectForm").submit();
-            },
-            cancelAction: function (event, template) {
-                console.log('cancel action');
-                $("#projectAddUserForm")[0].reset();
-                //$("#addProjectForm")[0].reset();
-            }
-        }
     }
 });
 

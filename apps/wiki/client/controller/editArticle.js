@@ -36,6 +36,12 @@ Template.editArticle.events({
 
         Session.set("articleContent", code);
 
+        var projectId = FlowRouter.getParam('projectId');
+
+        if (projectId) {
+            _.extend(saveData, {projectId: projectId});
+        }
+
         Meteor.call('saveArticleContent', saveData, function (error, result) {
             if (error) {
                 sAlert.addError(error.reason, "Save error")
@@ -55,7 +61,15 @@ Template.editArticle.events({
         e.preventDefault();
 
         var article = t.parentTemplate().currentArticle();
-        Meteor.call('publishArticle', {id: article._id}, function (error, result) {
+        var data = {id: article._id}
+
+        var projectId = FlowRouter.getParam('projectId');
+
+        if (projectId) {
+            _.extend(data, {projectId: projectId});
+            console.log('hel', data);
+        }
+        Meteor.call('publishArticle', data, function (error, result) {
                 if (error) {
                     sAlert.addError(error.reason, "Publish article error");
                 }

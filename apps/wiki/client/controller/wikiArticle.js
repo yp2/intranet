@@ -35,19 +35,31 @@ Template.wikiArticle.onCreated(function () {
             return context.params.articleId
         };
 
+        self.projectId = function () {
+            FlowRouter.watchPathChange();
+            var context = FlowRouter.current();
+            return context.params.projectId
+        };
+
         //var wikiSub = self.subscribe('scopeWiki');
-        var articleSub = self.subscribe('articlesForWikiCategory', self.category());
+        var articleSub;
+        if (self.projectId()){
+            articleSub = self.subscribe('articlesForWikiCategory', self.category(), self.projectId());
+        } else {
+            articleSub = self.subscribe('articlesForWikiCategory', self.category());
+        }
+
+
 
         if (articleSub.ready()) {
             self.currentArticle = function () {
                 return WikiArticle.findOne({_id: self.articleId()});
             };
 
-            var scopeWiki = Wiki.findOne();
+            //var scopeWiki = Wiki.findOne();
             var curArticle = self.currentArticle();
-
-            if (typeof scopeWiki === "undefined" || !_.some(scopeWiki.categories, {title: self.category()}) ||
-                typeof curArticle === "undefined") {
+            //
+            if (typeof curArticle === "undefined") {
                 return FlowRouter.go('404');
             }
 

@@ -26,6 +26,34 @@ MyApp.wikiAction = {
         }
         return {scopeSelected: scopeSelected, wiki: wiki}
     },
+    checkProjectWiki: function (user, projectId) {
+        var project, wiki;
+
+        if (Meteor.isServer) {
+            project = Project.findOne({
+                _id: projectId,
+                $or: [{'secure.allowedUsers': user._id}, {"secure.admin.id": user._id}]
+            });
+        } else {
+            project = Project.findOne({_id: projectId, $or: [{'allowedUsers': user._id}, {"admin.id": user._id}]});
+        }
+
+        if (!project) {
+            throw new Meteor.Error(403, "Not allowed to add/edit category");
+        }
+
+        if (Meteor.isServer) {
+            wiki = Wiki.findOne({'secure.project.id': project._id});
+        } else {
+            wiki = Wiki.findOne({'project.id': project._id});
+        }
+
+        if (!wiki) {
+            throw new Meteor.Error(404, "Wiki doesn't exists");
+        }
+
+        return {wiki: wiki, project: project}
+    },
     wikiCategoryCheck: function (data) {
         var category = data.category;
         var wiki = data.wiki;
@@ -45,7 +73,6 @@ MyApp.wikiAction = {
     wikiCategoryExistCheck: function (data) {
         var categoryTitle = data.title,
             wiki = data.wiki;
-
         if (Meteor.isServer && lodash.find(wiki.secure.categories, lodash.matches({title: categoryTitle}))) {
             throw  new Meteor.Error(303, "Category exists")
         } else if (Meteor.isClient && _.find(wiki.categories, _.matches({title: categoryTitle}))) {
@@ -57,15 +84,29 @@ MyApp.wikiAction = {
         var articleId = data.articleId,
             wikiId = data.wikiId,
             scopeId = data.scopeId,
+            projectId = data.projectId,
             article;
-
         if (Meteor.isServer) {
-            article = WikiArticle.findOne({_id: articleId, "secure.wiki.id": wikiId, 'secure.scope.id': scopeId})
+
+            if (projectId) {
+                article = WikiArticle.findOne({
+                    _id: articleId,
+                    "secure.wiki.id": wikiId,
+                    'secure.project.id': projectId
+                })
+            } else {
+                article = WikiArticle.findOne({_id: articleId, "secure.wiki.id": wikiId, 'secure.scope.id': scopeId})
+            }
             if (!article) {
                 throw new Meteor.Error(404, "Article not found")
             }
         } else {
-            article = WikiArticle.findOne({_id: articleId, "wiki.id": wikiId, 'scope.id': scopeId})
+            if (projectId) {
+                article = WikiArticle.findOne({_id: articleId, "wiki.id": wikiId, 'project.id': projectId})
+            } else {
+                article = WikiArticle.findOne({_id: articleId, "wiki.id": wikiId, 'scope.id': scopeId})
+            }
+
             if (!article) {
                 console.log('404, "Article not found"');
                 throw new Meteor.Error(404, "Article not found");
@@ -78,7 +119,8 @@ MyApp.wikiAction = {
 Meteor.methods({
     addWikiCategory: function (categoryData) {
         check(categoryData, {
-            title: String
+            title: String,
+            projectId: Match.Optional(String)
         });
 
         var user,
@@ -91,8 +133,13 @@ Meteor.methods({
             throw new Meteor.Error(500, 'Empty category name');
         }
 
-        checkResult = MyApp.wikiAction.checkUserWiki(user);
-        wiki = checkResult.wiki;
+        if (categoryData.hasOwnProperty('projectId')) {
+            wiki = MyApp.wikiAction.checkProjectWiki(user, categoryData.projectId).wiki
+        } else {
+            checkResult = MyApp.wikiAction.checkUserWiki(user);
+            wiki = checkResult.wiki;
+        }
+
 
         MyApp.wikiAction.wikiCategoryExistCheck({title: categoryData.title, wiki: wiki});
         //if (Meteor.isServer && lodash.find(wiki.secure.categories, lodash.matches({title: categoryData.title}))) {
@@ -116,7 +163,8 @@ Meteor.methods({
         check(data, {
             title: String,
             wikiId: String,
-            newTitle: String
+            newTitle: String,
+            projectId: Match.Optional(String)
         });
 
         var user,
@@ -125,15 +173,21 @@ Meteor.methods({
 
         user = Meteor.users.findOne(this.userId);
 
-        if (!data.newTitle.length){
+        if (!data.newTitle.length) {
             throw new Meteor.Error(500, "You must supply category name");
         }
 
-        checkResult = MyApp.wikiAction.checkUserWiki(user)
-        wiki = checkResult.wiki;
+        if (data.hasOwnProperty('projectId')) {
+            wiki = MyApp.wikiAction.checkProjectWiki(user, data.projectId).wiki
+        } else {
+            checkResult = MyApp.wikiAction.checkUserWiki(user);
+            wiki = checkResult.wiki;
+        }
 
-        MyApp.wikiAction.wikiCategoryCheck({category:data.title, wiki: wiki});
+
+        MyApp.wikiAction.wikiCategoryCheck({category: data.title, wiki: wiki});
         MyApp.wikiAction.wikiCategoryExistCheck({title: data.newTitle, wiki: wiki});
+
 
         Wiki.update({
                 _id: wiki._id,
@@ -141,13 +195,26 @@ Meteor.methods({
                 'categories.title': data.title
             },
             {
-                $set:{
+                $set: {
                     "secure.categories.$.title": data.newTitle,
                     'secure.categories.$.titleSlug': s.slugify(data.newTitle),
                     'categories.$.title': data.newTitle,
                     'categories.$.titleSlug': s.slugify(data.newTitle)
                 }
             });
+
+        if (Meteor.isServer) {
+            WikiArticle.update({
+                'secure.wiki.id': wiki._id,
+                "secure.category": data.title
+            },{
+                $set: {
+                    'secure.category': data.newTitle,
+                    'category': data.newTitle
+                }
+            })
+        }
+
         return true
     },
 
@@ -168,9 +235,12 @@ Meteor.methods({
 
         user = Meteor.users.findOne(this.userId);
 
-        checkResult = MyApp.wikiAction.checkUserWiki(user);
-
-        wiki = checkResult.wiki;
+        if (data.hasOwnProperty('projectId')) {
+            wiki = MyApp.wikiAction.checkProjectWiki(user, data.projectId).wiki
+        } else {
+            checkResult = MyApp.wikiAction.checkUserWiki(user);
+            wiki = checkResult.wiki;
+        }
 
         MyApp.wikiAction.wikiCategoryCheck({category: data.category, wiki: wiki});
 
@@ -200,25 +270,17 @@ Meteor.methods({
     },
     addArticle: function (data) {
         check(data, {
-            category: String
+            category: String,
+            projectId: Match.Optional(String)
         });
 
         var category = data.category,
             user = Meteor.users.findOne(this.userId),
             checkResult,
             wiki,
-            scope;
+            scope,
+            project;
 
-        //if (!category || !category.length) {
-        //    throw new Meteor.Error(400, "You must supply category name");
-        //}
-
-
-        checkResult = MyApp.wikiAction.checkUserWiki(user);
-        wiki = checkResult.wiki;
-        scope = checkResult.scopeSelected;
-        
-        MyApp.wikiAction.wikiCategoryCheck({category:data.category, wiki: wiki});
 
         var artFields = {
             title: "New Title",
@@ -228,17 +290,43 @@ Meteor.methods({
                 id: user._id,
                 username: user.username
             },
-            wiki: {
-                id: wiki._id,
-                type: wiki.type
-            },
-            scope: {
-                id: scope._id,
-                name: scope.name
-            },
             tags: [],
             category: category
         };
+
+        if (data.hasOwnProperty('projectId')) {
+            checkResult = MyApp.wikiAction.checkProjectWiki(user, data.projectId);
+            console.log('aaaa', wiki);
+            wiki = checkResult.wiki;
+            project = checkResult.project;
+            _.extend(artFields, {
+                wiki: {
+                    id: wiki._id,
+                    type: wiki.type
+                },
+                project: {
+                    id: project._id,
+                    title: project.title
+                }
+            })
+        } else {
+            checkResult = MyApp.wikiAction.checkUserWiki(user);
+            wiki = checkResult.wiki;
+            scope = checkResult.scopeSelected;
+            _.extend(artFields, {
+                wiki: {
+                    id: wiki._id,
+                    type: wiki.type
+                },
+                scope: {
+                    id: scope._id,
+                    name: scope.name
+                }
+            })
+        }
+
+        MyApp.wikiAction.wikiCategoryCheck({category: data.category, wiki: wiki});
+
         var artSecure = {secure: {}};
         _.extend(artSecure.secure, artFields);
 
@@ -249,45 +337,70 @@ Meteor.methods({
     saveArticleContent: function (data) {
         check(data, {
             id: String,
-            content: String
+            content: String,
+            projectId: Match.Optional(String)
+
         });
 
         var user = Meteor.users.findOne(this.userId),
             checkResult,
             wiki,
+            dataCheck,
             scope;
 
-        checkResult = MyApp.wikiAction.checkUserWiki(user);
-        wiki = checkResult.wiki;
-        scope = checkResult.scopeSelected;
+        if (data.hasOwnProperty('projectId')) {
+            wiki = MyApp.wikiAction.checkProjectWiki(user, data.projectId).wiki;
+            dataCheck = {articleId: data.id, wikiId: wiki._id, projectId: data.projectId};
+        } else {
+            checkResult = MyApp.wikiAction.checkUserWiki(user);
+            wiki = checkResult.wiki;
+            scope = checkResult.scopeSelected;
+            dataCheck = {articleId: data.id, wikiId: wiki._id, scopeId: scope._id};
+        }
 
-        MyApp.wikiAction.wikiArticleCheck({articleId: data.id, wikiId: wiki._id, scopeId: scope._id});
+        MyApp.wikiAction.wikiArticleCheck(dataCheck);
 
         WikiArticle.update({_id: data.id}, {$set: {content: data.content, 'secure.content': data.content}})
 
         return true
     },
-    saveArticleTitle: function (data) {
-        check(data, {
-            id: String,
-            title: String
-        });
+    saveArticleTitle: function (obj, value) {
 
         var user = Meteor.users.findOne(this.userId),
             checkResult,
             wiki,
             scope,
-            title = data.title,
+            title = value,
+            dataCheck,
             titleSlug = s.slugify(title);
 
-        checkResult = MyApp.wikiAction.checkUserWiki(user);
-        wiki = checkResult.wiki;
-        scope = checkResult.scopeSelected;
+        if (obj.hasOwnProperty('project')) {
+            var project = Project.findOne({_id: obj.project.id});
+            if (Meteor.isServer) {
+                if (!project || (project && _.includes(project.secure.allowedUsers))) {
+                    throw new Meteor.Error(403, "You can't edit article");
+                }
+            } else {
+                if (!project || (project && _.includes(project.allowedUsers))) {
+                    throw new Meteor.Error(403, "You can't edit article");
+                }
+            }
+        }
 
-        MyApp.wikiAction.wikiArticleCheck({articleId: data.id, wikiId: wiki._id, scopeId: scope._id});
+        if (obj.hasOwnProperty('project')) {
+            wiki = MyApp.wikiAction.checkProjectWiki(user, obj.project.id).wiki;
+            dataCheck = {articleId: obj._id, wikiId: wiki._id, projectId: obj.project.id};
+        } else {
+            checkResult = MyApp.wikiAction.checkUserWiki(user);
+            wiki = checkResult.wiki;
+            scope = checkResult.scopeSelected;
+            dataCheck = {articleId: obj._id, wikiId: wiki._id, scopeId: scope._id};
+        }
+
+        MyApp.wikiAction.wikiArticleCheck(dataCheck);
 
         if (Meteor.isServer) {
-            WikiArticle.update({_id: data.id}, {
+            WikiArticle.update({_id: obj._id}, {
                 $set: {
                     title: title,
                     titleSlug: titleSlug,
@@ -296,12 +409,12 @@ Meteor.methods({
                 }
             });
         } else {
-            WikiArticle.update({_id: data.id}, {$set: {title: title, titleSlug: titleSlug}});
+            WikiArticle.update({_id: obj._id}, {$set: {title: title, titleSlug: titleSlug}});
         }
 
-        return true
+        return true;
     },
-    
+
     saveObjFormMethod: function (dataForMethod) {
         "use strict";
 
@@ -321,7 +434,7 @@ Meteor.methods({
 
         //todo server side validation;
 
-        var title= dataForMethod.fieldsValues.title,
+        var title = dataForMethod.fieldsValues.title,
             titleSlug = s.slugify(title),
             content = dataForMethod.fieldsValues.content,
             obj = dataForMethod.obj;
@@ -381,7 +494,8 @@ Meteor.methods({
     },
     publishArticle: function (data) {
         check(data, {
-            id: String
+            id: String,
+            projectId: Match.Optional(String)
         });
 
         var user = Meteor.users.findOne(this.userId),
@@ -389,14 +503,23 @@ Meteor.methods({
             wiki,
             scope,
             modifier,
+            dataCheck,
             article;
 
-        checkResult = MyApp.wikiAction.checkUserWiki(user);
-        wiki = checkResult.wiki;
-        scope = checkResult.scopeSelected;
+        if (data.hasOwnProperty('projectId')) {
+            wiki = MyApp.wikiAction.checkProjectWiki(user, data.projectId).wiki;
+            dataCheck = {articleId: data.id, wikiId: wiki._id, projectId: data.projectId};
+        } else {
+            checkResult = MyApp.wikiAction.checkUserWiki(user);
+            wiki = checkResult.wiki;
+            scope = checkResult.scopeSelected;
+            dataCheck = {articleId: data.id, wikiId: wiki._id, scopeId: scope._id};
+        }
 
+        //checkResult = MyApp.wikiAction.checkUserWiki(user);
+        //wiki = checkResult.wiki;
 
-        article = MyApp.wikiAction.wikiArticleCheck({articleId: data.id, wikiId: wiki._id, scopeId: scope._id});
+        article = MyApp.wikiAction.wikiArticleCheck(dataCheck);
 
         if (article.status === "published") {
             modifier = {status: 'draft', 'secure.status': 'draft'}
@@ -411,20 +534,28 @@ Meteor.methods({
     deleteArticle: function (data) {
         //article can delete: owner and admin of wiki or scope
         check(data, {
-            id: String
+            id: String,
+            projectId: Match.Optional(String)
         });
 
         var user = Meteor.users.findOne(this.userId),
             wiki,
             article,
             checkResult,
+            dataCheck,
             scope;
 
-        checkResult = MyApp.wikiAction.checkUserWiki(user);
-        wiki = checkResult.wiki;
-        scope = checkResult.scopeSelected;
+        if (data.hasOwnProperty('projectId')) {
+            wiki = MyApp.wikiAction.checkProjectWiki(user, data.projectId).wiki;
+            dataCheck = {articleId: data.id, wikiId: wiki._id, projectId: data.projectId};
+        } else {
+            checkResult = MyApp.wikiAction.checkUserWiki(user);
+            wiki = checkResult.wiki;
+            scope = checkResult.scopeSelected;
+            dataCheck = {articleId: data.id, wikiId: wiki._id, scopeId: scope._id};
+        }
 
-        article = MyApp.wikiAction.wikiArticleCheck({articleId: data.id, wikiId: wiki._id, scopeId: scope._id})
+        article = MyApp.wikiAction.wikiArticleCheck(dataCheck);
 
         if (Meteor.isServer) {
             if (article.secure.author.id === user._id ||
@@ -434,7 +565,7 @@ Meteor.methods({
             } else {
                 throw new Meteor.Error(500, "You can't delete this article");
             }
-        } else if (Meteor.isClient){
+        } else if (Meteor.isClient) {
             if (article.author.id === user._id ||
                 MyApp.user.isScopeAdmin(user, scope) ||
                 MyApp.user.isWikiAdmin(user, wiki)) {

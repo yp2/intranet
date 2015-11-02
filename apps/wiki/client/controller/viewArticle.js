@@ -13,7 +13,15 @@ Template.viewArticle.helpers({
         var articleId = Template.instance().articleId();
         var category = Template.instance().category();
         var article = WikiArticle.findOne({_id: articleId});
-        
+
+        var data = {id: article._id};
+
+        var projectId = FlowRouter.getParam('projectId');
+
+        if (projectId) {
+            _.extend(data, {projectId: projectId});
+        }
+
         return {
             id: 'deleteArticle',
             actionBtnLabel: 'Delete Article',
@@ -21,7 +29,7 @@ Template.viewArticle.helpers({
             modalTitle: "Delete Article",
             modalBody: 'Delete "' + article.title + '" article ?',
             confirmAction: function(e,t) {
-                Meteor.call('deleteArticle', {id: articleId}, function (error, result) {
+                Meteor.call('deleteArticle', data, function (error, result) {
                     if (error) {
                         sAlert.addError(error.reason, "Delete Article Error");
                     }
@@ -32,9 +40,19 @@ Template.viewArticle.helpers({
                         alertConfig.onRouteClose = false;
                         sAlert.addSuccess('Article Deleted', "", alertConfig);
                         if (currentCategory === 'main') {
-                            FlowRouter.go('mainWiki')
+
+                            if (projectId) {
+                                FlowRouter.go("projectWiki", {projectId: projectId})
+                            } else {
+                                FlowRouter.go('mainWiki')
+                            }
+
                         } else{
-                            FlowRouter.go('wikiCategory', {category:currentCategory})
+                            if (projectId) {
+                                FlowRouter.go('projectWikiCategory', {category:currentCategory, projectId: projectId})
+                            } else {
+                                FlowRouter.go('wikiCategory', {category:currentCategory})
+                            }
                         }
                     }
                 })
@@ -48,7 +66,16 @@ Template.viewArticle.events({
         e.preventDefault();
 
         var article = t.parentTemplate().currentArticle();
-        Meteor.call('publishArticle', {id: article._id}, function (error, result) {
+        var data = {id: article._id}
+
+        var projectId = FlowRouter.getParam('projectId');
+
+        if (projectId) {
+            _.extend(data, {projectId: projectId});
+            console.log('hel', data);
+        }
+
+        Meteor.call('publishArticle', data, function (error, result) {
                 if (error) {
                     sAlert.addError(error.reason, "Publish article error");
                 }

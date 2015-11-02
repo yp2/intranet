@@ -42,8 +42,6 @@ Meteor.methods({
         if (Meteor.isServer) {
             var user = Meteor.users.findOne({"emails.address": email});
 
-            if (user.emails[0].address === email)
-
             if (user && data.type !== 'pro') {
                 UserScope.update({_id: inviting.secure.profile.scopeMain.id},
                     {

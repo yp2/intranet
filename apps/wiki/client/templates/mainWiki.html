@@ -43,7 +43,7 @@
                                     <div class="box-body">
                                         <div class="list-group">
                                             {{#each categories}}
-                                                <a href="{{pathFor 'wikiCategory' category=this}}"
+                                                <a href="{{#unless inProject}}{{pathFor 'wikiCategory' category=this}}{{else}}{{pathFor "projectWikiCategory" projectId=inProject category=this}}{{/unless}}"
                                                    class="list-group-item">
                                                     {{this}}
                                                     <div class="btn-group pull-right" role="group">

@@ -4,10 +4,27 @@
 "use strict";
 
 Meteor.methods({
+    removeUserFromProject (data) {
+        check(data, {
+            userId: String,
+            projectId: String
+        });
+        
+        let project = Project.findOne(data.projectId);
+        if (Meteor.isServer) {
+            
+            if (!project || (!_.includes(project.secure.allowedUsers, this.userId) && project.secure.admin.id !== this.userId) ) {
+                console.log('cant delete');
+                throw new Meteor.Error(403, "Can't remove user from project");
+            }
+            Project.update({_id: project._id}, {$pull :{"secure.allowedUsers": data.userId, allowedUsers: data.userId}})
+            return true;
+        }
+
+
+    },
     addNewProject (data) {
         let fields = data.fieldsValues;
-
-
 
         MyApp.projectForm.serverValidateForm(fields);
 

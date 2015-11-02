@@ -7,8 +7,14 @@ Template.addCategoryModal.events({
         e.preventDefault();
 
         var categoryData = {
-            title: t.$("#inputAddCategory").val()
+            title: t.$("#inputAddCategory").val(),
         };
+
+        var projectId = FlowRouter.getParam('projectId');
+
+        if (projectId) {
+            _.extend(categoryData, {projectId: projectId});
+        }
 
         Meteor.call("addWikiCategory", categoryData, function (error, result) {
             if (error) {
@@ -24,6 +30,7 @@ Template.addCategoryModal.events({
         });
     },
     'shown.bs.modal #addCategoryModal': function(e,t) {
+        console.log('ff', FlowRouter.getParam("projectId"));
         console.log('show');
         t.$('#inputAddCategory').focus()
     },

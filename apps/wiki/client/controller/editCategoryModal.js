@@ -21,6 +21,12 @@ Template.editCategoryModal.events({
             newTitle: t.$("#inputEditCategory").val()
         };
 
+        var projectId = FlowRouter.getParam('projectId');
+
+        if (projectId) {
+            _.extend(data, {projectId: projectId});
+        }
+
         if (data.title !== data.newTitle) {
             Meteor.call("editWikiCategory", data, function (error, result) {
                 if(error) {

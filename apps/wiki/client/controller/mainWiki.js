@@ -29,8 +29,15 @@ Template.mainWiki.events({
     },
     'click .delete-category-modal': function (e, t) {
         e.preventDefault();
+        var data = $(e.currentTarget).data();
 
-        t.categoryToDelete.set($(e.currentTarget).data());
+        var projectId = FlowRouter.getParam('projectId');
+
+        if (projectId) {
+            _.extend(data, {projectId: projectId});
+        }
+
+        t.categoryToDelete.set(data);
         t.showDeleteCategoryModal.set(true);
     },
     'click .edit-category-modal': function (e, t) {
@@ -41,7 +48,15 @@ Template.mainWiki.events({
     },
     'click .add-article': function (e, t) {
         e.preventDefault();
-        Meteor.call('addArticle', {category: t.category()}, function(error, result){
+        var data = {category: t.category()};
+
+        var projectId = FlowRouter.getParam('projectId');
+
+        if (projectId) {
+            _.extend(data, {projectId: projectId});
+        }
+
+        Meteor.call('addArticle', data , function(error, result){
             if (error) {
                 sAlert.addError(error.reason, 'Add article Error');
             }
@@ -50,7 +65,13 @@ Template.mainWiki.events({
                 alertConfig.onRouteClose = false;
 
                 sAlert.addSuccess('Article added', "", alertConfig);
-                FlowRouter.go('wikiArticle', {category: t.category(), articleId: result})
+                if (projectId) {
+                    FlowRouter.go('projectWikiArticle', {category: t.category(), articleId: result, projectId: projectId})
+                } else {
+                    FlowRouter.go('wikiArticle', {category: t.category(), articleId: result})
+                }
+
+
             }
         })
     },
@@ -79,6 +100,13 @@ Template.mainWiki.onCreated(function () {
         //var articleSub = self.subscribe('articlesForWikiCategory', self.category());
         var user = Meteor.user();
         self.wiki = function () {
+            FlowRouter.watchPathChange();
+            let context = FlowRouter.current();
+
+            if (context.params.hasOwnProperty('projectId')) {
+                return Wiki.findOne({type: "pro", 'project.id': context.params.projectId})
+            }
+
             return MyApp.getWikiForUser(user);
         }
 

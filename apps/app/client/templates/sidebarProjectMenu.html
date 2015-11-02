@@ -3,7 +3,9 @@
         <a href="#"><i class="fa fa-cubes"></i> <span>{{menuTitle}}</span><i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu" style="display: none;">
             {{#each projects}}
-                <li class=""><a href="#" data-id="{{_id}}" class="project-link"><i class="fa fa-archive"></i> {{title}} <i class="fa fa-angle-left pull-right"></i></a>
+                <li class="">
+                    <a href="#" data-project-id="{{_id}}" class="project-link"><i class="fa fa-archive"></i> {{title}} <i class="fa fa-angle-left pull-right"></i>
+                    </a>
                     <ul class="treeview-menu" style="display: none;">
                         <li class="user-list">
 
@@ -12,7 +14,7 @@
                                 <!--{{>sidebarUserElement}}-->
                             <!--{{/each}}-->
                         </li>
-                        <li><a href="#{{projectWiki._id}}"><i class="fa fa-wikipedia-w"></i> Wiki</a></li>
+                        <li><a href="{{pathFor "projectWiki" projectId=_id}}"><i class="fa fa-wikipedia-w"></i> Wiki</a></li>
                         <!--<li>-->
                         <!--<a href="#"><i class="fa fa-circle-o"></i> Level Two <i class="fa fa-angle-left pull-right"></i></a>-->
                         <!--<ul class="treeview-menu">-->

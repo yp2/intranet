@@ -18,6 +18,8 @@ MyApp.validateEmail = function (email) {
     return re.test(email);
 };
 
+MyApp.levelMainDashLayout = 3;
+
 MyApp.mainDashRegions = function (contentTemplate) {
     var regions;
     if (contentTemplate) {
@@ -38,9 +40,17 @@ MyApp.informLayout = function () {
     }
 };
 
-MyApp.getWikiForUser = function (user) {
-    var scopeSelected = MyApp.getScopeForUser(user);
-    return Wiki.findOne({_id: scopeSelected.wiki.id});
+MyApp.getWikiForUser = function (user, projectId) {
+    if (projectId) {
+        var project = Project.findOne({_id: projectId, $or: [{'admin.id': user._id}, {allowedUser: user._id}]})
+        if (project) {
+            return Wiki.findOne({"project.id": project._id})
+        }
+    } else {
+        var scopeSelected = MyApp.getScopeForUser(user);
+        return Wiki.findOne({_id: scopeSelected.wiki.id});
+
+    }
 };
 
 MyApp.getScopeForUser= function (user) {
