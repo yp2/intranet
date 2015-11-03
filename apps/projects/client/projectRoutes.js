@@ -1,24 +1,24 @@
-FlowRouter.route('/project/:projectId', {
+FlowRouter.route('/projectSummary/:projectId', {
     action: function (params, queryParams) {
         BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('projectMain'));
     },
     name: 'projectMain'
 });
 
-FlowRouter.route('/project/:projectId/wiki', {
+FlowRouter.route('/projectWiki/:projectId', {
     action: function (params, queryParams) {
         BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('mainWiki'));
     },
     name: 'projectWiki'
 })
-FlowRouter.route('/project/:projectId/wiki/:category/:articleId', {
+FlowRouter.route('/projectWiki/:projectId/:category/:articleId', {
     action: function (params, queryParams) {
         BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('wikiArticle'))
     },
     name: 'projectWikiArticle'
 });
 
-FlowRouter.route('/project/:projectId/wiki/:category', {
+FlowRouter.route('/projectWiki/:projectId/:category', {
     action: function (params, queryParams) {
         BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('wikiCategory'));
     },

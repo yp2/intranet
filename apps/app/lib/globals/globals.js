@@ -42,7 +42,7 @@ MyApp.informLayout = function () {
 
 MyApp.getWikiForUser = function (user, projectId) {
     if (projectId) {
-        var project = Project.findOne({_id: projectId, $or: [{'admin.id': user._id}, {allowedUser: user._id}]})
+        var project = Project.findOne({_id: projectId, $or: [{'admin.id': user._id}, {allowedUsers: user._id}]});
         if (project) {
             return Wiki.findOne({"project.id": project._id})
         }

@@ -29,5 +29,8 @@ Template.registerHelper('inProject', function () {
     return FlowRouter.getParam("projectId")
 })
 
+Template.registerHelper("getProject", function () {
+    return Project.findOne(this);
+});
 //Template.registerHelper('isProjectAdmin', function () {
 //})

@@ -102,12 +102,18 @@ Template.mainWiki.onCreated(function () {
         self.wiki = function () {
             FlowRouter.watchPathChange();
             let context = FlowRouter.current();
-
+            let result;
             if (context.params.hasOwnProperty('projectId')) {
-                return Wiki.findOne({type: "pro", 'project.id': context.params.projectId})
+                result = Wiki.findOne({type: "pro", 'project.id': context.params.projectId})
+            } else {
+                result = MyApp.getWikiForUser(user);
             }
 
-            return MyApp.getWikiForUser(user);
+            if (Session.get("user.articleList") === "#tab_2" && result && result.admin.id !== user._id) {
+                Session.set('user.articleList', "#tab_1")
+            }
+            return result
+
         }
 
     });

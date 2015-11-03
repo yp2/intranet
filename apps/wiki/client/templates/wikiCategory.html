@@ -4,14 +4,17 @@
         {{#if Template.subscriptionsReady}}
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1>
                     {{>categoryContHeader category=currentCategory}}
-                    <!--Category: {{currentCategory}}-->
-                    <!--<small><a href="{{pathFor 'mainWiki'}}">Wiki</a> for organization profile</small>-->
-                </h1>
                 <ol class="breadcrumb">
-                    <li><a href="{{pathFor 'mainDash'}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="{{pathFor 'mainWiki'}}"><i class="fa fa-wikipedia-w"></i> Wiki</a></li>
+                    <li><a href="{{pathFor 'mainDash'}}"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+                    {{#if inProject}}
+                        {{#with inProject}}
+                            <li><a href="{{pathFor 'projectMain' projectId=this}}"><i class="fa fa-archive"></i>{{getProject.title}}</a></li>
+                            <li><a href="{{pathFor 'projectWiki' projectId=this}}"><i class="fa fa-wikipedia-w"></i>Wiki</a></li>
+                        {{/with}}
+                    {{else}}
+                        <li><a href="{{pathFor 'mainWiki'}}"><i class="fa fa-wikipedia-w"></i> Wiki</a></li>
+                    {{/if}}
                     <li class="active">{{currentCategory}}</li>
                 </ol>
             </section>

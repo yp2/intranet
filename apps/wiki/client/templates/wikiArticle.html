@@ -4,15 +4,26 @@
         {{#if Template.subscriptionsReady }}
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1>
-                    {{>categoryContHeader category=currentCategory}}
-                </h1>
+                {{>categoryContHeader category=currentCategory}}
                 <ol class="breadcrumb">
                     <li><a href="{{pathFor 'mainDash'}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="{{pathFor 'mainWiki'}}"><i class="fa fa-wikipedia-w"></i> Wiki</a></li>
+                    {{#if inProject}}
+                        {{#with inProject}}
+                            <li><a href="{{pathFor 'projectMain' projectId=this}}"><i class="fa fa-archive"></i>{{getProject.title}}</a></li>
+                            <li><a href="{{pathFor 'projectWiki' projectId=this}}"><i class="fa fa-wikipedia-w"></i>Wiki</a></li>
+                        {{/with}}
+                    {{else}}
+                        <li><a href="{{pathFor 'mainWiki'}}"><i class="fa fa-wikipedia-w"></i> Wiki</a></li>
+                    {{/if}}
                     {{#unless checkMainCategory currentCategory}}
-                        <li><a href="{{pathFor 'wikiCategory' category=currentCategory}}"><i
-                                class="fa fa-wikipedia-w"></i> {{currentCategory}}</a></li>
+                        {{#if inProject}}
+                            {{#with inProject}}
+                            <li><a href="{{pathFor 'projectWikiCategory' projectId=this category=currentCategory}}"><i class="fa fa-book"></i> {{currentCategory}}</a></li>
+
+                            {{/with}}
+                        {{else}}
+                            <li><a href="{{pathFor 'wikiCategory' category=currentCategory}}"><i class="fa fa-book"></i> {{currentCategory}}</a></li>
+                        {{/if}}
                     {{/unless}}
                     <li class="active"><i class="ion-document"></i> {{currentArticle.title}}</li>
 

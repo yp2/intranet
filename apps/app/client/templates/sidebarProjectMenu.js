@@ -7,16 +7,16 @@ Template.sidebarProjectMenu.helpers({
 });
 
 Template.sidebarProjectMenu.events({
-    "click .project-link" (e, t) {
-        // check if parent li is active
-        console.log(e);
-
-        let element = $(e.currentTarget);
-        console.log(element.parent("li").hasClass('active'), element.data().projectId);
-        if (!element.parent("li").hasClass('active')) {
-            FlowRouter.go("projectMain", element.data());
-        }
-    }
+    //"click .project-link" (e, t) {
+    //    // check if parent li is active
+    //    console.log(e);
+    //
+    //    let element = $(e.currentTarget);
+    //    console.log(element.parent("li").hasClass('active'), element.data().projectId);
+    //    if (!element.parent("li").hasClass('active')) {
+    //        FlowRouter.go("projectMain", element.data());
+    //    }
+    //}
 });
 
 Template.sidebarProjectMenu.onCreated(function () {

@@ -4,15 +4,26 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    Wiki
-                    {{#if scopeTypeIsOrg}}
-                        <small>for {{scopeName}} organization profile</small>
+                    {{#if inProject}}
+                        {{#with inProject}}
+                            Project Wiki <small>{{getProject.title}}</small>
+                        {{/with}}
                     {{else}}
-                        <small>for {{scopeName}} personal profile</small>
+                        {{#if scopeTypeIsOrg}}
+                            Organization wiki
+                        {{else}}
+                            Personal wiki
+                        {{/if}}
+                        <small>{{scopeName}}</small>
                     {{/if}}
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="{{pathFor 'mainDash'}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="{{pathFor 'mainDash'}}"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+                    {{#if inProject}}
+                        {{#with inProject}}
+                            <li><a href="{{pathFor 'projectMain' projectId=this}}"><i class="fa fa-archive"></i>{{getProject.title}}</a></li>
+                        {{/with}}
+                    {{/if}}
                     <li class="active">Wiki</li>
                 </ol>
             </section>

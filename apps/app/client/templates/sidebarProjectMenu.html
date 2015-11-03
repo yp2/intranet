@@ -4,7 +4,7 @@
         <ul class="treeview-menu" style="display: none;">
             {{#each projects}}
                 <li class="">
-                    <a href="#" data-project-id="{{_id}}" class="project-link"><i class="fa fa-archive"></i> {{title}} <i class="fa fa-angle-left pull-right"></i>
+                    <a href="#"><i class="fa fa-archive"></i> {{title}} <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu" style="display: none;">
                         <li class="user-list">
@@ -14,7 +14,8 @@
                                 <!--{{>sidebarUserElement}}-->
                             <!--{{/each}}-->
                         </li>
-                        <li><a href="{{pathFor "projectWiki" projectId=_id}}"><i class="fa fa-wikipedia-w"></i> Wiki</a></li>
+                        <li><a href="{{pathFor "projectMain" projectId=_id}}"><i class="fa fa-compass"></i>Summary</a></li>
+                        <li><a href="{{pathFor "projectWiki" projectId=_id}}"><i class="fa fa-wikipedia-w"></i>Wiki</a></li>
                         <!--<li>-->
                         <!--<a href="#"><i class="fa fa-circle-o"></i> Level Two <i class="fa fa-angle-left pull-right"></i></a>-->
                         <!--<ul class="treeview-menu">-->

@@ -1,15 +1,26 @@
 <template name="categoryContHeader">
-    Category:
-    {{#if checkMainCategory category}}
-        <a href="{{pathFor 'mainWiki'}}">Main category</a>
-    {{else}}
-        <a href="{{pathFor 'wikiCategory' category=category}}">{{category}}</a>
-    {{/if}}
-    <small><a href="{{pathFor 'mainWiki'}}">Wiki</a>
-        {{#if scopeTypeIsOrg}}
-            for {{scopeName}} organization profile
+    <h1>
+        {{#if checkMainCategory category}}
+            Main category
+            <!--<a href="{{pathFor 'mainWiki'}}"></a>-->
         {{else}}
-            for {{scopeName}} personal profile
+            {{category}}
+            <!--<a href="{{pathFor 'wikiCategory' category=category}}"></a>-->
         {{/if}}
-    </small>
+        <small>
+            {{#if inProject}}
+                {{#with inProject}}
+                    Project wiki {{getProject.title}}
+                {{/with}}
+            {{else}}
+                {{#if scopeTypeIsOrg}}
+                    Organization wiki
+                {{else}}
+                    Personal wiki
+                {{/if}}
+                {{scopeName}}
+            {{/if}}
+
+        </small>
+    </h1>
 </template>
