@@ -1,6 +1,6 @@
 <template name="addProjectForm">
     {{# yfForm method="addNewProject" form=projectForm collection="Project" id='addProjectForm'}}
-        {{> yfInput obj=yfObj field="title" placeholder="Project Title"}}
-        {{> yfTextArea obj=yfObj field="description" placeholder="Description"}}
+        {{> yfInputF obj=yfObj field="title" placeholder="Project Title" id="addTitle"}}
+        {{> yfTextAreaF obj=yfObj field="description" placeholder="Description" id="addDesctiption"}}
     {{/yfForm}}
 </template>

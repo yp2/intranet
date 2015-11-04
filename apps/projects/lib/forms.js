@@ -18,7 +18,7 @@ let projectFormFields = {
 
 let formSuccessSave = [
     function (t) {
-        t.$("form")[0].reset();
+        //t.$("form")[0].reset();
         $("#confirmModaladdProject").modal('hide');
         sAlert.addSuccess("Project added")
     }

@@ -430,7 +430,7 @@ Meteor.methods({
     },
 
     saveArticleFormMethod: function (dataForMethod) {
-        console.log('in save method');
+        console.log('in save method a');
 
         //todo server side validation;
 
