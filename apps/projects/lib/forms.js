@@ -8,7 +8,8 @@
 let projectFormFields = {
     title: new yfInputField({
         validators : [yfValidators.required],
-        type: String,
+        saveSuccess: function () {console.log('save success');},
+        type: String
     }),
     description: new yfTextAreaField({
         validators: [yfValidators.required],

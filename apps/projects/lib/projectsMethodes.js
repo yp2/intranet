@@ -3,6 +3,22 @@
  */
 "use strict";
 
+MyApp.project = {
+    allowedUsers (userId, projectId) {
+        let user = Meteor.users.findOne(userId);
+        let project = Project.findOne(projectId);
+
+
+        if (Meteor.isServer && (!user || !project || (!_.includes(project.secure.allowedUsers, user._id)) || project.secure.admin.id !== user._id)) {
+            throw new Meteor.Error(403, "You're not allowed");
+        }
+        if (Meteor.isClient && (!user || !project || (!_.includes(project.allowedUsers, user._id)) || project.admin.id !== user._id)) {
+            throw new Meteor.Error(403, "You're not allowed");
+        }
+        return {user: user, project: project}
+    }
+}
+
 Meteor.methods({
     removeUserFromProject (data) {
         check(data, {
@@ -75,10 +91,35 @@ Meteor.methods({
             Wiki.insert(_.extend({secure: wikiData}, wikiData));
 
         }
-
-
-
         return projectId
+    },
+    editProject(obj, value, fieldName) {
+        console.log(obj, value, fieldName);
 
+        let checkAllow = MyApp.project.allowedUsers(this.userId, obj._id),
+            user, project, setObj = {};
+
+        user = checkAllow.user;
+        project = checkAllow.project;
+
+        setObj[fieldName] = value;
+        setObj[`secure.${fieldName}`] = value;
+
+        Project.update({_id: project._id}, {$set: setObj})
+
+        return true;
+    },
+    deleteProject(data) {
+        check(data, {
+            projectId: String
+        })
+
+        let checkAllow = MyApp.project.allowedUsers(this.userId, data.projectId);
+        let project = checkAllow.project;
+
+        let result = Project.remove({_id: project._id});
+
+        return true;
     }
 })
+

@@ -7,6 +7,9 @@ Template.projectMain.helpers({
     projectUser () {
         return Template.instance().projectUsers();
     },
+    editTitle () {
+        return Template.instance().editTitle.get();
+    },
     projectAddUser () {
         return {
             id: 'projectAddUser',
@@ -83,26 +86,74 @@ Template.projectMain.helpers({
             cancelAction: function (event, template) {
             }
         }
+    },
+    projectDelete () {
+        let project = Template.instance().project();
+        return {
+            id: 'projectDelete',
+            actionBtnLabel: 'Delete',
+            cancelBtnLabel: 'Cancel',
+            template: Template.projectMain,
+            modalTitle: "Delete project",
+            modalBody: `Delete poroject <strong>${project.title}</strong>`,
+            modalBodyIsTemplate: false,
+            hideOnSuccess: true,
+            confirmAction: function (e, t) {
+                let projectId = FlowRouter.getParam("projectId");
+                Meteor.call('deleteProject', {projectId: projectId}, function (error, result) {
+                    if (error) {
+                        sAlert.addError(error.reason, "Can't delete");
+                    }
+                    if (result) {
+                        let alertConfig = _.clone(sAlert.settings);
+                        alertConfig.onRouteClose = false;
+                        FlowRouter.go('mainDash');
+                        sAlert.addSuccess("Project deleted", alertConfig);
+                    }
+                })
+            }
+        }
     }
 
 });
 
 Template.projectMain.events({
-    //add your events here
+    "click .edit-project-title" (e,t) {
+        e.preventDefault();
+        let value = t.editTitle.get();
+        if (value) {
+            t.editTitle.set(false);
+        } else {
+            t.editTitle.set(true);
+        }
+    },
+    'blur .content-header input' (e, t) {
+        let value = t.editTitle.get();
+        if (value) {
+            t.editTitle.set(false);
+        } else {
+            t.editTitle.set(true);
+        }
+    }
+
 });
 
 Template.projectMain.onCreated(function () {
     let self = this;
 
+    self.editTitle = new ReactiveVar(false);
+
     self.autorun(function () {
         if (self.parentTemplate(MyApp.levelMainDashLayout).subscriptionsReady()){
+
             self.project = function () {
                 FlowRouter.watchPathChange();
                 let context = FlowRouter.current();
                 return Project.findOne({_id: context.params.projectId})
             };
+
             if (!self.project()) {
-                FlowRouter.go('404');
+                FlowRouter.go('mainDash');
 
             }
             self.projectUsers = function () {

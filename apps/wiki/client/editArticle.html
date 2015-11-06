@@ -1,51 +1,9 @@
 <template name="editArticle">
     <div class="row">
         <div class="col-lg-3">
-            <!--<div class="box box-solid">-->
-                <!--<div class="box-header with-border">-->
-                    <!--<i class="fa fa-text-width"></i>-->
-
-                    <!--<h3 class="box-title">Description Horizontal</h3>-->
-                <!--</div>-->
-                <!--&lt;!&ndash; /.box-header &ndash;&gt;-->
-                <!--<div class="box-body">-->
-                    <!--<dl class="dl-horizontal">-->
-                        <!--<dt>Description lists</dt>-->
-                        <!--<dd>A description list is perfect for defining terms.</dd>-->
-                        <!--<dt>Euismod</dt>-->
-                        <!--<dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>-->
-                        <!--<dd>Donec id elit non mi porta gravida at eget metus.</dd>-->
-                        <!--<dt>Malesuada porta</dt>-->
-                        <!--<dd>Etiam porta sem malesuada magna mollis euismod.</dd>-->
-                        <!--<dt>Felis euismod semper eget lacinia</dt>-->
-                        <!--<dd>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo-->
-                            <!--sit amet risus.-->
-                        <!--</dd>-->
-                    <!--</dl>-->
-                <!--</div>-->
-                <!--&lt;!&ndash; /.box-body &ndash;&gt;-->
-            <!--</div>-->
             <div class="box box-solid">
                 <div class="box-header with-border"><h3 class="box-title">Info</h3></div>
                 <div class="box-body">
-                    <!--<dl class="dl-horizontal">-->
-                    <!--<dt>Status:</dt>-->
-                    <!--<dd>{{status}}</dd>-->
-                    <!--<dt>Author:</dt>-->
-                    <!--<dd>{{author.username}}</dd>-->
-                    <!--<dt>Created:</dt>-->
-                    <!--<dd>{{timeFromNow createdAt}}</dd>-->
-                    <!--<dt>Modified:</dt>-->
-                    <!--<dd>{{timeFromNow modifiedAt}}</dd>-->
-                    <!--</dl>-->
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="box box-solid">
-                <div class="box-header with-border"><h3 class="box-title">Info</h3></div>
-                <div class="box-body">
-                    {{>editForm}}
                 </div>
             </div>
         </div>
@@ -70,8 +28,8 @@
         <div class="col-md-6">
             <div class="box">
                 <div class="box-header with-border">
-                        {{> editArticleTitle }}
                     {{#if editTitle}}
+                        {{> editArticleTitle }}
                     {{else}}
                         <h3 class="box-title">{{title}}</h3> <a href="#" class="edit-title"><i
                             class="fa fa-pencil-square-o"></i></a>
@@ -80,17 +38,6 @@
 
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                        <!--<div class="btn-group">-->
-                        <!--<button class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown"-->
-                        <!--aria-expanded="false"><i class="fa fa-wrench"></i></button>-->
-                        <!--<ul class="dropdown-menu" role="menu">-->
-                        <!--<li><a href="#">Action</a></li>-->
-                        <!--<li><a href="#">Another action</a></li>-->
-                        <!--<li><a href="#">Something else here</a></li>-->
-                        <!--<li class="divider"></li>-->
-                        <!--<li><a href="#">Separated link</a></li>-->
-                        <!--</ul>-->
-                        <!--</div>-->
                     </div>
                 </div>
                 <div class="box-body">
@@ -115,17 +62,6 @@
 
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                        <!--<div class="btn-group">-->
-                        <!--<button class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown"-->
-                        <!--aria-expanded="false"><i class="fa fa-wrench"></i></button>-->
-                        <!--<ul class="dropdown-menu" role="menu">-->
-                        <!--<li><a href="#">Action</a></li>-->
-                        <!--<li><a href="#">Another action</a></li>-->
-                        <!--<li><a href="#">Something else here</a></li>-->
-                        <!--<li class="divider"></li>-->
-                        <!--<li><a href="#">Separated link</a></li>-->
-                        <!--</ul>-->
-                        <!--</div>-->
                     </div>
                 </div>
                 <div class="box-body">
@@ -142,19 +78,4 @@
         </div>
     </div>
 </template>
-<!--<div class="col-md-4">-->
-<!--<div class="row">-->
-<!--<div class="col-md-12">-->
-<!--<dl class="dl-horizontal article-meta">-->
-<!--<dt>Status:</dt>-->
-<!--<dd>{{status}}</dd>-->
-<!--<dt>Author:</dt>-->
-<!--<dd>{{author.username}}</dd>-->
-<!--<dt>Created:</dt>-->
-<!--<dd>{{timeFromNow createdAt}}</dd>-->
-<!--<dt>Modified:</dt>-->
-<!--<dd>{{timeFromNow modifiedAt}}</dd>-->
-<!--</dl>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
+

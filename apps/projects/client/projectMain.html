@@ -4,9 +4,17 @@
             <!-- Content Header (Page header) -->
             {{#with project }}
                 <section class="content-header">
-                    <h1>
-                        Project {{title}}
-                    </h1>
+                    {{#if editTitle}}
+                        <div class="row">
+                            <div class="col-lg-4">
+                                {{>yfInput obj=this method="editProject" field="title" placeholder="Project title" form=projectForm}}
+                            </div>
+                        </div>
+                    {{else}}
+                        <h1>
+                            Project {{title}} <small><span class="edit-project-title"><i class="fa fa-pencil-square-o"></i></span></small>
+                        </h1>
+                    {{/if}}
                     <ol class="breadcrumb">
                         <li><a href="{{pathFor 'mainDash'}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
                         <li class="active">Project {{title}}</li>
@@ -16,67 +24,70 @@
 
                 <!-- Main content -->
                 <section class="content">
-                    <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
-                            <div class="box box-danger">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">Users
-                                    </h3>
-                                </div>
-                                <div class="box-body no-padding">
-                                    <!--<ul class="project-user-list">-->
-                                        <!--<li class="text-center list-action ">-->
-                                            <!--<button href="#" data-id="projectAddUser"  data-project-id="{{_id}}" class="bg-green btn btn-flat btn-block confirm-modal-btn"><i class="fa fa-plus"></i> Add user</button>-->
-                                        <!--</li>-->
-                                        <!--{{#if projectUser}}-->
-                                            <!--{{#each projectUser}}-->
-                                                <!--<li>-->
-                                                    <!--<a>-->
-                                                        <!--{{username}}-->
-                                                    <!--</a>-->
-                                                        <!--<span class="delete-user"><i class="fa fa-minus"></i></span>-->
-                                                <!--</li>-->
 
-                                            <!--{{/each}}-->
-                                        <!--{{/if}}-->
-                                    <!--</ul>-->
-                                    <ul class="nav nav-pills nav-stacked">
-                                        <li class="text-center ">
-                                            <a href="#" data-id="projectAddUser"  data-project-id="{{_id}}" class="bg-green btn btn-flat confirm-modal-btn"><i class="fa fa-plus"></i> Add user</a>
-                                        </li>
-                                        {{#if projectUser}}
-                                            {{#each projectUser}}
-                                                <li>
-                                                    <a>
-                                                        {{username}}
-                                                    <div class="btn-group">
-                                                        <button type="button" data-id="projectRemoveUser" data-user-id="{{_id}}" class="btn btn-danger btn-xs btn-flat confirm-modal-btn"><i class="fa fa-times"></i></button>
-                                                    </div>
-                                                    </a>
-                                                </li>
-
-                                            {{/each}}
-                                        {{/if}}
-                                    </ul>
-                                </div>
-                                <!-- /.box-body -->
-                                <!-- Loading (remove the following to stop the loading)-->
-                                {{#unless projectUser}}
-                                    <div class="overlay">
-                                        <i class="fa fa-refresh fa-spin"></i>
+                            <div class="row">
+                                <div class="box box-default">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Users
+                                        </h3>
                                     </div>
-                                    <!-- end loading -->
-                                {{/unless}}
+                                    <div class="box-body no-padding">
+                                        <ul class="nav nav-pills nav-stacked">
+                                            <li class="text-center ">
+                                                <a href="#" data-id="projectAddUser"  data-project-id="{{_id}}" class="bg-green btn btn-flat confirm-modal-btn"><i class="fa fa-plus"></i> Add user</a>
+                                            </li>
+                                            {{#if projectUser}}
+                                                {{#each projectUser}}
+                                                    <li>
+                                                        <a>
+                                                            {{username}}
+                                                            <div class="btn-group">
+                                                                <button type="button" data-id="projectRemoveUser" data-user-id="{{_id}}" class="btn btn-danger btn-xs btn-flat confirm-modal-btn"><i class="fa fa-times"></i></button>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+
+                                                {{/each}}
+                                            {{/if}}
+                                        </ul>
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <!-- Loading (remove the following to stop the loading)-->
+                                    {{#unless projectUser}}
+                                        <div class="overlay">
+                                            <i class="fa fa-refresh fa-spin"></i>
+                                        </div>
+                                        <!-- end loading -->
+                                    {{/unless}}
+                                </div>
+
                             </div>
+                            <div class="row">
+                                <div class="box box-default">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Actions</h3>
+                                    </div>
+                                    <div class="box-body no-padding">
+                                        <ul class="nav nav-pills nav-stacked">
+                                            <li class="text-center ">
+                                                <a href="#" data-id="projectDelete"  data-project-id="{{_id}}" class="bg-red btn btn-flat confirm-modal-btn"><i class="fa fa-times"></i> Delete project</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                            </div>
+
+
                         </div>
-                    </div>
-                    PROJECT {{title}}
 
                 </section>
             {{/with}}
             <!-- /.content -->
+        {{>confirmModal data=projectDelete}}
         {{else}}
             {{>contentLoading}}
         {{/if}}
