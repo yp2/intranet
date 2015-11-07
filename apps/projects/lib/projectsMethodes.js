@@ -125,6 +125,7 @@ Meteor.methods({
         }
 
         let result = Project.remove({_id: project._id});
+        Wiki.remove({_id: wikiForProject._id});
 
         return true;
     },
