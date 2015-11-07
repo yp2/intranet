@@ -24,3 +24,10 @@ FlowRouter.route('/projectWiki/:projectId/:category', {
     },
     name: 'projectWikiCategory'
 });
+
+FlowRouter.route('/projectConversation/:projectId', {
+    action: function (params, queryParams) {
+        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('projectTalks'));
+    },
+    name: 'projectTalks'
+})

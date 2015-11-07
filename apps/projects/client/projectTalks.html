@@ -1,0 +1,42 @@
+<template name="projectTalks">
+    <div class="content-wrapper">
+        {{#if parentSubsReady}}
+            <!-- Content Header (Page header) -->
+        {{#with project }}
+
+        <section class="content-header">
+                <h1>
+                    Conversations - project {{title}}
+                </h1>
+            <ol class="breadcrumb">
+                <li><a href="{{pathFor 'mainDash'}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li><a href="{{pathFor 'projectMain' projectId=_id}}"><i class="fa fa-archive"></i> {{title}}</a></li>
+                <li class="active">Talks</li>
+            </ol>
+        </section>
+        <section class="content">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="row">
+                    <div class="box box-default">
+                        {{# with draftTalk}}
+                            {{>addTalk }}
+                        {{/with}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Talks</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            adasd
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        {{/with}}
+        {{/if}}
+    </div>
+</template>

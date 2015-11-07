@@ -117,9 +117,19 @@ Meteor.methods({
         let checkAllow = MyApp.project.allowedUsers(this.userId, data.projectId);
         let project = checkAllow.project;
 
+        let wikiForProject = Wiki.findOne({"project.id": project._id});
+        let articlesCount = WikiArticle.find({"wiki.id": wikiForProject._id}).count();
+
+        if (articlesCount) {
+            throw new Meteor.Error(403, "There are articles in wiki, can't delete project")
+        }
+
         let result = Project.remove({_id: project._id});
 
         return true;
+    },
+    addTalk(dataFromForm) {
+        console.log('addTalk', dataFromForm);
     }
 })
 

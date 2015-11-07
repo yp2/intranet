@@ -56,3 +56,28 @@ if (Meteor.isClient) {
         return MyApp.projectAddUserForm;
     })
 }
+
+let talksField = {
+    title: new yfInputField({
+        validators: [yfValidators.required],
+        successCallbacks: [],
+        errorCallbacks: [],
+        successSaveCallbacks: [],
+        errorSaveCallbacks: []
+    }),
+    content: new yfTextAreaField({
+        validators: [yfValidators.required],
+        successCallbacks: [],
+        errorCallbacks: [],
+        successSaveCallbacks: [],
+        errorSaveCallbacks: []
+    })
+};
+
+MyApp.projectAddTalk = new yfForm(talksField, "Talks");
+
+if (Meteor.isClient) {
+    Template.registerHelper('addTalkForm', function () {
+        return MyApp.projectAddTalk;
+    })
+}

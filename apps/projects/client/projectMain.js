@@ -10,6 +10,9 @@ Template.projectMain.helpers({
     editTitle () {
         return Template.instance().editTitle.get();
     },
+    editDescription () {
+        return Template.instance().editDescription.get();
+    },
     projectAddUser () {
         return {
             id: 'projectAddUser',
@@ -134,7 +137,28 @@ Template.projectMain.events({
         } else {
             t.editTitle.set(true);
         }
+    },
+    'blur .project-description textarea' (e, t) {
+
+        let value = t.editDescription.get();
+        if (value) {
+            t.editDescription.set(false);
+        } else {
+            t.editDescription.set(true);
+        }
+    },
+
+    "click .edit-project-description" (e, t) {
+        e.preventDefault();
+        let value = t.editDescription.get();
+
+        if (value) {
+            t.editDescription.set(false);
+        } else {
+            t.editDescription.set(true);
+        }
     }
+
 
 });
 
@@ -142,6 +166,7 @@ Template.projectMain.onCreated(function () {
     let self = this;
 
     self.editTitle = new ReactiveVar(false);
+    self.editDescription = new ReactiveVar(false);
 
     self.autorun(function () {
         if (self.parentTemplate(MyApp.levelMainDashLayout).subscriptionsReady()){

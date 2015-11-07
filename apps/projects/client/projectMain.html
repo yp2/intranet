@@ -24,7 +24,25 @@
 
                 <!-- Main content -->
                 <section class="content">
-                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="box box-default">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Info <small><span class="edit-project-description"><i class="fa fa-pencil-square-o"></i></span></small></h3>
+                                    </div>
+                                    <div class="box-body project-description">
+                                        {{#if editDescription }}
+                                            {{>yfTextArea obj=this method="editProject" field="description" placehoder="Project description" form=projectForm}}
+                                        {{else}}
+                                            <p>
+                                                {{description}}
+                                            </p>
+                                        {{/if}}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
 
