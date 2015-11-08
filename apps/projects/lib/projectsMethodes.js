@@ -103,7 +103,9 @@ Meteor.methods({
 
         setObj[fieldName] = value;
         setObj[`secure.${fieldName}`] = value;
-
+        if (fieldName === 'title') {
+            _.assign(setObj, {titleSlug: s.slugify(value), 'secure.titleSlug': s.slugify(value)})
+        }
         Project.update({_id: project._id}, {$set: setObj})
 
         return true;
