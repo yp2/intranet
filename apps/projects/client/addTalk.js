@@ -1,7 +1,7 @@
 "use strict";
 
 Template.addTalk.helpers({
-    //add you helpers here
+
 });
 
 Template.addTalk.events({

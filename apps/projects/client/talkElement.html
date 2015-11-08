@@ -1,0 +1,99 @@
+<template name="talkElement">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="box box-widget">
+            <div class="box-header with-border">
+                <div class="user-block">
+                    <img class="img-circle" src="../dist/img/user1-128x128.jpg" alt="User Image">
+                    <span class="username">{{author.username}}</span>
+                    <span class="description">Published - 7:30 PM Today</span>
+                </div>
+                <!-- /.user-block -->
+                <div class="box-tools">
+                    <!--<button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Mark as read">-->
+                    <!--<i class="fa fa-circle-o"></i></button>-->
+                    <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>-->
+                    <!--</button>-->
+                    <!--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>-->
+                </div>
+                <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    {{title}}
+                </h3>
+            </div>
+            <div class="box-body">
+                <!-- post text -->
+                {{content}}
+
+                <!-- Attachment -->
+                <!--<div class="attachment-block clearfix">-->
+                <!--<img class="attachment-img" src="../dist/img/photo1.png" alt="Attachment Image">-->
+
+                <!--<div class="attachment-pushed">-->
+                <!--<h4 class="attachment-heading"><a href="http://www.lipsum.com/">Lorem ipsum text generator</a></h4>-->
+
+                <!--<div class="attachment-text">-->
+                <!--Description about the attachment can be placed here.-->
+                <!--Lorem Ipsum is simply dummy text of the printing and typesetting industry... <a href="#">more</a>-->
+                <!--</div>-->
+                <!--&lt;!&ndash; /.attachment-text &ndash;&gt;-->
+                <!--</div>-->
+                <!--&lt;!&ndash; /.attachment-pushed &ndash;&gt;-->
+                <!--</div>-->
+                <!-- /.attachment-block -->
+
+                <!-- Social sharing buttons -->
+                <!--<button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>-->
+                <!--<button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>-->
+                <!--<span class="pull-right text-muted">45 likes - 2 comments</span>-->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer box-comments">
+                <!--<div class="box-comment">-->
+                <!--&lt;!&ndash; User image &ndash;&gt;-->
+                <!--<img class="img-circle img-sm" src="../dist/img/user3-128x128.jpg" alt="User Image">-->
+
+                <!--<div class="comment-text">-->
+                <!--<span class="username">-->
+                <!--Maria Gonzales-->
+                <!--<span class="text-muted pull-right">8:03 PM Today</span>-->
+                <!--</span>&lt;!&ndash; /.username &ndash;&gt;-->
+                <!--It is a long established fact that a reader will be distracted-->
+                <!--by the readable content of a page when looking at its layout.-->
+                <!--</div>-->
+                <!--&lt;!&ndash; /.comment-text &ndash;&gt;-->
+                <!--</div>-->
+                <!--&lt;!&ndash; /.box-comment &ndash;&gt;-->
+                <!--<div class="box-comment">-->
+                <!--&lt;!&ndash; User image &ndash;&gt;-->
+                <!--<img class="img-circle img-sm" src="../dist/img/user5-128x128.jpg" alt="User Image">-->
+
+                <!--<div class="comment-text">-->
+                <!--<span class="username">-->
+                <!--Nora Havisham-->
+                <!--<span class="text-muted pull-right">8:03 PM Today</span>-->
+                <!--</span>&lt;!&ndash; /.username &ndash;&gt;-->
+                <!--The point of using Lorem Ipsum is that it has a more-or-less-->
+                <!--normal distribution of letters, as opposed to using-->
+                <!--'Content here, content here', making it look like readable English.-->
+                <!--</div>-->
+                <!--&lt;!&ndash; /.comment-text &ndash;&gt;-->
+                <!--</div>-->
+                <!-- /.box-comment -->
+            </div>
+            <!-- /.box-footer -->
+            <div class="box-footer">
+                <!--<form action="#" method="post">-->
+                <!--<img class="img-responsive img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="Alt Text">-->
+                <!--&lt;!&ndash; .img-push is used to add margin to elements next to floating images &ndash;&gt;-->
+                <!--<div class="img-push">-->
+                <!--<input type="text" class="form-control input-sm" placeholder="Press enter to post comment">-->
+                <!--</div>-->
+                <!--</form>-->
+            </div>
+            <!-- /.box-footer -->
+        </div>
+    </div>
+</template>

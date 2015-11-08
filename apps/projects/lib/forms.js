@@ -59,18 +59,18 @@ if (Meteor.isClient) {
 
 let talksField = {
     title: new yfInputField({
-        validators: [yfValidators.required],
+        validators: [],
         successCallbacks: [],
         errorCallbacks: [],
-        successSaveCallbacks: [],
-        errorSaveCallbacks: []
+        saveSuccessCallbacks: [],
+        saveErrorCallbacks: []
     }),
     content: new yfTextAreaField({
-        validators: [yfValidators.required],
+        validators: [],
         successCallbacks: [],
         errorCallbacks: [],
-        successSaveCallbacks: [],
-        errorSaveCallbacks: []
+        saveSuccessCallbacks: [],
+        saveErrorCallbacks: []
     })
 };
 

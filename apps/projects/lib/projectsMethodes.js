@@ -7,8 +7,7 @@ MyApp.project = {
     allowedUsers (userId, projectId) {
         let user = Meteor.users.findOne(userId);
         let project = Project.findOne(projectId);
-
-
+        
         if (Meteor.isServer && (!user || !project || (!_.includes(project.secure.allowedUsers, user._id)) || project.secure.admin.id !== user._id)) {
             throw new Meteor.Error(403, "You're not allowed");
         }
@@ -129,8 +128,58 @@ Meteor.methods({
 
         return true;
     },
-    addTalk(dataFromForm) {
-        console.log('addTalk', dataFromForm);
+    editTalk(obj, value, field) {
+
+        let checkAllow = MyApp.project.allowedUsers(this.userId, obj.project.id)
+        let user = checkAllow.user;
+
+        let setObj = {};
+
+        setObj[field] = value;
+        setObj[`secure.${field}`] = value;
+
+        Talks.update({_id: obj._id}, {$set: setObj});
+
+        return true
+    },
+    addTalk (talkObj) {
+        console.log(talkObj);   
+        let checkAllow = MyApp.project.allowedUsers(this.userId, talkObj.project.id);
+        let user = checkAllow.user;
+        let secure = {secure: {}};
+        let setObj = {
+            status: 'publish',
+            createdAt: new Date(),
+            author: {
+                username: user.username,
+                id: user._id
+            }
+        };
+        _.assign(secure.secure, setObj);
+        setObj.secure = secure.secure;
+
+        Talks.update({_id: talkObj._id}, {$set: setObj});
+
+        let insObj = {
+            title: "",
+            content: "",
+            status: "draft",
+            author: {
+                id: this.userId,
+                username: user.username
+            },
+            project: {
+                id:  talkObj.project.id
+            }
+        };
+
+        let talkSecure = {secure: {}};
+
+        _.assign(talkSecure.secure, insObj);
+
+        insObj['secure'] = talkSecure.secure;
+
+        Talks.insert(insObj);
     }
 })
 

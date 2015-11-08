@@ -1,10 +1,4 @@
 <template name="addTalk">
-    <!--{{#yfForm obj=this  }}-->
-
-        {{>yfInput obj=this method="addTalk" form=addTalkForm placeholder="Title" field="title"}}
-        {{>yfTextArea obj=this method="addTalk" form=addTalkForm placeholder="Content" field="content" class="editor" }}
-
-
-        <!--<button type="submit" class="btn btn-default">Save insert to TestColl</button>-->
-    <!--{{/yfForm}}-->
+        {{>yfInput obj=this method="editTalk" form=addTalkForm placeholder="Title" field="title"}}
+        {{>yfTextArea obj=this method="editTalk" form=addTalkForm placeholder="Content" field="content" class="editor" }}
 </template>
