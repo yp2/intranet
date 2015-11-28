@@ -1,16 +1,19 @@
 \documentclass[a4paper, 12pt, twoside]{book}
+%\documentclass[11pt]{article}
 
+%\usepackage[a4paper]{geometry}
 \usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
 \usepackage[MeX]{polski}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{cite}
+
 \usepackage{graphicx}
 \usepackage{setspace}\mainmatter % arabski zapis numerów stron
 \usepackage{latexsym}
 \usepackage{longtable}
 \usepackage{indentfirst} % polska typografia wymaga wcinania pierwszego akapitu po tytyule rodziału
-\usepackage[]{hyperref}
+\usepackage[colorlinks=true]{hyperref}
+
 %\usepackage{showframe}
 %\pagestyle{headings}
 \linespread{1.3} % interlinia 1.5
@@ -459,6 +462,11 @@
 \include{./title/newtitle}
 \end{titlepage}
 
+%\frontmatter % rzymski zapis numerów stron
+%\begin{titlepage}
+%\include{./title/newtitle.tex}
+%\end{titlepage}
+
 \tableofcontents
 
 %\chapter{Wstęp}%\markboth{Wstęp}{Wstęp}}
@@ -468,11 +476,5 @@
 %\addcontentsline{toc}{chapter}{Wstęp}
 \input{./introduction/introduction.tex}
 
-\chapter{Technologia}
-\input{./ch02/ch02.tex}
-
-\backmatter
-\bibliographystyle{plain}
-\bibliography{bib}
 
 \end{document}

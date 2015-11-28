@@ -1,0 +1,13 @@
+Rozdział ten przedstawia wykorzystane technologie oraz języki programowania użyte podczas projektowania oraz programowania aplikacji Intranet. 
+Aplikacja powstała z wykorzystaniem \emph{JavaScript}'u, framework'a aplikacji sieciowych \emph{Meteor.js}, nierelacyjnej bazy danych 
+\emph{MongoDB} oraz framework'a CSS \emph{Bootstrap}, \emph{HTML5}, \emph{CSS3}, \emph{less} --- dynamiczny jeżyk arkuszy stylów oraz gotowy szablon
+dla panelu administracyjnego \emph{AdminLTE} wykorzystujący Bootstrap.
+
+\section{JavaScript}
+
+Język programowania JavaScript został użyty do zaprogramowania zarówno części serwerowej (\textit{back-end}) jaki i części odpowiedzialnej 
+za interakcje z użytkownikiem (\textit{front-end}) --- interfejs użytkownika. Obecne strony WWW a w szczególności aplikacje dostępne przez 
+przeglądarkę (Gmail, Google Docs, Google Maps, Facebook) szeroko korzystają z JavaScript w celu dostarczenie wielofunkcyjnego oraz interaktywnego 
+interfejsu użytkownika. Jednym z powodów wykorzystanie JavaScript była możliwości wykorzystania go po stornie serwera oraz klienta. 
+Najpopularniejszy obecnie sposób tworzenia stron/aplikacji internetowych wyróżnia trzy warstwy --- warstwę struktury (HTML), 
+warstwę prezentacji (CSS) oraz warstwę zachowania (JavaScript)\cite{stefanov10}.
