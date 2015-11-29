@@ -5,10 +5,10 @@
       year = "2015",
       howpublished = "\url{https://en.wikipedia.org/wiki/Intranet}"
 }
-@book{stefanov08,
-    author    = " and Frank Mittelbach and Alexander Samarin",
-    title     = "The LaTeX Companion",
-    year      = "1993",
-    publisher = "Addison-Wesley",
-    address   = "Reading, Massachusetts"
+@book{stefanov10,
+    author    = "Stoyan Stefanov",
+    title     = "JavaScript programowanie obiektowe",
+    year      = "2010",
+    publisher = "Wydawnictwo Helion",
+    address   = "Gliwice"
 }
