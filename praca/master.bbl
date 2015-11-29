@@ -1,5 +1,10 @@
 \begin{thebibliography}{1}
 
+\bibitem{cantelon14}
+Mike~Cantelon i~Marc Harter i TJ Holowaychuk~i Nathan~Rajlich.
+\newblock {\em Node.js w akcji}.
+\newblock Wydawnictwo Helion, Gliwice, 2014.
+
 \bibitem{stefanov10}
 Stoyan Stefanov.
 \newblock {\em JavaScript programowanie obiektowe}.
@@ -10,9 +15,20 @@ Wikipedia.
 \newblock Ecmascript.
 \newblock \url{https://en.wikipedia.org/wiki/ECMAScript}, Listopad 2015.
 
+\bibitem{fcfunctionWiki}
+Wikipedia.
+\newblock First-class function.
+\newblock \url{https://en.wikipedia.org/wiki/First-class_function}, Listopad
+  2015.
+
 \bibitem{intranetWiki}
 Wikipedia.
 \newblock Intranet.
 \newblock \url{https://en.wikipedia.org/wiki/Intranet}, Listopad 2015.
+
+\bibitem{jsWiki}
+Wikipedia.
+\newblock Javascript.
+\newblock \url{https://en.wikipedia.org/wiki/JavaScript}, Listopad 2015.
 
 \end{thebibliography}
