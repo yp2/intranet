@@ -55,3 +55,21 @@ Jak wiele języków skryptowych, tablice jak i obiekty mogą zostać utworzone p
 JavaScript wspiera również wyrażenia regularne w sposób podobny do \emph{Perl}, z zwięzła oraz bogatą składnią do manipulowania tekstem, znacznie bardziej zaawansowaną niż wbudowane funkcje do obróbki łańcuchów znaków.
 
 \section{Meteor.js oraz MongoDB}
+
+Meteor.js (Meteor, MeteorJS) jest to otwarto źródłowy framework aplikacji sieciowych napisany w JavaScript z wykorzystaniem \emph{Node.js}. Meteor pozwala na szybkie prototypowanie oraz tworzenie między platformowego kodu (aplikacje sieciowe, Android, iOS). Wykorzystuje \emph{MongoDB} oraz używa protokołu \emph{DDP}\footnote{Distributed Data Protocol - protokół klient--serwer dla zapytanie oraz aktualizacji bazy danych po stronie serwera oraz synchronizacji tych aktualizacji wśród innych klientów} oraz wzorca \emph{publikacji i subskrypcji} do automatycznej propagacji zmian w danych do klientów bez potrzeby pisanie kodu synchronizującego taką propagację. Po stronie klienta, Meteor wykorzystuje \emph{jQuery}. Meteor jest rozwijany prze \textit{Meteor Development Group}. Meteor po raz pierwszy został publicznie pokazany w grudniu 2011 pod nazwą \textit{Skybreak}\cite{meteorWiki}.
+
+Meteor jest niepokojącą (w dobrym znaczeniu) technologią. Umożliwia budowanie aplikacji nowego typu, które są szybsze oraz prostsze w tworzeniu. Wykorzystuje nowoczesne techniki takie jak reaktywność po stronie klienta oraz serwera (\textit{Full Stack Reactivity}), kompensacja opóźnień (\textit{Latency Compensation}) oraz \textit{data on the wire} - Meteor nie wysyła danych w postaci HTML serwer wysyła dane i pozwala klientowi je renderować\cite{strack15}.
+
+Nasz świat się zmienia. Rzeczy, które nie były możliwe kilka lata temu dzięki kolejnym postępom w dziedzinach takich jak wyświetlacze, technologie informatyczne oraz pojemności nośników danych dziś są nie tylko możliwe ale wręcz niezbędne aby aplikacja odniosła sukces. 
+
+Meteor pozostaje wierny następującym zasadom\cite{meteorDocs}: 
+\begin{itemize}
+ \item \textit{Data on the Wire} --- Meteor nie wysyła HTML przez sieć. Serwer wysyła dane i pozwala klientowi je renderować.
+ \item \textit{Jeden język} --- Meteor pozwala pisać stronę klienta jak i serwera w języku JavaScript.
+ \item \textit{Wszechobecna baza danych} --- Meteor pozwala na użycie tych samych metod dostępu do danych po stronie klienta oraz serwera.
+ \item \textit{Kompensacja opóźnień} --- Po stronie klienta Meteor wstępnie pobiera dane oraz symuluje modele aby wykonywane metody serwerowe zwracały wynik natychmiast.
+ \item \textit{Korzysta z ekosystemu} --- Meteor jest projektem otwarto źródłowym (open source) oraz integruje się z istniejącymi otwarto źródłowymi narzędziami oraz frameworkami.
+ \item \textit{Prostota to produktywność} --- Najlepszym sposobem aby coś wyglądało na proste to zrobić to tak aby było proste. Główne funkcjonalności Meteora mają czyste, klasycznie piękne API.
+\end{itemize}
+
+Jedną z integralnych cech Meteora jest reaktywność. Po stornie klienta, Meteor oferuje bibliotekę \emph{Blaze}, która używa szablonów HTML oraz \emph{helper'ów}\footnote{Pomocniczy kod JavaScript głównie zwracający wartości do szablonu HTML} JavaScript do wykrywania zmian oraz renderowania danych.

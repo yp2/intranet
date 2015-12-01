@@ -5,10 +5,20 @@ Mike~Cantelon i~Marc Harter i TJ Holowaychuk~i Nathan~Rajlich.
 \newblock {\em Node.js w akcji}.
 \newblock Wydawnictwo Helion, Gliwice, 2014.
 
+\bibitem{meteorDocs}
+Meteor.
+\newblock Meteor docs.
+\newblock \url{http://docs.meteor.com/#/full/quickstart}, Grudzień 2015.
+
 \bibitem{stefanov10}
 Stoyan Stefanov.
 \newblock {\em JavaScript programowanie obiektowe}.
 \newblock Wydawnictwo Helion, Gliwice, 2010.
+
+\bibitem{strack15}
+Isaac Strack.
+\newblock {\em Getting Started with Meteor.js JavaScript Framework}.
+\newblock Packt Publishing Ltd., Birmingham, United Kingdom, 2015.
 
 \bibitem{ecmascriptWiki}
 Wikipedia.
@@ -30,5 +40,11 @@ Wikipedia.
 Wikipedia.
 \newblock Javascript.
 \newblock \url{https://en.wikipedia.org/wiki/JavaScript}, Listopad 2015.
+
+\bibitem{meteorWiki}
+Wikipedia.
+\newblock Meteor (web framework).
+\newblock \url{https://en.wikipedia.org/wiki/Meteor_(web_framework)}, Grudzień
+  2015.
 
 \end{thebibliography}
