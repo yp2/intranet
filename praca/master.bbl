@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{cantelon14}
 Mike~Cantelon i~Marc Harter i TJ Holowaychuk~i Nathan~Rajlich.
@@ -46,5 +46,16 @@ Wikipedia.
 \newblock Meteor (web framework).
 \newblock \url{https://en.wikipedia.org/wiki/Meteor_(web_framework)}, Grudzień
   2015.
+
+\bibitem{restWiki}
+Wikipedia.
+\newblock Representational state transfer.
+\newblock \url{https://pl.wikipedia.org/wiki/Representational_State_Transfer},
+  Grudzień 2015.
+
+\bibitem{wsWiki}
+Wikipedia.
+\newblock Websocket.
+\newblock \url{https://pl.wikipedia.org/wiki/WebSocket}, Grudzień 2015.
 
 \end{thebibliography}
