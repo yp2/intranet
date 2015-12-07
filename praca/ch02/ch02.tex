@@ -54,7 +54,7 @@ Jak wiele języków skryptowych, tablice jak i obiekty mogą zostać utworzone p
 
 JavaScript wspiera również wyrażenia regularne w sposób podobny do \emph{Perl}, z zwięzła oraz bogatą składnią do manipulowania tekstem, znacznie bardziej zaawansowaną niż wbudowane funkcje do obróbki łańcuchów znaków.
 
-\section{Meteor.js oraz MongoDB}
+\section{Meteor.js}
 
 Meteor.js (Meteor, MeteorJS) jest to otwarto źródłowy framework aplikacji sieciowych napisany w JavaScript z wykorzystaniem \emph{Node.js}. Meteor pozwala na szybkie prototypowanie oraz tworzenie między platformowego kodu (aplikacje sieciowe, Android, iOS). Framework wykorzystuje \emph{MongoDB}, używa protokołu \emph{DDP}\footnote{Distributed Data Protocol - protokół klient--serwer dla zapytań oraz aktualizacji bazy danych po stronie serwera oraz synchronizacji tych aktualizacji wśród innych klientów} oraz wzorca \emph{publikacji i subskrypcji} do automatycznej propagacji zmian w danych do klientów bez potrzeby pisanie kodu synchronizującego taką propagację. Po stronie klienta, Meteor wykorzystuje \emph{jQuery}. Meteor jest rozwijany prze \textit{Meteor Development Group}. Meteor po raz pierwszy został publicznie pokazany w grudniu 2011 pod nazwą \textit{Skybreak}\cite{meteorWiki}.
 
@@ -80,18 +80,51 @@ Najważniejszą zaletą protokołu DDP to sposób komunikacji. Nie ma znaczenie 
 
 W skład frameworka wchodzi także ciekawa technologia --- \emph{mini baza danych}. Jest to ,,leka'' wersja normalnej bazy danych rezydującej w pamięci po stronie klienta. Klient zamiast wysyłać żądania do serwera może zmieniać dane bezpośrednio w mini bazie danych, które znajduje się po stronie klienta. Po aktualizacji danych w mini bazie danych ta automatycznie synchronizuje się z serwerem, który posiada właściwą bazę danych, wykorzystując protokół DDP. Meteor w roli mini bazy danych wykorzystuje \emph{Minimongo}, właściwa baza po stronie serwera to \emph{MongoDB}\cite{strack15}.
 
-Aktualizacja danych po stronie klienta, najpierw jest realizowana w instancji Minimongo. Klient pozostawia synchronizację zmian Minimongo (z wykorzystaniem protokołu DDP). Jeżeli serwer zaakceptuje zmiany, rozsyła je do wszystkich połączonych klientów, włączając w to także tego, który dokonał zmian. Natomiast jeżeli serwer odrzuci zmiany, bądź pojawi się nowszy zestaw danych od innego klienta, Minimongo na kliencie zostanie skorygowane, co spowoduje aktualizację wszystkich elementów interfejsu użytkownika powiązanych z tymi danymi. Rozwiązanie to w połączeniu z asynchronicznością (realizowaną z wykorzystaniem DDP) jest przełomowe. Oznacza to, że klient nie musi czekać na odpowiedź z serwera. Klient aktualizuje interfejs użytkownika w oparciu o dane zawarte w instancji Minimongo. W przypadku gdy aktualizacja danych została odrzucona przez serwer lub inne zmiany dotarły z serwera, klient zostanie zaktualizowany zaraz po otrzymaniu takiej informacji z serwera\cite{strack15}.
+Aktualizacja danych po stronie klienta, najpierw jest realizowana w instancji Minimongo. Klient pozostawia synchronizację zmian Minimongo (z wykorzystaniem protokołu DDP). Jeżeli serwer zaakceptuje zmiany, rozsyła je do wszystkich połączonych klientów, włączając w to także tego, który dokonał zmian. Natomiast jeżeli serwer odrzuci zmiany, bądź pojawi się nowszy zestaw danych od innego klienta, Minimongo na kliencie zostanie skorygowane, co spowoduje aktualizację wszystkich elementów interfejsu użytkownika powiązanych z tymi danymi. Rozwiązanie to w połączeniu z asynchronicznością (realizowaną z wykorzystaniem DDP) jest przełomowe. Oznacza to, że klient nie musi czekać na odpowiedź z serwera. Klient aktualizuje interfejs użytkownika w oparciu o dane zawarte w instancji Minimongo. W przypadku gdy aktualizacja danych została odrzucona przez serwer lub inne zmiany dotarły z serwera, klient zostanie zaktualizowany zaraz po otrzymaniu takiej informacji z serwera.
 
-W przypadku powolnego połączenia z internetem lub jago całkowitego jego braku Meteor kompensuje to poprzez wysyłanie danych do Minimongo oraz natychmiastowymi zmianami w interfejsie użytkownika. W normalnym środowisku klient -- serwer żadna aktualizacja nie została by wykonana, interfejs użytkownika pokazywał by stan ładowania podczas kiedy klient czekał by na odpowiedź z serwera. Wszystkie dokonane zmiany miałby swoje odzwierciedlenie w interfejsie użytkownika w oparciu o Minimongo. Kiedy połączenie z Internetem zostało by przywrócone, wszystkie zakolejkowane zmiany zostaną wysłane na serwer, serwer natomiast prześle autoryzowane zmiany do klienta. Meteor pozwala klientom ,,brać informacje na wiarę''. Jeżeli napotkamy problem to dane otrzymane z serwera naprawią nieścisłości. Jednak przez większość czasu zmiany dokonywane na kliencie są natychmiast wysłane na serwer oraz przez niego rozgłaszane do innych klientów. Aby osiągnąć takie zachowanie należy zdefiniować nową kolekcję w poniższy sposób\cite{strack15}: 
+W przypadku powolnego połączenia z internetem lub jago całkowitego jego braku Meteor kompensuje to poprzez wysyłanie danych do Minimongo oraz natychmiastowymi zmianami w interfejsie użytkownika. W normalnym środowisku klient -- serwer żadna aktualizacja nie została by wykonana, interfejs użytkownika pokazywał by stan ładowania podczas kiedy klient czekał by na odpowiedź z serwera. Wszystkie dokonane zmiany miałby swoje odzwierciedlenie w interfejsie użytkownika w oparciu o Minimongo. Kiedy połączenie z Internetem zostało by przywrócone, wszystkie zakolejkowane zmiany zostaną wysłane na serwer, serwer natomiast prześle autoryzowane zmiany do klienta. Meteor pozwala klientom ,,brać informacje na wiarę''. Jeżeli napotkamy problem to dane otrzymane z serwera naprawią nieścisłości. Jednak przez większość czasu zmiany dokonywane na kliencie są natychmiast wysłane na serwer oraz przez niego rozgłaszane do innych klientów. Aby osiągnąć takie zachowanie należy zdefiniować nową kolekcję w poniższy sposób: 
 \begin{js}[caption={Definicja kolekcji}]
   Articles = new Mongo.Collection("Articles")
 \end{js}
-Ta jedna linijka deklaruje kolekcję \verb|Articles|, której swoją wersję będą posiadały zarówno klient jak i serwer --- lecz traktują ją w odmienny sposób. Klient subskrybuje zmiany ogłaszane przez serwer i aktualizuje odpowiednio swoją kolekcję. Serwer natomiast publikuje zmiany oraz nasłuchuje zmian z klientów aktualizując swoją kolekcję\cite{strack15}.
+Ta jedna linijka deklaruje kolekcję \verb|Articles|, której swoją wersję będą posiadały zarówno klient jak i serwer --- lecz traktują ją w odmienny sposób. Klient subskrybuje zmiany ogłaszane przez serwer i aktualizuje odpowiednio swoją kolekcję. Serwer natomiast publikuje zmiany oraz nasłuchuje zmian z klientów aktualizując swoją kolekcję.
 
 Jedną z najważniejszych cech Meteora jest reaktywność. Po stornie klienta, Meteor oferuje bibliotekę \emph{Blaze}, która używa szablonów HTML oraz \emph{helper'ów}\footnote{Pomocniczy kod JavaScript głównie zwracający wartości do szablonu HTML} JavaScript do wykrywania zmian oraz renderowania danych. Kiedy dane zostaną zmienione, helpery same ponowienie się uruchamiają zmieniając, usuwając lub dodając właściwe elementy interfejsu użytkownika na podstawie struktury zapisanej w szablonach. Funkcje, które same ponownie się uruchamiają zaliczane są do \emph{reaktywnych obliczeń}\cite{strack15}.   
 
-Meteor oferuje reaktywne obliczenia zarówno po stronie serwera jak i klienta, bez potrzeby odwoływania się do interfejsu użytkownika. Wchodząca w skład framework'a biblioteka \emph{Tracker} oraz jej helpery także wykrywają zmiany w danych oraz potrafią się same ponownie uruchomić. Ponieważ JavaScript używane jest po stronie serwera oraz klienta, bibliotekę Tracker można używać po obu stronach. Ponieważ używamy tego samego języka po stronie klienta (oraz możemy używać tego samego kod) jak i serwera nazywamy to \emph{full stack reactivity} - reaktywność po stronie klienta jak i serwera\cite{strack15}.
+Meteor oferuje reaktywne obliczenia zarówno po stronie serwera jak i klienta, bez potrzeby odwoływania się do interfejsu użytkownika. Wchodząca w skład framework'a biblioteka \emph{Tracker} oraz jej helpery także wykrywają zmiany w danych oraz potrafią się same ponownie uruchomić. Ponieważ JavaScript używane jest po stronie serwera oraz klienta, bibliotekę Tracker można używać po obu stronach. Ponieważ używamy tego samego języka po stronie klienta (oraz możemy używać tego samego kod) jak i serwera nazywamy to \emph{full stack reactivity} - reaktywność po stronie klienta jak i serwera.
 
 Ponowne uruchamianie funkcji gdy dane ulegną zmianie ma bardzo dużą zaletę dla programisty. Kod pisany jest deklaratywnie, Meteor sam zajmuję się reaktywnością. Programista określa jak dane mają byś wyświetlane a Meteor sam zajmuję się zmianami w danych. Ten deklaratywny sposób pisania, zazwyczaj osiągany jest z wykorzystaniem szablonów. Szablony działają w oparciu o wiązanie danych z widokiem\footnote{View data bindings} --- są to współdzielone dane, które w zależności od ich zmian będą przedstawiane w różny sposób\cite{strack15}. 
 
+\section{MongoDB}
+
+Meteor po stronie serwera używa MongoDB, po stronie klienta używana jest Minimongo --- wersja MongoDB. Meteor może używać innych baz NoSQL lub baz zorientowanych na dokumenty. Dzięki użyciu MongoDB programy stają się prostsze, łatwiejsze w tworzeniu. MongoDB doskonale sprawdza się jako szybki oraz lekki magazyn danych.
+
+Tradycyjnie większość danych przechowywana jest z użyciem modelu relacyjnego z wykorzystanie relacyjnych baz danych. Relacyjny model wraz ze wszystkimi powiązanymi z nim zasadami, relacjami, logiką oraz składania jest integralną oraz nieocenioną częścią współczesnej informatyki. Sztywna struktura baz relacyjnych, z dokładnymi wymaganiami co do każdego rekordu, relacje oraz asocjacje umożliwiają szybkie wyszukiwanie, skalowalność oraz dostarczają potencjał do głębszej analizy danych.
+
+Taka dokładność nie jest zawsze potrzebna. Dla prostych aplikacji, pełno wymiarowa relacyjna baza była by nad wymiarowa. W niektórych sytuacjach bardzie efektywne jest wykorzystanie elastycznego mechanizmu przechowywania danych, który umożliwia łatwe rozszerzanie schematu danych bez potrzeby znaczących zmian w tworzonym programie.
+
+Jeżeli byśmy chcieli dodać nową właściwość do obiektu \verb|Article| o wiele łatwiejsze było by dodanie takiej właściwości do obiektu i zrzucenie tego na bazę danych niż przepisanie kodu dotyczącego baz danych, dodanie kolumny, aktualizacja wszystkich zapytań SQL oraz upewnienie się, że wszystkie poprzednie wpisy mają nową właściwość. 
+
+W takich sytuacjach bardzo dobrze sprawdzają się bazy danych zorientowane na dokument. W tym typie baz danych dane zapisywane są w postaci dokumentów złożonych z par klucz -- wartość. Tak przechowywane dokumenty nie muszą mieć z góry ustalonej struktury. Dokumenty mogą przyjmować różne struktury, w kluczach mogą być przechowywane różne wartości --- dla bazy danych nie jest to żadne problem. Jednak każdy dokument musi posiadać unikalny klucz za pomocą, którego może on zostać pobrany z bazy danych\cite{strack15}.
+Dla przykładu, jeden dokument może mieć bardzo prostą postać:
+\begin{verbatim}
+{name: phone_number}
+\end{verbatim}
+Następny dokument może przybrać formę bardziej skomplikowaną (wewnątrz tej samej bazy danych oraz kolekcji) --- składający się z zagnieżdżonych list, obiektów oraz innych elementów\cite{strack15}:
+\begin{verbatim}
+{ people: [
+  {
+    firstname:"STEVE", 
+    lastname:"Scuba", 
+    phones :[
+      {type:cell, number:8888675309},
+      {type:home, number:8005322002}
+    ]
+  },
+    {
+      firstname:...
+	...
+  }]
+}
+\end{verbatim}
+Dokumenty mogą przybierać dowolną strukturę, o ile każdy z nich posiada unikalny klucz.
 
