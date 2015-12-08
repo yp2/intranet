@@ -8,3 +8,5 @@
 \contentsline {subsection}{\numberline {2.1.1}Przegl\IeC {\k a}d cech JavaScript}{6}{subsection.2.1.1}
 \contentsline {section}{\numberline {2.2}Meteor.js}{8}{section.2.2}
 \contentsline {section}{\numberline {2.3}MongoDB}{11}{section.2.3}
+\contentsline {section}{\numberline {2.4}HTML5, CSS3, less, Bootstrap, AdminLTE}{13}{section.2.4}
+\contentsline {section}{\numberline {2.5}Git oraz GitHub}{13}{section.2.5}

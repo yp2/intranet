@@ -7,7 +7,7 @@ Mike~Cantelon i~Marc Harter i TJ Holowaychuk~i Nathan~Rajlich.
 
 \bibitem{meteorDocs}
 Meteor.
-\newblock Meteor docs.
+\newblock {Meteor Docs}.
 \newblock \url{http://docs.meteor.com/#/full/quickstart}, Grudzień 2015.
 
 \bibitem{stefanov10}
@@ -22,7 +22,7 @@ Isaac Strack.
 
 \bibitem{ecmascriptWiki}
 Wikipedia.
-\newblock Ecmascript.
+\newblock {ECMAScript}.
 \newblock \url{https://en.wikipedia.org/wiki/ECMAScript}, Listopad 2015.
 
 \bibitem{fcfunctionWiki}
@@ -38,7 +38,7 @@ Wikipedia.
 
 \bibitem{jsWiki}
 Wikipedia.
-\newblock Javascript.
+\newblock {JavaScript}.
 \newblock \url{https://en.wikipedia.org/wiki/JavaScript}, Listopad 2015.
 
 \bibitem{meteorWiki}
@@ -47,15 +47,20 @@ Wikipedia.
 \newblock \url{https://en.wikipedia.org/wiki/Meteor_(web_framework)}, Grudzień
   2015.
 
+\bibitem{mongoWiki}
+Wikipedia.
+\newblock {MongoDB}.
+\newblock \url{https://pl.wikipedia.org/wiki/MongoDB}, Grudzień 2015.
+
 \bibitem{restWiki}
 Wikipedia.
-\newblock Representational state transfer.
+\newblock {Representational State Transfer}.
 \newblock \url{https://pl.wikipedia.org/wiki/Representational_State_Transfer},
   Grudzień 2015.
 
 \bibitem{wsWiki}
 Wikipedia.
-\newblock Websocket.
+\newblock {WebSocket}.
 \newblock \url{https://pl.wikipedia.org/wiki/WebSocket}, Grudzień 2015.
 
 \end{thebibliography}
