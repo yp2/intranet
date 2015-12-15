@@ -31,6 +31,11 @@ Wikipedia.
 \newblock \url{https://en.wikipedia.org/wiki/First-class_function}, Listopad
   2015.
 
+\bibitem{htmlWiki}
+Wikipedia.
+\newblock {HTML5}.
+\newblock \url{https://pl.wikipedia.org/wiki/HTML5}, Grudzień 2015.
+
 \bibitem{intranetWiki}
 Wikipedia.
 \newblock Intranet.
@@ -40,6 +45,12 @@ Wikipedia.
 Wikipedia.
 \newblock {JavaScript}.
 \newblock \url{https://en.wikipedia.org/wiki/JavaScript}, Listopad 2015.
+
+\bibitem{cssWiki}
+Wikipedia.
+\newblock {Kaskadowe arkusze stylów}.
+\newblock \url{https://pl.wikipedia.org/wiki/Kaskadowe_arkusze_stylów#CSS_3},
+  Grudzień 2015.
 
 \bibitem{meteorWiki}
 Wikipedia.

@@ -4,44 +4,44 @@ The top-level auxiliary file: master.aux
 A level-1 auxiliary file: ./title/newtitle.aux
 The style file: plain.bst
 Database file #1: bib.bib
-You've used 12 entries,
+You've used 14 entries,
             2118 wiz_defined-function locations,
-            554 strings with 5109 characters,
-and the built_in function-call counts, 2569 in all, are:
-= -- 240
-> -- 84
+            562 strings with 5281 characters,
+and the built_in function-call counts, 2989 in all, are:
+= -- 280
+> -- 98
 < -- 0
-+ -- 36
-- -- 24
-* -- 101
-:= -- 443
-add.period$ -- 36
-call.type$ -- 12
-change.case$ -- 45
++ -- 42
+- -- 28
+* -- 117
+:= -- 513
+add.period$ -- 42
+call.type$ -- 14
+change.case$ -- 53
 chr.to.int$ -- 0
-cite$ -- 12
-duplicate$ -- 99
-empty$ -- 265
-format.name$ -- 24
-if$ -- 556
+cite$ -- 14
+duplicate$ -- 113
+empty$ -- 309
+format.name$ -- 28
+if$ -- 648
 int.to.chr$ -- 0
-int.to.str$ -- 12
+int.to.str$ -- 14
 missing$ -- 6
-newline$ -- 63
-num.names$ -- 24
-pop$ -- 93
+newline$ -- 73
+num.names$ -- 28
+pop$ -- 109
 preamble$ -- 1
-purify$ -- 36
+purify$ -- 42
 quote$ -- 0
-skip$ -- 80
+skip$ -- 94
 stack$ -- 0
-substring$ -- 60
-swap$ -- 12
+substring$ -- 70
+swap$ -- 14
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 42
+type$ -- 50
 warning$ -- 0
-while$ -- 24
-width$ -- 14
-write$ -- 125
+while$ -- 28
+width$ -- 16
+write$ -- 145
