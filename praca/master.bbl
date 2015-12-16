@@ -20,6 +20,12 @@ Isaac Strack.
 \newblock {\em Getting Started with Meteor.js JavaScript Framework}.
 \newblock Packt Publishing Ltd., Birmingham, United Kingdom, 2015.
 
+\bibitem{bsWiki}
+Wikipedia.
+\newblock {Bootstrap (front-end framework)}.
+\newblock \url{https://en.wikipedia.org/wiki/Bootstrap_(front-end_framework)},
+  Grudzień 2015.
+
 \bibitem{ecmascriptWiki}
 Wikipedia.
 \newblock {ECMAScript}.
