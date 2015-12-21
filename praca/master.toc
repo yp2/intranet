@@ -12,4 +12,5 @@
 \contentsline {subsection}{\numberline {2.4.1}HTML5}{13}{subsection.2.4.1}
 \contentsline {subsection}{\numberline {2.4.2}CSS3 oraz less}{14}{subsection.2.4.2}
 \contentsline {subsection}{\numberline {2.4.3}Bootstrap oraz AdminLTE}{16}{subsection.2.4.3}
-\contentsline {section}{\numberline {2.5}Git oraz GitHub}{16}{section.2.5}
+\contentsline {section}{\numberline {2.5}Git oraz GitHub}{17}{section.2.5}
+\contentsline {chapter}{\numberline {3}Aplikacja Intranet}{19}{chapter.3}
