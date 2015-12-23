@@ -12,12 +12,6 @@ tu zobaczym czy to będzie opis ogólnie dlaczego został wybarny meteor a nie i
 \section{Struktura aplikacji}
   nie zapomnieć o katalogu .meteor
 
-\section{Cześć wspólna dla serwera oraz klienta}
-  \subsection{Metody}
-  \subsection{Kolekcje} 
-    definicja kolekcji, plus opis collection hooks 
-    
-    
 \section{Serwer}
   \subsection{Baza}
   \subsection{Kolekcje}
@@ -29,20 +23,18 @@ tu zobaczym czy to będzie opis ogólnie dlaczego został wybarny meteor a nie i
   \subsection{Migracje danych}
   \subsection{Konfiguracja}
 
+\section{Cześć wspólna dla serwera oraz klienta}
+  \subsection{Metody}
+  \subsection{Kolekcje} 
+    definicja kolekcji, plus opis collection hooks 
 
 
 \section{Klient}
   \subsection{Routing}
   \subsection{Subskrypcje}
   \subsection{Szablony}
-    \subsubsection{HTML}
-    \subsubsection{JS}
   \subsection{Eventy}
   \subsection{Helpery}
-  \subsection{Pliki less}
-    że są zbierane w całość i łączone w jeden duży plik.
-  \subsection{Formularze}
-    opis jak to jest obsługiwane plus yfform
   
 \section{Objekt MyApp}
   po co go się stosuje
