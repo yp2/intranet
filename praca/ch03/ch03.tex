@@ -63,7 +63,88 @@ Wszystkie pliki znajdujące w katalogu \verb|public| najwyższego poziomu serwow
 
 Pliki znajdujące się w katalogu najwyższego poziomu o nazwie \verb|private| dostępne są tylko po stronie serwera z wykorzystaniem API \verb|Assets|. Katalog ten przeznaczony jest dla takich plików jak prywatne dane oraz plików, które nie mają być dostępne z zewnątrz.
 
+Podczas ładowanie plików przez Meteor.js obowiązują następujące reguły:
+\begin{enumerate}
+ \item szablony HTML ładowane są zawsze jako pierwsze;
+ \item pliki zaczynające się na \verb|main.| ładowane są zawsze jako ostanie;
+ \item następnie ładowane są pliki znajdujące się w jakimkolwiek katalogu \verb|lib/|;
+ \item następnie ładowane są plik z głębszą ścieżką;
+ \item następnie pliki ładowane są w kolejności alfabetycznej uwzględniającej całą ścieżkę katalogów.
+\end{enumerate}
+
+
 Wszystkie pliki JavaScript nie znajdujące się w specjalnych katalogach ładowane są zarówno po stronie klienta jaki i serwera. Jest to dobre miejsce na definicje modeli oraz innych funkcji, które mają być dostępne zarówno dla klienta jak i serwera. Meteor.js dostarcza zmienne \verb|Meteor.isClient| oraz \verb|Meteor.isServer|, które można użyć do zmiany zachowania w zależności czy kod jest uruchomiony na serwerze czy kliencie. Pliki CSS oraz HTML poza specjalnymi katalogami ładowane są tylko po stornie klienta i nie mogą zostać użyte po stronie serwera.
+
+\begin{figure}[h]
+%   \centering
+\dirtree{%
+.1 intranet.
+.2 apps.
+.3 app.
+.3 invitation.
+.3 mainDash.
+.3 projects.
+.3 users.
+.3 wiki.
+.2 private.
+.3 subList.
+.2 public.
+.3 favicon.ico.
+.3 square.png.
+.3 square@2x.png.
+.2 server.
+.3 config.
+.4 developConfig.json.
+.4 exampleConfig.json.
+.4 serverConfig.json.
+.3 migrations.js.
+.3 startUp.js.
+}
+%     \includegraphics[width=0.5\textwidth]{ch03/intranet_005.png}
+  \caption{Główny katalog aplikacji \emph{Intranet}}
+  \label{fig:app_main_structure}
+\end{figure}
+
+Rysunek \ref{fig:app_main_structure} przedstawia główny katalog aplikacji \emph{Intranet}. Skład się on z następujących podkatalogów: \verb|apps|, \verb|private|, \verb|public|, \verb|server|. W katalogu \verb|apps| znajdują się poszczególne moduły aplikacji. Katalog \verb|private| zawiera zasoby nie dostępne z zewnątrz, znajduje się w nim opis subskrypcji wykorzystywanych przez aplikację. Katalog \verb|public| zawiera pliki graficzne używane przez aplikację. W katalogu \verb|server| znajduje się plik odpowiedzialny za migrację \verb|migrations.js| oraz plik \verb|startUp.js| zawierający kod uruchamiany na samym początku startu strony serwerowej. W podkatalogu \verb|config| zanajdują się pliki konfiguracyjne zapisane w postaci JSON. Plik \verb|developConfig.json| używany jest podczas pracy rozwojowych nad aplikacją. Plik \verb|serverConfig.json| używany jest w środowisku produkcyjnym.
+
+Katalog \verb|apps| zawiera poszczególne moduły aplikacji. Podkatalog \verb|app| zawiera kod wykorzystywany w całej aplikacji, konfigurację używanych pluginów, globalne definicje \textit{helperów} --- funkcji pomocniczych używanych w szablonach HTML, pliki CSS wspólne dla całej aplikacji, pomocnicze szablony HTML oraz rozszerzenie wbudowanego obiektu szablonu o nową właściwość \verb|parentTemplate|.
+
+\begin{figure}[h]
+%   \centering
+\dirtree{%
+.1 intranet.
+.2 apps.
+.3 projects.
+.4 client.
+.5 addProjectForm.html.      
+.5 addTalk.html.             
+.5 addTalk.js.               
+.5 projectAddUserForm.html.  
+.5 projectAddUserForm.js.    
+.5 projectTalks.js.
+.5 projectMain.html.   
+.5 projectMain.js.  
+.5 projectRoutes.js. 
+.5 projectTalks.html.
+.5 styles.
+.6 projet.less.
+.5 talkElement.html.
+.5 talkElement.js.
+.4 lib.
+.5 forms.js.  
+.5 project.js.  
+.5 projectsMethodes.js.  
+.5 talks.js.
+.4 server.
+.5 projectPub.js.
+.5 talksPub.js.
+}
+%     \includegraphics[width=0.5\textwidth]{ch03/intranet_005.png}
+  \caption{Struktura przykładowego modułu \emph{projects}}
+  \label{fig:app_project_structure}
+\end{figure}
+
+Rysunek \ref{fig:app_project_structure} przedstawia strukturę modułu \emph{projects} --- projekty. Widać w niej charakterystyczny podział aplikacji Meteor.js z wykorzystaniem katalogów specjalnych \verb|client| oraz \verb|server|. Katalog \verb|lib| zawiera kod wykorzystywany zarówno po stronie serwera jaki i klienta. Pliki zawarte w tym katalogu muszą zostać załadowane wcześniej niż kod znajdujący się w katalogach specjalnych. Kod ten zawiera definicje kolekcji projekty -- \verb|project.js| i konwersacji -- \verb|talks.js|, metody odpowiedzialne za operacje na danych w kolekcjach -- \verb|projectsMethodes.js| oraz definicje używanych przez moduł formularzy -- \verb|forms.js|. W katalogu \verb|client| znajdują się poszczególne widoki używane przez moduł oraz szablony poszczególnych elementów włączane przez inne szablony podczas renderowania ich zawartości. W pliku \verb|projectRoutes.js| zdefiniowane są trasy --- \textit{routing} --- dla modułu. Strona serwerowa składa się z dwu plików, które zawierają publikacje dla kolekcji jakich dostarcza moduł. Publikacje mogą być używane także poza modułem, w którym zostały zdefiniowane. Podkatalog \verb|styles| katalogu \verb|client| zawiera plik dynamicznego arkusza stylów less -- \verb|project.less|.
 
 \section{Cześć wspólna dla serwera oraz klienta}
   \subsection{Metody}
