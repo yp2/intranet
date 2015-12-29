@@ -11,12 +11,44 @@
 \usepackage{longtable}
 \usepackage{indentfirst} % polska typografia wymaga wcinania pierwszego akapitu po tytyule rodziału
 \usepackage[]{hyperref}
+
+% \usepackage{dirtree}
+% \usepackage{tikz}
+\usepackage{forest}
+% \usetikzlibrary{arrows.meta}
+\forestset{
+  dir tree/.style={
+    for tree={
+      parent anchor=south west,
+      child anchor=west,
+      anchor=mid west,
+      inner ysep=1pt,
+      grow'=0,
+      align=left,
+      edge path={
+        \noexpand\path [draw, \forestoption{edge}] (!u.parent anchor) ++(0.5em,0) |- (.child anchor)\forestoption{edge label};
+      },
+      font=\sffamily,
+      if n children=0{}{
+        delay={
+          prepend={[,phantom, calign with current]}
+        }
+      },
+      fit=band,
+      before computing xy={
+        l=2em
+      }
+    },
+  }
+}
+
+
 %\usepackage{showframe}
 %\pagestyle{headings}
 \linespread{1.3} % interlinia 1.5
 
 \usepackage{fancyhdr}
-\pagestyle{fancy}
+% \pagestyle{fancy}
 
 \usepackage{listings}
 \usepackage{courier}

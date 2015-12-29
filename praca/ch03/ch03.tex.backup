@@ -37,22 +37,32 @@ Jak już wspomniono wcześniej do najważniejszych funkcjonalności aplikacji in
  \item użytkownicy widzą tylko projekty, do których zostali zaproszeni;
  \item organizacja ma dostęp do wszystkich projektów utworzonych w jej zakresie;
  \item komunikacja w obrębie projektu mam mieć możliwość dodania wiadomości wraz z jej tytułem oraz możliwością dodana komentarzy;
- \item wysyłanie zaproszeń do projektów oraz organizacji --- jeżeli użytkownik z podanym adresem email istnieje w systemie ma być automatycznie dodany do projektu lub organizacji.
+ \item wysyłanie zaproszeń do projektów oraz organizacji --- jeżeli użytkownik z podanym adresem email istnieje w systemie ma być automatycznie dodany do projektu lub organizacji;
+ \item aplikacja ma być dostępna na wszystkich znaczących platformach oraz jak największej ilości urządzeń.
 \end{itemize} 
 
 \section{Wymagania}
 % tu zobaczym czy to będzie opis ogólnie dlaczego został wybarny meteor a nie inne rozwiązanie - można wspomnieć o szybkości kodowania oraz że tematyka nie stoi w sprzeczości z frameworkiem oraz samym mongo 
 
-W oparciu o założenia jakie ma spełniać aplikacja \emph{Intranet} oraz o obecne trendy w rozwoju aplikacji sieciowych do budowy aplikacji zostały wybrany framework Meteor.js, a jako język programowania JavaScript. Wybór tych technologii był podyktowany także szybkością oraz prostotą budowania aplikacji. Meteor.js używa JavaScriptu zarówno po stornie klienta oraz serwera co skraca czas nauki samego framework'a eliminując potrzebę nauki dodatkowego języka programowania. Tematyka oraz założenia projektu nie stanowią problemu dla przyjętego przez framework Meteor.js nierelacyjnego rozwiązania bazodanowego. Aplikacja nie posiada krytycznych elementów takich jak transakcje finansowe, zamówienia oraz innych elementów wymagających transakcji operacji na całej bazie danych. Dane są typowo informacyjne w związku z tym wykorzystanie bazy MongoDB nie stanowi żadnego zagrożenia dla użytkowników oraz samej aplikacji.
+Niezależność od platformy oraz dostępność na jak największej ilości urządzeń narzuciła wybór typu aplikacji. Budowana aplikacja będzie typu sieciowego. Klienci będą uzyskiwać do niej dostęp poprzez przeglądarki internetowe kontaktując się z serwerem, na którym będzie dostępna budowana aplikacja. 
 
+W oparciu o założenia jakie ma spełniać aplikacja \emph{Intranet} oraz o obecne trendy w rozwoju aplikacji sieciowych do budowy aplikacji został wybrany framework Meteor.js, a jako język programowania JavaScript. Wybór tych technologii był podyktowany także szybkością oraz prostotą budowania aplikacji. Meteor.js używa JavaScriptu zarówno po stornie klienta oraz serwera co skraca czas nauki samego framework'a eliminując potrzebę nauki dodatkowego języka programowania. Tematyka oraz założenia projektu nie stanowią problemu dla przyjętego przez framework Meteor.js nierelacyjnego rozwiązania bazodanowego. Aplikacja nie posiada krytycznych elementów takich jak transakcje finansowe, zamówienia oraz innych elementów wymagających transakcji operacji na całej bazie danych. Dane są typowo informacyjne w związku z tym wykorzystanie bazy MongoDB nie stanowi żadnego zagrożenia dla użytkowników oraz samej aplikacji.
 
-W warstwie prezentacji wykorzystano HTML5, CSS3 wraz z kompilatorem less oraz domyślnie wykorzystywaną przez framework biblioteką JQuery.
-
-
-\section{Users stories/ przypadki użycia}
+Aplikacja ma być dostępna na wszystkich znaczących platformach oraz jak największej ilości urządzeń. Aby to zapewnić w warstwie prezentacji wykorzystano HTML5, CSS3 wraz z kompilatorem less oraz domyślnie wykorzystywaną przez Meteor.js bibliotekę JQuery. W celu zachowania responsywności interfejsu użytkownika wykorzystano szablon AdminLTE, który oparty jest o framework Bootstrap. Wykorzystanie Bootstrapa dostarcza prosty oraz szybki sposób na dostosowanie układu i wyglądu interfejsu użytkownika w zależności od używanego przez niego urządzenia. Rozwiązanie to znaczenie zwiększa użyteczność aplikacji podczas używania urządzeń o różnych wielkościach oraz rozdzielczościach ekranu. 
 
 \section{Struktura aplikacji}
-  nie zapomnieć o katalogu .meteor
+%   nie zapomnieć o katalogu .meteor
+
+Aplikacje napisane z wykorzystaniem frameworka Meteor.js to zestaw plików JavaScript, które działają w przeglądarce internetowej i w kontenerze Node.js po stronie serwera, i innych plików pomocniczych takich jak szablony HTML, kaskadowe arkusze stylów oraz statycznych zasobów. Meteor.js automatycznie pakuje oraz zajmuję się przesyłaniem tych różnych elementów. Framework jest dość elastyczny jeżeli chodzi o strukturę katalogów w jakiej będą umieszczone poszczególne elementy aplikacji. Nazwy plików jaki i katalogów mogą mieć wpływ na to w jakiej kolejności są one ładowane oraz gdzie są one ładowane. Meteor.js niektóre katalogi traktuje w specjalny sposób.
+
+Katalogi o nazwie \verb|client| nie są ładowane po stronie serwera. Wszystkie zasoby znajdujące się w tym katalogu gdy aplikacja nie jest uruchomiona w trybie produkcyjnym są łączone oraz minimalizowane. W trybie developerskim plik JavaScript oraz CSS nie są minimalizowane aby ułatwić znajdowanie błędów w aplikacji. Jednakże pliki CSS nadal są łączone w jeden plik. Pliki HTML po stronie klienta są skanowane w poszukiwaniu trzech elementów najwyższego poziomu \verb|<head>|, \verb|<body>|, \verb|<template>|. Elementy head oraz body łączone są w jeden element i następnie przesyłane do klienta podczas pierwszego ładowania strony.
+
+Zasoby znajdujące się w katalogach o nazwie \verb|server| nie są ładowane po stronie klienta. Krytyczne oraz wrażliwe elementy aplikacji takie jak zarządzenia hasłami, proces autoryzacji powinny znajdować się w tych katalogach. Meteor zbiera wszystkie pliki JavaScript za wyjątkiem tych znajdujących się w katalogach \verb|public|, \verb|client| i \verb|private| oraz ich podkatalogach i ładuje je do instancje Node.js znajdującej się na serwerze. Kod na serwerz
+
+Każdy krytyczny element aplikacji na przykład tak jak , którego nie chcemy udostępniać klientowi powinien znajdować się w tych katalogach.
+
+Aplikacje pisane z wykorzystaniem frameworka Meteor.js składają się z katalogów. Układ katalogów w aplikacji może powodować różny sposób oraz czas ładowania znajdujących się w nich plików JavaScript. Meteor.js niektóre katalogi aplikacji traktuje w specjalny sposób. Pliki oraz zasoby, które mają być dostępne tylko dla klienta znajdują się w katalogu o nazwie \verb|client|. Część aplikacji, która ma być dostępna wyłącznie na serwerze i niedostępna dla klientów znajduję się w katalogu \verb|server|. Elementy, które mają być dostępne zarówno po stronie klientów jaki i serwera znajdują mogą znajdować w dowolnym się w katalogu \verb|lib|. Oprócz tej bazowej struktury w aplikacji mogą znajdować się katalogi \verb|public| oraz \verb|private|
+Aplikacje pisane z wykorzystaniem frameworka Meteor.js mogą przyjmować dowolną strukturę katalogów jaki i plików. 
 
 \section{Cześć wspólna dla serwera oraz klienta}
   \subsection{Metody}
