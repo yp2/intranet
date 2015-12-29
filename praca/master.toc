@@ -16,31 +16,31 @@
 \contentsline {section}{\numberline {2.5}Git oraz GitHub}{17}{section.2.5}
 \contentsline {chapter}{\numberline {3}Aplikacja Intranet}{19}{chapter.3}
 \contentsline {section}{\numberline {3.1}Za\IeC {\l }o\IeC {\.z}enia}{19}{section.3.1}
-\contentsline {section}{\numberline {3.2}Wymagania}{19}{section.3.2}
-\contentsline {section}{\numberline {3.3}Users stories/ przypadki u\IeC {\.z}ycia}{19}{section.3.3}
-\contentsline {section}{\numberline {3.4}Struktura aplikacji}{19}{section.3.4}
-\contentsline {section}{\numberline {3.5}Cze\IeC {\'s}\IeC {\'c} wsp\IeC {\'o}lna dla serwera oraz klienta}{20}{section.3.5}
-\contentsline {subsection}{\numberline {3.5.1}Metody}{20}{subsection.3.5.1}
-\contentsline {subsection}{\numberline {3.5.2}Kolekcje}{20}{subsection.3.5.2}
-\contentsline {section}{\numberline {3.6}Serwer}{20}{section.3.6}
-\contentsline {subsection}{\numberline {3.6.1}Baza}{20}{subsection.3.6.1}
-\contentsline {subsection}{\numberline {3.6.2}Kolekcje}{20}{subsection.3.6.2}
-\contentsline {subsubsection}{Dost\IeC {\k e}p}{20}{section*.3}
-\contentsline {subsubsection}{Metody}{20}{section*.4}
-\contentsline {subsubsection}{Publikacje}{20}{section*.5}
-\contentsline {subsection}{\numberline {3.6.3}Migracje danych}{20}{subsection.3.6.3}
-\contentsline {subsection}{\numberline {3.6.4}Konfiguracja}{20}{subsection.3.6.4}
-\contentsline {section}{\numberline {3.7}Klient}{20}{section.3.7}
-\contentsline {subsection}{\numberline {3.7.1}Routing}{20}{subsection.3.7.1}
-\contentsline {subsection}{\numberline {3.7.2}Subskrypcje}{20}{subsection.3.7.2}
-\contentsline {subsection}{\numberline {3.7.3}Szablony}{20}{subsection.3.7.3}
-\contentsline {subsubsection}{HTML}{20}{section*.6}
-\contentsline {subsubsection}{JS}{20}{section*.7}
-\contentsline {subsection}{\numberline {3.7.4}Eventy}{20}{subsection.3.7.4}
-\contentsline {subsection}{\numberline {3.7.5}Helpery}{20}{subsection.3.7.5}
-\contentsline {subsection}{\numberline {3.7.6}Pliki less}{20}{subsection.3.7.6}
-\contentsline {subsection}{\numberline {3.7.7}Formularze}{21}{subsection.3.7.7}
-\contentsline {section}{\numberline {3.8}Objekt MyApp}{21}{section.3.8}
-\contentsline {section}{\numberline {3.9}Paczki powtsta\IeC {\l }e na potrzeby aplikacji}{21}{section.3.9}
-\contentsline {chapter}{\numberline {4}Wdro\IeC {\.z}enie}{23}{chapter.4}
-\contentsline {chapter}{\numberline {5}Podsumowanie}{25}{chapter.5}
+\contentsline {section}{\numberline {3.2}Wymagania}{21}{section.3.2}
+\contentsline {section}{\numberline {3.3}Users stories/ przypadki u\IeC {\.z}ycia}{22}{section.3.3}
+\contentsline {section}{\numberline {3.4}Struktura aplikacji}{22}{section.3.4}
+\contentsline {section}{\numberline {3.5}Cze\IeC {\'s}\IeC {\'c} wsp\IeC {\'o}lna dla serwera oraz klienta}{22}{section.3.5}
+\contentsline {subsection}{\numberline {3.5.1}Metody}{22}{subsection.3.5.1}
+\contentsline {subsection}{\numberline {3.5.2}Kolekcje}{22}{subsection.3.5.2}
+\contentsline {section}{\numberline {3.6}Serwer}{22}{section.3.6}
+\contentsline {subsection}{\numberline {3.6.1}Baza}{22}{subsection.3.6.1}
+\contentsline {subsection}{\numberline {3.6.2}Kolekcje}{22}{subsection.3.6.2}
+\contentsline {subsubsection}{Dost\IeC {\k e}p}{22}{section*.3}
+\contentsline {subsubsection}{Metody}{23}{section*.4}
+\contentsline {subsubsection}{Publikacje}{23}{section*.5}
+\contentsline {subsection}{\numberline {3.6.3}Migracje danych}{23}{subsection.3.6.3}
+\contentsline {subsection}{\numberline {3.6.4}Konfiguracja}{23}{subsection.3.6.4}
+\contentsline {section}{\numberline {3.7}Klient}{23}{section.3.7}
+\contentsline {subsection}{\numberline {3.7.1}Routing}{23}{subsection.3.7.1}
+\contentsline {subsection}{\numberline {3.7.2}Subskrypcje}{23}{subsection.3.7.2}
+\contentsline {subsection}{\numberline {3.7.3}Szablony}{23}{subsection.3.7.3}
+\contentsline {subsubsection}{HTML}{23}{section*.6}
+\contentsline {subsubsection}{JS}{23}{section*.7}
+\contentsline {subsection}{\numberline {3.7.4}Eventy}{23}{subsection.3.7.4}
+\contentsline {subsection}{\numberline {3.7.5}Helpery}{23}{subsection.3.7.5}
+\contentsline {subsection}{\numberline {3.7.6}Pliki less}{23}{subsection.3.7.6}
+\contentsline {subsection}{\numberline {3.7.7}Formularze}{23}{subsection.3.7.7}
+\contentsline {section}{\numberline {3.8}Objekt MyApp}{23}{section.3.8}
+\contentsline {section}{\numberline {3.9}Paczki powtsta\IeC {\l }e na potrzeby aplikacji}{23}{section.3.9}
+\contentsline {chapter}{\numberline {4}Wdro\IeC {\.z}enie}{25}{chapter.4}
+\contentsline {chapter}{\numberline {5}Podsumowanie}{27}{chapter.5}

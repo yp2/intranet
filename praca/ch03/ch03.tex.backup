@@ -1,17 +1,65 @@
 Poniższy rozdział omawia implementację aplikacji służącej jako intranet dla firmy z sektora IT, opisane zostaną założenia oraz --wymagania stawanie dla strony serwerowej oraz dla klientów--. W rozdziale poruszone zostaną najistotniejsze oraz kluczowe elementy aplikacji. Aplikacja została napisana z wykorzystaniem frameworka Meteor.js. Część serwera jak i kliencka została za programowana z użyciem JavaScriptu. Warstwa prezentacji została napisana z użyciem HTML5, CSS3/less, Bootstrap oraz AdminLTE. Bazę danych dla aplikacji stanowi nierelacyjna baza danych MongoDB wraz z jej kliencką implementacją Minimongo.
 
 \section{Założenia}
+% założenia aplikacji intranet
 
-założenia aplikacji intranet
+Jak już wspomniono wcześniej do najważniejszych funkcjonalności aplikacji intranetowych zaliczamy dzielenie wiedzy oraz informacji, komunikację pomiędzy pracownikami danej organizacji oraz wspomaganie pracy zespołowej. W oparciu o ten najważniejsze funkcjonalności budowana aplikacja powinna spełniać następujące założenia:
+\begin{itemize}
+ \item tworzenie oraz rejestracja organizacji;
+ \item tworzenie oraz rejestracja użytkowników;
+ \item nazwa użytkownika oraz organizacji to jego emial;
+ \item dodawanie utworzonego użytkownika do organizacji;
+ \item tworzenie oraz rejestracja użytkowników z wykorzystaniem zaproszeń powiązanych z organizacją;
+ \item organizacja w swoim zakresie, powinna posiadać główny zbiór artykułów --- główne wiki\footnote{Typ serwisu internetowego, w którym treść można tworzyć i zmieniać z poziomu przeglądarki internetowej, za pomocą języka znaczników lub edytora WYSIWYG. Strony wiki, ze względu na swoją specyfikę, są przede wszystkim wykorzystywane do pracy nad wspólnymi projektami, takimi jak repozytoria wiedzy na wybrany temat lub projekty różnych grup społecznych};
+ \item główne wiki dla organizacji ma być one widoczne dla wszystkich użytkowników należących do danej organizacji; 
+ \item główne wiki ma posiadać główną kategorię, której nie można usunąć;
+ \item tworzenie, edycja, usuwanie kategorii artykułów w głównej wiki;
+ \item tworzenie, edycja, usuwanie artykułów w głównej wiki; 
+ \item artykuły mogą być dodawana do głównej kategorii wiki lub do utworzonych przez użytkownika kategorii;
+ \item edycja oraz prezentacja artykułów na obsługiwać język znaczników \emph{markdown}\footnote{Język znaczników przeznaczony do formatowania tekstu zaprojektowany przez Johna Grubera i Aarona Swartza. Został stworzony w celu jak najbardziej uproszczenia tworzenia i formatowania tekstu. Markdown został oryginalnie stworzony w Perlu, później dostępny w wielu innych. Jest rozpowszechniany na licencji BSD i jest dostępny jako wtyczka do kilku systemów zarządzania treścią.} w szczególności jego implementację \textit{GitHub Flavored Markdown} --- GFM;
+ \item artykuły mogą mieć stan opublikowany oraz do publikacji;
+ \item użytkownik nie będący twórcą danej organizacji ma dostęp tylko do artykułów opublikowanych przez innych użytkowników oraz do wszystkich swoich artykułów niezależnie od ich stanu;
+ \item organizacja ma dostęp w swoim zakresie do wszystkich artykułów, wszystkich użytkowników należących do danej organizacji niezależnie od stanu ich publikacji;
+ \item kategoria, w której są artykuły nie może zostać usunięta;
+ \item artykuł może należeć tylko do jednej kategorii;
+ \item użytkownik w swoim zakresie posiada główną wiki;
+ \item główna wiki dla użytkownika jest widoczna tylko dla niego w jego zakresie;
+ \item główna wiki dla użytkownika ma takie same funkcjonalności jak główna wiki dla organizacji;
+ \item prezentacja, tworzenie, edycja oraz usuwanie artykułów dla głównego wiki dla użytkownika ma spełniać opisane cechy jak dla artykułów dla organizacji; 
+ \item użytkownicy mogą zmieniać zakres w pomiędzy zakresami organizacji, do których należą i swoim zakresem;
+ \item organizacja oraz użytkownicy mogą tworzyć, usuwać projekty w swoich zakresach lub zakresach, do których należą;
+ \item projekty powinny posiadać stronę z podsumowaniem;
+ \item projekty powinny posiadać niezależne wiki;
+ \item projekty powinny mieć możliwością dodawania --- zapraszanie --- użytkowników oraz ich usuwanie;
+ \item wiki dla projektów ma mieć te same cechy jak główne wiki;
+ \item projekty powinny posiadać możliwość komunikacji pomiędzy użytkownikami przynależącymi do danego projektu;
+ \item twórca projektu może dodawać oraz usuwać użytkowników, którzy mają do niego dostęp;
+ \item użytkownicy widzą tylko projekty, do których zostali zaproszeni;
+ \item organizacja ma dostęp do wszystkich projektów utworzonych w jej zakresie;
+ \item komunikacja w obrębie projektu mam mieć możliwość dodania wiadomości wraz z jej tytułem oraz możliwością dodana komentarzy;
+ \item wysyłanie zaproszeń do projektów oraz organizacji --- jeżeli użytkownik z podanym adresem email istnieje w systemie ma być automatycznie dodany do projektu lub organizacji.
+\end{itemize} 
 
 \section{Wymagania}
-tu zobaczym czy to będzie opis ogólnie dlaczego został wybarny meteor a nie inne rozwiązanie - można wspomnieć o szybkości kodowania oraz że tematyka nie stoi w sprzeczości z frameworkiem oraz samym mongo 
+% tu zobaczym czy to będzie opis ogólnie dlaczego został wybarny meteor a nie inne rozwiązanie - można wspomnieć o szybkości kodowania oraz że tematyka nie stoi w sprzeczości z frameworkiem oraz samym mongo 
+
+W oparciu o założenia jakie ma spełniać aplikacja \emph{Intranet} oraz o obecne trendy w rozwoju aplikacji sieciowych do budowy aplikacji zostały wybrany framework Meteor.js, a jako język programowania JavaScript. Wybór tych technologii był podyktowany także szybkością oraz prostotą budowania aplikacji. Meteor.js używa JavaScriptu zarówno po stornie klienta oraz serwera co skraca czas nauki samego framework'a eliminując potrzebę nauki dodatkowego języka programowania. Tematyka oraz założenia projektu nie stanowią problemu dla przyjętego przez framework Meteor.js nierelacyjnego rozwiązania bazodanowego. Aplikacja nie posiada krytycznych elementów takich jak transakcje finansowe, zamówienia oraz innych elementów wymagających transakcji operacji na całej bazie danych. Dane są typowo informacyjne w związku z tym wykorzystanie bazy MongoDB nie stanowi żadnego zagrożenia dla użytkowników oraz samej aplikacji.
+
+
+W warstwie prezentacji wykorzystano HTML5, CSS3 wraz z kompilatorem less oraz domyślnie wykorzystywaną przez framework biblioteką JQuery.
+
 
 \section{Users stories/ przypadki użycia}
 
 \section{Struktura aplikacji}
   nie zapomnieć o katalogu .meteor
 
+\section{Cześć wspólna dla serwera oraz klienta}
+  \subsection{Metody}
+  \subsection{Kolekcje} 
+    definicja kolekcji, plus opis collection hooks oraz sposoby impelentacji relacyjności plus przykłady z aplikacji
+    
+    
 \section{Serwer}
   \subsection{Baza}
   \subsection{Kolekcje}
@@ -23,18 +71,20 @@ tu zobaczym czy to będzie opis ogólnie dlaczego został wybarny meteor a nie i
   \subsection{Migracje danych}
   \subsection{Konfiguracja}
 
-\section{Cześć wspólna dla serwera oraz klienta}
-  \subsection{Metody}
-  \subsection{Kolekcje} 
-    definicja kolekcji, plus opis collection hooks 
 
 
 \section{Klient}
   \subsection{Routing}
   \subsection{Subskrypcje}
   \subsection{Szablony}
+    \subsubsection{HTML}
+    \subsubsection{JS}
   \subsection{Eventy}
   \subsection{Helpery}
+  \subsection{Pliki less}
+    że są zbierane w całość i łączone w jeden duży plik.
+  \subsection{Formularze}
+    opis jak to jest obsługiwane plus yfform
   
 \section{Objekt MyApp}
   po co go się stosuje
