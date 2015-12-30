@@ -140,17 +140,42 @@ Katalog \verb|apps| zawiera poszczególne moduły aplikacji. Podkatalog \verb|ap
 .5 talksPub.js.
 }
 %     \includegraphics[width=0.5\textwidth]{ch03/intranet_005.png}
-  \caption{Struktura przykładowego modułu \emph{projects}}}
+  \caption{Struktura przykładowego modułu \emph{projects}}
   \label{fig:app_project_structure}
 \end{figure}
 
-Rysunek \ref{fig:app_project_structure} przedstawia strukturę modułu \emph{projects} --- projekty. Widać w niej charakterystyczny podział aplikacji Meteor.js z wykorzystaniem katalogów specjalnych \verb|client| oraz \verb|server|. Katalog \verb|lib| zawiera kod wykorzystywany zarówno po stronie serwera jaki i klienta, który musi zostać załadowany wcześniej niż kod znajdujący się w katalogach specjalnych. Kod ten zawiera definicje kolekcji projekty -- \verb|project.js| i konwersacji -- \verb|talks.js|, metody odpowiedzialne za operacje na danych w kolekcjach -- \verb|projectsMethodes.js| oraz definicje używanych przez moduł formularzy -- \verb|forms.js|. W katalogu \verb|client| znajdują się poszczególne widoki używane przez moduł oraz szablony poszczególnych elementów włączane przez inne szablony podczas renderowania ich zawartości. W pliku \verb|projectRoutes.js| zdefiniowane są trasy --- \textit{routing} --- dla modułu. Strona serwerowa składa się z dwu plików, które zawierają publikacje dla kolekcji jakich dostarcza moduł. Publikacje mogą być używane także poza modułem, w którym zostały zdefiniowane.
+Rysunek \ref{fig:app_project_structure} przedstawia strukturę modułu \emph{projects} --- projekty. Widać w niej charakterystyczny podział aplikacji Meteor.js z wykorzystaniem katalogów specjalnych \verb|client| oraz \verb|server|. Katalog \verb|lib| zawiera kod wykorzystywany zarówno po stronie serwera jaki i klienta. Pliki zawarte w tym katalogu muszą zostać załadowane wcześniej niż kod znajdujący się w katalogach specjalnych. Kod ten zawiera definicje kolekcji projekty -- \verb|project.js| i konwersacji -- \verb|talks.js|, metody odpowiedzialne za operacje na danych w kolekcjach -- \verb|projectsMethodes.js| oraz definicje używanych przez moduł formularzy -- \verb|forms.js|. W katalogu \verb|client| znajdują się poszczególne widoki używane przez moduł oraz szablony poszczególnych elementów włączane przez inne szablony podczas renderowania ich zawartości. W pliku \verb|projectRoutes.js| zdefiniowane są trasy --- \textit{routing} --- dla modułu. Strona serwerowa składa się z dwu plików, które zawierają publikacje dla kolekcji jakich dostarcza moduł. Publikacje mogą być używane także poza modułem, w którym zostały zdefiniowane. Podkatalog \verb|styles| katalogu \verb|client| zawiera plik dynamicznego arkusza stylów less -- \verb|project.less|.
 
 \section{Cześć wspólna dla serwera oraz klienta}
-  \subsection{Metody}
-  \subsection{Kolekcje} 
-    definicja kolekcji, plus opis collection hooks oraz sposoby impelentacji relacyjności plus przykłady z aplikacji
+
+\subsection{Kolekcje} 
+Dane, w bazie danych, wykorzystywane przez aplikację przechowane są w postaci dokumentów te natomiast grupowe są w logiczne zbiory nazywane kolekcjami. Klient oraz serwer używają tego samego API do dostępu do bazy danych. Klasa \verb|Mongo.Collection| używana jest do definiowania oraz manipulowania kolekcjami. Listing \ref{lst:project_coll} przedstawia sposób definicji kolekcji dla projektów --- \verb|Project|. Definicja jest umieszczona w katalogu \verb|lib| modułu \verb|projects|, który ładowany jest po stronie klienta jak i serwera przed plikami znajdującymi się w katalogach \verb|client| oraz \verb|server|. Tak zdefiniowaną kolekcję możemy używać po stronie serwera jak i klienta. 
+\begin{js}[caption={{Definicja kolekcji dla projektów \textit{Project}}},label={lst:project_coll}]
+Project = new Meteor.Collection('project');
+\end{js}
+
+Wykorzystując dodatkowy pakiet \verb|collection-hooks| możemy rozszerzyć klasę \linebreak \verb|Mongo.Collection| o dodatkowe właściwości dla operacji dodawania, modyfikowania oraz usuwania dokumentów w kolekcji wykonywane przed --- \verb|before| oraz po --- \verb|after| wykonaniu tych operacji. Przykładowe zastosowanie przedstawia listing \ref{lst:project_coll_hooks}. Rozszerzeniu ulegają operacje dodawania oraz modyfikacji. Przed wykonaniem operacji dodawania (\verb|insert|) dokumentu do kolekcji dodawane jest pole \verb|createdAt| z wartością ustawianą na dzisiejszą datę. Przed wykonywaniem operacji aktualizacji do modyfikatora jaki zostanie użyty podczas operacji aktualizacji dokumentu dodawane są pola \verb|modifiedAt| z wartością ustawioną na dzisiejszą datę oraz pole \verb|modifiedBy| z wartością jednoznacznie identyfikującą dokument użytkownika tak zwane \verb|_id| dokumentu.
+Linia 12 listingu \ref{lst:project_coll_hooks} przedstawia użycie operatora \textit{lub} -- \verb|||| -- do przypisywania zmiennym, w tym przypadku argumentowi funkcji, wartości. Jeżeli argument ma wartość jego wartość się nie zmienia --- ulega ponownemu przypisaniu. Jeżeli natomiast wartość argumentu jest niezdefiniowana(\verb|undefined|) argumentowi przypisany zostanie pusty obiekt --- wyrażenie \verb|{}| jest literałem nowego obiektu. 
+\begin{js}[caption={{Rozszerzanie kolekcji \textit{Project} o dodatkowe właściwości}},label={lst:project_coll_hooks}]
+Project.before.insert(function (userId, doc) {
+    "use strict";
     
+    let createDate = new Date();
+    doc.createdAt = createDate;
+});
+
+Project.before.update(function (userId, doc, fieldNames, modifier, options) {
+    "use strict";
+    
+    let modDate = new Date();
+    modifier.$set = modifier.$set || {};
+    modifier.$set.modifiedAt = modDate;
+    modifier.$set.modifiedBy = userId
+});
+\end{js}
+
+\subsection{Metody}
+
     
 \section{Serwer}
   \subsection{Baza}
