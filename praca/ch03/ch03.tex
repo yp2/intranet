@@ -175,8 +175,35 @@ Project.before.update(function (userId, doc, fieldNames, modifier, options) {
 \end{js}
 
 \subsection{Metody}
+Meteor.js oferuje mechanizm zdalnie wywoływanych metod. Klient może wywołać zdefiniowane metody zdalnie na serwerze. Metody są definiowane przez wywołanie \verb|Meteor.methodes|. Wywołanie \verb|Meteor.methodes| po stornie serwera tworzy funkcje, które mogą zostać zdalnie wywoływane przez klienta. Funkcje takie powinny zwracać wartość, która może zostać sparsowana do obiektu \textit{EJSON} lub zwracać błąd. Natomiast wywołanie \verb|methods| po stornie klienta definiuje funkcje typu \textit{stub} --- funkcja symulująca zachowanie metody o takiej samej nazwie  zdefiniowanej na serwerze. Jeżeli \textit{stub} zostanie zdefiniowany a klient wywoła metodę z nim powiązaną \textit{stub} zostanie wywołany równolegle. Po stronie klienta wartość zwracana przez \textit{stub} jest ignorowana. Funkcje \verb|stub| są uruchamiane dla ich skutków ubocznych --- ich celem jest symulacja wyników funkcji wywoływanych na serwerze bez konieczności oczekiwania na ich ukończenie oraz przesłanie ich wyniku z serwera.
 
-    
+\begin{js}[caption={{Wywołanie \textit{Meteor.methodes} oraz definiowanie metod}},label={lst:projects_methodes}]
+Meteor.methods({
+    removeUserFromProject (data) {
+        check(data, {
+            userId: String,
+            projectId: String
+        });
+        
+        let project = Project.findOne(data.projectId);
+        if (Meteor.isServer) {
+            
+            if (!project || (!_.includes(project.secure.allowedUsers, this.userId) && project.secure.admin.id !== this.userId) ) {
+                console.log('cant delete');
+                throw new Meteor.Error(403, "Can't remove user from project");
+            }
+            Project.update({_id: project._id}, {$pull :{"secure.allowedUsers": data.userId, allowedUsers: data.userId}});
+            return true;
+        }
+
+
+    },
+    ...$
+})
+
+\end{js}
+Wykorzystując \verb|Meteor.isServer| oraz \verb|Meteor.isClient| możemy rozdzielić kod metod na część wykonywaną tylko na serwerze, kliencie lub wspólnie dla obu przypadków. Definiując metody w części wspólnej dla serwera oraz klienta z wykorzystaniem powyższych elementów API możemy pominąć definiowanie \textit{stubów} dla metod po stronie klienta. Listing \ref{lst:projects_methodes} przedstawia  tak zdefiniowaną metodę umieszczoną w  pliku \verb|projectsMethodes.js| znajdującym się w katalogu \verb|lib|. Metody mogą przyjmować argumenty. Do sprawdzenia poprawność argumentów metody można skorzystać z funkcji sprawdzających wzorce takich jak \verb|check| oraz \verb|Match.test|. Funkcje te dostarczane są przez pakiet \verb|check|. Listing przedstawia usuwanie użytkownika z projektu. Linia 15 aktualizuje dokument w kolekcji \verb|Project| o podanym \verb|_id|
+
 \section{Serwer}
   \subsection{Baza}
   \subsection{Kolekcje}
