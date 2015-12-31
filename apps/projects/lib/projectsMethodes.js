@@ -32,7 +32,7 @@ Meteor.methods({
                 console.log('cant delete');
                 throw new Meteor.Error(403, "Can't remove user from project");
             }
-            Project.update({_id: project._id}, {$pull :{"secure.allowedUsers": data.userId, allowedUsers: data.userId}})
+            Project.update({_id: project._id}, {$pull :{"secure.allowedUsers": data.userId, allowedUsers: data.userId}});
             return true;
         }
 
