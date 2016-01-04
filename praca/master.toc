@@ -19,26 +19,26 @@
 \contentsline {section}{\numberline {3.1}Za\IeC {\l }o\IeC {\.z}enia}{19}{section.3.1}
 \contentsline {section}{\numberline {3.2}Wymagania}{21}{section.3.2}
 \contentsline {section}{\numberline {3.3}Struktura aplikacji}{22}{section.3.3}
-\contentsline {section}{\numberline {3.4}Cze\IeC {\'s}\IeC {\'c} wsp\IeC {\'o}lna dla serwera oraz klienta}{25}{section.3.4}
+\contentsline {section}{\numberline {3.4}Wsp\IeC {\'o}lna cz\IeC {\k e}\IeC {\'s}\IeC {\'c} dla strony serwerowej oraz klienckiej}{25}{section.3.4}
 \contentsline {subsection}{\numberline {3.4.1}Kolekcje}{25}{subsection.3.4.1}
 \contentsline {subsection}{\numberline {3.4.2}Metody}{27}{subsection.3.4.2}
 \contentsline {section}{\numberline {3.5}Serwer}{28}{section.3.5}
 \contentsline {subsection}{\numberline {3.5.1}Baza}{28}{subsection.3.5.1}
 \contentsline {subsection}{\numberline {3.5.2}Kolekcje}{28}{subsection.3.5.2}
 \contentsline {subsubsection}{Dost\IeC {\k e}p}{28}{section*.4}
-\contentsline {subsubsection}{Metody}{28}{section*.5}
-\contentsline {subsubsection}{Publikacje}{28}{section*.6}
-\contentsline {subsection}{\numberline {3.5.3}Migracje danych}{28}{subsection.3.5.3}
-\contentsline {subsection}{\numberline {3.5.4}Konfiguracja}{28}{subsection.3.5.4}
-\contentsline {section}{\numberline {3.6}Klient}{28}{section.3.6}
-\contentsline {subsection}{\numberline {3.6.1}Routing}{28}{subsection.3.6.1}
-\contentsline {subsection}{\numberline {3.6.2}Subskrypcje}{28}{subsection.3.6.2}
-\contentsline {subsection}{\numberline {3.6.3}Szablony}{28}{subsection.3.6.3}
-\contentsline {subsubsection}{HTML}{28}{section*.7}
-\contentsline {subsubsection}{JS}{28}{section*.8}
-\contentsline {subsection}{\numberline {3.6.4}Eventy}{28}{subsection.3.6.4}
-\contentsline {subsection}{\numberline {3.6.5}Helpery}{28}{subsection.3.6.5}
-\contentsline {subsection}{\numberline {3.6.6}Pliki less}{28}{subsection.3.6.6}
+\contentsline {subsubsection}{Metody}{29}{section*.5}
+\contentsline {subsubsection}{Publikacje}{29}{section*.6}
+\contentsline {subsection}{\numberline {3.5.3}Migracje danych}{29}{subsection.3.5.3}
+\contentsline {subsection}{\numberline {3.5.4}Konfiguracja}{29}{subsection.3.5.4}
+\contentsline {section}{\numberline {3.6}Klient}{29}{section.3.6}
+\contentsline {subsection}{\numberline {3.6.1}Routing}{29}{subsection.3.6.1}
+\contentsline {subsection}{\numberline {3.6.2}Subskrypcje}{29}{subsection.3.6.2}
+\contentsline {subsection}{\numberline {3.6.3}Szablony}{29}{subsection.3.6.3}
+\contentsline {subsubsection}{HTML}{29}{section*.7}
+\contentsline {subsubsection}{JS}{29}{section*.8}
+\contentsline {subsection}{\numberline {3.6.4}Eventy}{29}{subsection.3.6.4}
+\contentsline {subsection}{\numberline {3.6.5}Helpery}{29}{subsection.3.6.5}
+\contentsline {subsection}{\numberline {3.6.6}Pliki less}{29}{subsection.3.6.6}
 \contentsline {subsection}{\numberline {3.6.7}Formularze}{29}{subsection.3.6.7}
 \contentsline {section}{\numberline {3.7}Objekt MyApp}{29}{section.3.7}
 \contentsline {section}{\numberline {3.8}Paczki powtsta\IeC {\l }e na potrzeby aplikacji}{29}{section.3.8}
