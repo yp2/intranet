@@ -304,7 +304,7 @@ Inny sposób tworzenie referencji został pokazany na listingu \ref{lst:mongo_re
    published_date: ISODate("2010-09-24"),
    pages: 216,
    language: "English",
-   publisher_id: "oreilly"	// refernece
+   publisher_id: "oreilly"	// reference
 }
 
 {
@@ -318,7 +318,7 @@ Inny sposób tworzenie referencji został pokazany na listingu \ref{lst:mongo_re
 }
 \end{js}
 
-W modelowaniu bazy wykorzystywanej przez aplikacje Intranet wykorzystano wzorzec dokumentów wbudowanych oraz zmodyfikowany wzorzec referencji. Listing \ref{lst:wiki_doc} przedstawia dokument z kolekcji \verb|Wiki| reprezentujący wiki --- zbiór artykułów --- dla organizacji, użytkownika bądź projektu. 
+Do modelowania relacji w bazie danych wykorzystywanej przez aplikacje Intranet wykorzystano wzorzec dokumentów wbudowanych oraz zmodyfikowany wzorzec referencji. Listing \ref{lst:wiki_doc} przedstawia dokument z kolekcji \verb|Wiki| reprezentujący wiki --- zbiór artykułów --- dla organizacji, użytkownika bądź projektu. \newline
 Pole \verb|categories| przedstawia wykorzystanie wzorca dokumentów wbudowanych do przechowywania kategorii dla tej wiki. W polach \verb|admin| oraz \verb|scope| wykorzystano zmodyfikowany wzorzec referencji. Pola te przechowują dokument z referencją do innego dokumentu w bazie oraz część najczęściej wykorzystywanych danych z dokumentu powiązanego, w ten sposób jeżeli chcemy uzyskać tylko te dane nie musimy pobierać dodatkowego dokumentu z bazy.
 \begin{js}[caption={{Przykładowy dokument z kolekcji \textit{Wiki}}},label={lst:wiki_doc}]
 {
