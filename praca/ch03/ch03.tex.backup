@@ -146,7 +146,7 @@ Katalog \verb|apps| zawiera poszczególne moduły aplikacji. Podkatalog \verb|ap
 
 Rysunek \ref{fig:app_project_structure} przedstawia strukturę modułu \emph{projects} --- projekty. Widać w niej charakterystyczny podział aplikacji Meteor.js z wykorzystaniem katalogów specjalnych \verb|client| oraz \verb|server|. Katalog \verb|lib| zawiera kod wykorzystywany zarówno po stronie serwera jaki i klienta. Pliki zawarte w tym katalogu muszą zostać załadowane wcześniej niż kod znajdujący się w katalogach specjalnych. Kod ten zawiera definicje kolekcji projekty -- \verb|project.js| i konwersacji -- \verb|talks.js|, metody odpowiedzialne za operacje na danych w kolekcjach -- \verb|projectsMethodes.js| oraz definicje używanych przez moduł formularzy -- \verb|forms.js|. W katalogu \verb|client| znajdują się poszczególne widoki używane przez moduł oraz szablony poszczególnych elementów włączane przez inne szablony podczas renderowania ich zawartości. W pliku \verb|projectRoutes.js| zdefiniowane są trasy --- \textit{routing} --- dla modułu. Strona serwerowa składa się z dwu plików, które zawierają publikacje dla kolekcji jakich dostarcza moduł. Publikacje mogą być używane także poza modułem, w którym zostały zdefiniowane. Podkatalog \verb|styles| katalogu \verb|client| zawiera plik dynamicznego arkusza stylów less -- \verb|project.less|.
 
-\section{Cześć wspólna dla serwera oraz klienta}
+\section{Wspólna część dla strony serwerowej oraz klienckiej}
 
 \subsection{Kolekcje} 
 Dane, w bazie danych, wykorzystywane przez aplikację przechowane są w postaci dokumentów te natomiast grupowe są w logiczne zbiory nazywane kolekcjami. Klient oraz serwer używają tego samego API do dostępu do bazy danych. Klasa \verb|Mongo.Collection| używana jest do definiowania oraz manipulowania kolekcjami. Listing \ref{lst:project_coll} przedstawia sposób definicji kolekcji dla projektów --- \verb|Project|. Definicja jest umieszczona w katalogu \verb|lib| modułu \verb|projects|, który ładowany jest po stronie klienta jak i serwera przed plikami znajdującymi się w katalogach \verb|client| oraz \verb|server|. Tak zdefiniowaną kolekcję możemy używać po stronie serwera jak i klienta. 
@@ -202,10 +202,182 @@ Meteor.methods({
 })
 
 \end{js}
-Wykorzystując \verb|Meteor.isServer| oraz \verb|Meteor.isClient| możemy rozdzielić kod metod na część wykonywaną tylko na serwerze, kliencie lub wspólnie dla obu przypadków. Definiując metody w części wspólnej dla serwera oraz klienta z wykorzystaniem powyższych elementów API możemy pominąć definiowanie \textit{stubów} dla metod po stronie klienta. Listing \ref{lst:projects_methodes} przedstawia  tak zdefiniowaną metodę umieszczoną w  pliku \verb|projectsMethodes.js| znajdującym się w katalogu \verb|lib|. Metody mogą przyjmować argumenty. Do sprawdzenia poprawność argumentów metody można skorzystać z funkcji sprawdzających wzorce takich jak \verb|check| oraz \verb|Match.test|. Funkcje te dostarczane są przez pakiet \verb|check|. Listing przedstawia usuwanie użytkownika z projektu. Linia 15 aktualizuje dokument w kolekcji \verb|Project| o podanym \verb|_id|
+Wykorzystując \verb|Meteor.isServer| oraz \verb|Meteor.isClient| możemy rozdzielić kod metod na część wykonywaną tylko na serwerze, kliencie lub wspólnie dla obu przypadków. Definiując metody w części wspólnej dla serwera oraz klienta z wykorzystaniem powyższych elementów API możemy pominąć definiowanie \textit{stubów} dla metod po stronie klienta. Listing \ref{lst:projects_methodes} przedstawia  tak zdefiniowaną metodę umieszczoną w  pliku \verb|projectsMethodes.js| znajdującym się w katalogu \verb|lib|. Metody mogą przyjmować argumenty. Do sprawdzenia poprawność argumentów metody można skorzystać z funkcji sprawdzających wzorce takich jak \verb|check| oraz \verb|Match.test|. Funkcje te dostarczane są przez pakiet \verb|check|. Listing przedstawia usuwanie użytkownika z projektu. Linia 15 przedstawia aktualizację dokumentu w kolekcji \verb|Project| o podanym \verb|_id|. Z tablicy \verb|allowedUsers| usuwany jest ciąg znaków zawierających id danego użytkownika przekazane do metody w argumencie \verb|data|. Pierwszym atrybutem przejmowanym przez metodę \verb|update| wykonywaną na rzecz kolekcji to selektor określający jaki dokument lub dokumenty mają zostać zmodyfikowane. Drugi argument to modyfikator określający sposób modyfikacji danego dokumentu. 
 
 \section{Serwer}
   \subsection{Baza}
+Jako już wspomniano jako bazę danych wykorzystano MongoDB. Jest to baza nierelacyjna zorientowana na dokumenty, które logicznie grupowane są w kolekcje. Struktura dokumentów jest bardzo elastyczna a same kolekcje dokumentów nie narzucają jej. Aby odwzorować relacje pomiędzy dokumentami możemy użyć następujących wzorców: dokumenty wbudowane lub referencji.\newline 
+Wzorzec dokumentów wbudowanych polega na dodaniu całego dokumentu od jakiego się odnosimy jako pola w innym dokumencie. Tak dodany dokument będzie odpowiadał relacji jeden do jednego. Listing \ref{lst:mongo_embeded_oto} przedstawia dwa dokumenty. Pierwszy reprezentuje osobę, drugi reprezentuje adres. Po dodaniu pola \verb|address| i przeniesieniu do niego całego dokumentu adresu uzyskujemy relację jeden do jednego z wykorzystaniem wzorca wbudowanych dokumentów. Wadą tego rozwiązania jest powielanie danych w bazie, zaletą natomiast to, że chcąc odczytać adres danej osoby pobieramy z bazy tylko jeden rekord.
+\begin{js}[caption={{Dokumenty wbudowane -- relacja jeden do jednego}},label={lst:mongo_embeded_oto}]
+// Dokumenty przed utworzeniem relacji
+{
+   _id: "joe",
+   name: "Joe Bookreader"
+}
+
+{
+   patron_id: "joe",
+   street: "123 Fake Street",
+   city: "Faketon",
+   state: "MA",
+   zip: "12345"
+}
+
+// Wzorzec dokumenty wbudowane relacja jeden do jednego
+
+{
+   _id: "joe",
+   name: "Joe Bookreader",
+   address: {
+              street: "123 Fake Street",
+              city: "Faketon",
+              state: "MA",
+              zip: "12345"
+            }
+}
+\end{js}
+Następny listing (\ref{lst:mongo_embeded_otm}) przedstawia wykorzystanie tego samego wzorca w celu uzyskania relacji jeden do wielu. Jak widać na listingu pole \verb|address| ma postać tablicy złożonej z dokumentów. 
+
+\begin{js}[caption={{Dokumenty wbudowane -- relacja jeden do wielu}},label={lst:mongo_embeded_otm}]
+{
+   _id: "joe",
+   name: "Joe Bookreader",
+   addresses: [
+                {
+                  street: "123 Fake Street",
+                  city: "Faketon",
+                  state: "MA",
+                  zip: "12345"
+                },
+                {
+                  street: "1 Some Other Street",
+                  city: "Boston",
+                  state: "MA",
+                  zip: "12345"
+                }
+              ]
+}
+\end{js}
+
+Wzorzec referencji unikamy powielania danych poprzez podanie referencji do innego dokumentu w innej lub tej samej kolekcji. Referencją najczęściej jest  \verb|_id| dokumentu. Wadą tego wzorca jest konieczność pobierania kolejnych dokumentów z bazy w celu odczytania danych z dokumentu powiązanego. Wykorzystując ten wzorzec otrzymujemy relację jeden do wielu. Listing \ref{lst:mongo_ref} przedstawia wykorzystaniem podlegającej zmianie oraz rosnącej tablicy z \verb|_id| poszczególnych dokumentów.
+\begin{js}[caption={{Referencje (tablica) -- relacja jeden do wielu}},label={lst:mongo_ref}]
+{
+   name: "O'Reilly Media",
+   founded: 1980,
+   location: "CA",
+   books: [12346789, 234567890, ...] // _id of books for this publisher
+}
+
+{
+    _id: 123456789,
+    title: "MongoDB: The Definitive Guide",
+    author: [ "Kristina Chodorow", "Mike Dirolf" ],
+    published_date: ISODate("2010-09-24"),
+    pages: 216,
+    language: "English"
+}
+
+{
+   _id: 234567890,
+   title: "50 Tips and Tricks for MongoDB Developer",
+   author: "Kristina Chodorow",
+   published_date: ISODate("2011-05-06"),
+   pages: 68,
+   language: "English"
+}
+
+\end{js}
+Inny sposób tworzenie referencji został pokazany na listingu \ref{lst:mongo_ref_id}, w którym to \verb|_id| dokumentu powiązanego jest przechowywane w polu innego dokumentu.
+\begin{js}[caption={{Referencje -- relacja jeden do wielu}},label={lst:mongo_ref_id}]
+{
+   _id: "oreilly",
+   name: "O'Reilly Media",
+   founded: 1980,
+   location: "CA"
+}
+
+{
+   _id: 123456789,
+   title: "MongoDB: The Definitive Guide",
+   author: [ "Kristina Chodorow", "Mike Dirolf" ],
+   published_date: ISODate("2010-09-24"),
+   pages: 216,
+   language: "English",
+   publisher_id: "oreilly"	// refernece
+}
+
+{
+   _id: 234567890,
+   title: "50 Tips and Tricks for MongoDB Developer",
+   author: "Kristina Chodorow",
+   published_date: ISODate("2011-05-06"),
+   pages: 68,
+   language: "English",
+   publisher_id: "oreilly" 	// reference
+}
+\end{js}
+
+W modelowaniu bazy wykorzystywanej przez aplikacje Intranet wykorzystano wzorzec dokumentów wbudowanych oraz zmodyfikowany wzorzec referencji. Listing \ref{lst:wiki_doc} przedstawia dokument z kolekcji \verb|Wiki| reprezentujący wiki --- zbiór artykułów --- dla organizacji, użytkownika bądź projektu. 
+Pole \verb|categories| przedstawia wykorzystanie wzorca dokumentów wbudowanych do przechowywania kategorii dla tej wiki. W polach \verb|admin| oraz \verb|scope| wykorzystano zmodyfikowany wzorzec referne 
+\begin{js}[caption={{Przykładowy dokument z kolekcji \textit{Wiki}}},label={lst:wiki_doc}]
+{
+        "_id" : "e6RhHrwxtznXF7s97",
+        "type" : "org",
+        "admin" : {
+                "name" : "e@e.pl",
+                "id" : "xZxtZ9JqoWzzZ7f7g"
+        },
+        "scope" : {
+                "name" : "e.pl",
+                "id" : "Csobds6psMftt4Eqw"
+        },
+        "categories" : [
+                {
+                        "title" : "main",
+                        "titleSlug" : "main"
+                },
+                {
+                        "title" : "Cosie",
+                        "titleSlug" : "cosie"
+                },
+                {
+                        "title" : "Cos",
+                        "titleSlug" : "cos"
+                }
+        ],
+        "secure" : {
+                "type" : "org",
+                "admin" : {
+                        "name" : "e@e.pl",
+                        "id" : "xZxtZ9JqoWzzZ7f7g"
+                },
+                "scope" : {
+                        "name" : "e.pl",
+                        "id" : "Csobds6psMftt4Eqw"
+                },
+                "categories" : [
+                        {
+                                "title" : "main",
+                                "titleSlug" : "main"
+                        },
+                        {
+                                "title" : "Cosie",
+                                "titleSlug" : "cosie"
+                        },
+                        {
+                                "title" : "Cos",
+                                "titleSlug" : "cos"
+                        }
+                ]
+        },
+        "createdAt" : ISODate("2015-09-06T14:38:43.041Z"),
+        "modifiedAt" : ISODate("2015-09-17T18:06:56.370Z")
+}
+
+
+\end{js}
+
+
   \subsection{Kolekcje}
   \subsubsection{Dostęp}
    allow/deny
