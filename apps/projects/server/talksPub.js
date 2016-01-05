@@ -7,7 +7,6 @@
 Meteor.publish('talks', function (selector, options) {
     let sel = selector || {},
         opt = options || {};
-    console.log('aa', this.userId, sel);
 
     if (this.userId && sel['project.id']) {
         let draft = Talks.findOne({
@@ -16,8 +15,6 @@ Meteor.publish('talks', function (selector, options) {
             'secure.project.id': sel['project.id']
         });
         _.assign(opt, {sort: {createdAt: -1}, fields: {secure: 0}});
-        
-        //console.log(draft, selector );
         
         if (!draft) {
             let user = Meteor.users.findOne(this.userId);
