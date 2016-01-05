@@ -177,7 +177,9 @@ Template.projectMain.onCreated(function () {
                 return Project.findOne({_id: context.params.projectId})
             };
 
-            if (!self.project()) {
+            let project = self.project();
+
+            if (!project) {
                 FlowRouter.go('mainDash');
 
             }

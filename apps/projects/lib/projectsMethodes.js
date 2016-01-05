@@ -7,11 +7,11 @@ MyApp.project = {
     allowedUsers (userId, projectId) {
         let user = Meteor.users.findOne(userId);
         let project = Project.findOne(projectId);
-        
-        if (Meteor.isServer && (!user || !project || (!_.includes(project.secure.allowedUsers, user._id)) || project.secure.admin.id !== user._id)) {
+
+        if (Meteor.isServer && (!user || !project || !(project.secure.admin.id === user._id || _.includes(project.secure.allowedUsers, user._id)))) {
             throw new Meteor.Error(403, "You're not allowed");
         }
-        if (Meteor.isClient && (!user || !project || (!_.includes(project.allowedUsers, user._id)) || project.admin.id !== user._id)) {
+        if (Meteor.isClient && (!user || !project || !(project.admin.id === user._id || _.includes(project.allowedUsers, user._id)))) {
             throw new Meteor.Error(403, "You're not allowed");
         }
         return {user: user, project: project}
@@ -182,6 +182,36 @@ Meteor.methods({
         insObj['secure'] = talkSecure.secure;
 
         Talks.insert(insObj);
+
+        return true;
+    },
+    addComment (data) {
+        check(data, {
+            comment: String,
+            projectId: String,
+            talkId: String
+        });
+        let checkAllow = MyApp.project.allowedUsers(this.userId, data.projectId);
+        
+        let user = checkAllow.user;
+        let talk = Talks.findOne({_id: data.talkId});
+        if (!talk) {
+            throw new Meteor.Error(403, "You're not allowed");
+        }
+        let comment = {
+            author: {
+                id: user._id,
+                username: user.username
+            },
+            content: data.comment,
+            createdAt: new Date()
+        };
+
+        Talks.update({_id: talk._id}, {$push: {comments: comment, "secure.comments": comment}})
+
+        return true;
     }
-})
+
+
+});
 
