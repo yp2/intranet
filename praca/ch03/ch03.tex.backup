@@ -205,7 +205,8 @@ Meteor.methods({
 Wykorzystując \verb|Meteor.isServer| oraz \verb|Meteor.isClient| możemy rozdzielić kod metod na część wykonywaną tylko na serwerze, kliencie lub wspólnie dla obu przypadków. Definiując metody w części wspólnej dla serwera oraz klienta z wykorzystaniem powyższych elementów API możemy pominąć definiowanie \textit{stubów} dla metod po stronie klienta. Listing \ref{lst:projects_methodes} przedstawia  tak zdefiniowaną metodę umieszczoną w  pliku \verb|projectsMethodes.js| znajdującym się w katalogu \verb|lib|. Metody mogą przyjmować argumenty. Do sprawdzenia poprawność argumentów metody można skorzystać z funkcji sprawdzających wzorce takich jak \verb|check| oraz \verb|Match.test|. Funkcje te dostarczane są przez pakiet \verb|check|. Listing przedstawia usuwanie użytkownika z projektu. Linia 15 przedstawia aktualizację dokumentu w kolekcji \verb|Project| o podanym \verb|_id|. Z tablicy \verb|allowedUsers| usuwany jest ciąg znaków zawierających id danego użytkownika przekazane do metody w argumencie \verb|data|. Pierwszym atrybutem przejmowanym przez metodę \verb|update| wykonywaną na rzecz kolekcji to selektor określający jaki dokument lub dokumenty mają zostać zmodyfikowane. Drugi argument to modyfikator określający sposób modyfikacji danego dokumentu. 
 
 \section{Serwer}
-  \subsection{Baza}
+  \subsection{Baza danych}
+  \subsubsection{Relacje}
 Jako już wspomniano jako bazę danych wykorzystano MongoDB. Jest to baza nierelacyjna zorientowana na dokumenty, które logicznie grupowane są w kolekcje. Struktura dokumentów jest bardzo elastyczna a same kolekcje dokumentów nie narzucają jej. Aby odwzorować relacje pomiędzy dokumentami możemy użyć następujących wzorców: dokumenty wbudowane lub referencji.\newline 
 Wzorzec dokumentów wbudowanych polega na dodaniu całego dokumentu od jakiego się odnosimy jako pola w innym dokumencie. Tak dodany dokument będzie odpowiadał relacji jeden do jednego. Listing \ref{lst:mongo_embeded_oto} przedstawia dwa dokumenty. Pierwszy reprezentuje osobę, drugi reprezentuje adres. Po dodaniu pola \verb|address| i przeniesieniu do niego całego dokumentu adresu uzyskujemy relację jeden do jednego z wykorzystaniem wzorca wbudowanych dokumentów. Wadą tego rozwiązania jest powielanie danych w bazie, zaletą natomiast to, że chcąc odczytać adres danej osoby pobieramy z bazy tylko jeden rekord.
 \begin{js}[caption={{Dokumenty wbudowane -- relacja jeden do jednego}},label={lst:mongo_embeded_oto}]
@@ -303,7 +304,7 @@ Inny sposób tworzenie referencji został pokazany na listingu \ref{lst:mongo_re
    published_date: ISODate("2010-09-24"),
    pages: 216,
    language: "English",
-   publisher_id: "oreilly"	// refernece
+   publisher_id: "oreilly"	// reference
 }
 
 {
@@ -317,8 +318,8 @@ Inny sposób tworzenie referencji został pokazany na listingu \ref{lst:mongo_re
 }
 \end{js}
 
-W modelowaniu bazy wykorzystywanej przez aplikacje Intranet wykorzystano wzorzec dokumentów wbudowanych oraz zmodyfikowany wzorzec referencji. Listing \ref{lst:wiki_doc} przedstawia dokument z kolekcji \verb|Wiki| reprezentujący wiki --- zbiór artykułów --- dla organizacji, użytkownika bądź projektu. 
-Pole \verb|categories| przedstawia wykorzystanie wzorca dokumentów wbudowanych do przechowywania kategorii dla tej wiki. W polach \verb|admin| oraz \verb|scope| wykorzystano zmodyfikowany wzorzec referne 
+Do modelowania relacji w bazie danych wykorzystywanej przez aplikacje Intranet wykorzystano wzorzec dokumentów wbudowanych oraz zmodyfikowany wzorzec referencji. Listing \ref{lst:wiki_doc} przedstawia dokument z kolekcji \verb|Wiki| reprezentujący wiki --- zbiór artykułów --- dla organizacji, użytkownika bądź projektu. \newline
+Pole \verb|categories| przedstawia wykorzystanie wzorca dokumentów wbudowanych do przechowywania kategorii dla tej wiki. W polach \verb|admin| oraz \verb|scope| wykorzystano zmodyfikowany wzorzec referencji. Pola te przechowują dokument z referencją do innego dokumentu w bazie oraz część najczęściej wykorzystywanych danych z dokumentu powiązanego, w ten sposób jeżeli chcemy uzyskać tylko te dane nie musimy pobierać dodatkowego dokumentu z bazy.
 \begin{js}[caption={{Przykładowy dokument z kolekcji \textit{Wiki}}},label={lst:wiki_doc}]
 {
         "_id" : "e6RhHrwxtznXF7s97",
@@ -377,12 +378,74 @@ Pole \verb|categories| przedstawia wykorzystanie wzorca dokumentów wbudowanych 
 
 \end{js}
 
+  \subsubsection{Kolekcje}
+Aplikacja Intranet używa następujących kolekcji:
+\begin{itemize}
+ \item \verb|Invitation| --- dokumenty dotyczące zaproszeń wysyłanych do użytkowników gdy są zapraszaniu do organizacji lub do udziału w projektach;
+ \item \verb|Project| --- dokumenty dotyczące projektów tworzonych przez organizację jaki użytkowników;
+ \item \verb|Talks| --- konwersacje prowadzone w ramach projektu;
+ \item \verb|Meteor.users| --- kolekcja przechowująca dane użytkowników, jest to kolekcja specjalna dostarczana przez framework Metero.js;
+ \item \verb|UserScope| --- dokumenty przechowujące dane o zakresach dla organizacji oraz użytkowników;
+ \item \verb|Wiki| --- dane dotyczące wiki tworzonych na potrzeby organizacji i użytkowników oraz ich zakresów;
+ \item \verb|WikiArticle| --- kolekcja zawierająca dokumenty dotyczące artykuły, które dodawane są do wiki.
+\end{itemize}
+Kolekcje definiowana są w osobnych plikach w katalogu \verb|lib| na moduł aplikacji. Wraz z definicjami kolekcji umieszczone są ich rozszerzenia wykonane z wykorzystaniem już wspomnianego pakietu \verb|collection-hooks|.
 
-  \subsection{Kolekcje}
+  \subsubsection{Publikacje}
+Dostęp do zestawu danych jakie otrzyma klient jest realizowany za pomocą \emph{publikacji}. Publikacje kontrolują jaki zestaw danych otrzyma klient za każdym razem kiedy dokona subskrypcji tej publikacji. Z powodu sposobu realizacji dostępu do danych przez klienta jaki prezentuje framework a w szczególności to że klient posiada kopię wycinka danych i na nim przeprowadza wszystkie operacje, które następnie są synchronizowane z serwerem a następnie z innymi klientami, bardzo istotne jest poprawne sformowanie publikacji. Źle zakodowana publikacja w ostateczności może doprowadzić do całkowitego ,,zabicia'' przeglądarki klienta. W łatwy sposób możemy przesłać do klienta zestaw np. 100 000 dokumentów, bez znaczącego obciążenia serwera, co całkowicie zatrzyma aplikacje po stronie klienta. Publikacje to także jedyne miejsce, w którym może realizować zasady dostępu --- np. uprawnienia --- co do zestawu danych, ich pól, ilości jakie klient ma otrzymać. W publikacja mamy dostęp do \verb|id| użytkownika, który dokonuje subskrypcji. Na podstawie tego \verb|id| możemy odszukać dokument reprezentujący użytkownik i na jego podstawie zrealizować zasady dostępu. Tu warto wspomnieć o braku ograniczenia co do zestawu danych dla zapytań oraz operacji realizowanych po stornie serwera. 
+\begin{js}[caption={{Publikacja \textit{,,talks''} dla kolekcji Talks}},label={lst:talks_pub}]
+"use strict";
+
+Meteor.publish('talks', function (selector, options) {
+    let sel = selector || {},
+        opt = options || {};
+
+    if (this.userId && sel['project.id']) {
+        let draft = Talks.findOne({
+            'secure.status': "draft",
+            'secure.author.id': this.userId,
+            'secure.project.id': sel['project.id']
+        });
+        _.assign(opt, {sort: {createdAt: -1}, fields: {secure: 0}});
+        
+        if (!draft) {
+            let user = Meteor.users.findOne(this.userId);
+            let insObj = {
+                title: "",
+                content: "",
+                status: "draft",
+                author: {
+                    id: this.userId,
+                    username: user.username
+                },
+                project: {
+                    id:  sel['project.id']
+                }
+            };
+
+            let taskSecure = {secure: {}};
+
+            _.assign(taskSecure.secure, insObj);
+
+            insObj['secure'] = taskSecure.secure;
+
+            Talks.insert(insObj);
+        }
+
+        let result = Talks.find(sel, opt);
+
+        console.log('pub talks', result.count(), sel, opt);
+        return result
+    }
+});
+\end{js}
+Na listingu \ref{lst:talks_pub} przedstawiono przykładową publikację dla dokumentów z kolekcji reprezentującej konwersacje --- kolekcja \verb|Talks|. Funkcja \verb|Meteor.publish| przyjmuje dwa parametry, pierwszy to łańcuch znaków reprezentujący nazwę publikacji, drugi parametr to funkcja, która będzie wywoływana za każdym razem gdy klient dokona subskrypcji tej publikacji. Funkcja ta, jeżeli klient może otrzymać dane, powinna zwracać obiekt \verb|Collection.Cursor| kursor dla kolekcji lub tablicę takich kursorów.   
+
+
   \subsubsection{Dostęp}
    allow/deny
    \subsubsection{Metody}
-   \subsubsection{Publikacje}
+   wspomnieć o braku ograniczeń co do zestawu danych.
 % \subsection{Publikacje}
   \subsection{Migracje danych}
   \subsection{Konfiguracja}

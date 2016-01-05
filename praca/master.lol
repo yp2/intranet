@@ -7,3 +7,4 @@
 \contentsline {lstlisting}{\numberline {3.6}Referencje (tablica) -- relacja jeden do wielu}{29}{lstlisting.3.6}
 \contentsline {lstlisting}{\numberline {3.7}Referencje -- relacja jeden do wielu}{30}{lstlisting.3.7}
 \contentsline {lstlisting}{\numberline {3.8}Przyk\IeC {\l }adowy dokument z kolekcji \textit {Wiki}}{31}{lstlisting.3.8}
+\contentsline {lstlisting}{\numberline {3.9}Publikacja \textit {,,talks''} dla kolekcji Talks}{33}{lstlisting.3.9}

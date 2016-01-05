@@ -378,15 +378,75 @@ Pole \verb|categories| przedstawia wykorzystanie wzorca dokumentów wbudowanych 
 
 \end{js}
 
-
   \subsubsection{Kolekcje}
-  
-  \subsubsection{Dostęp}
+Aplikacja Intranet używa następujących kolekcji:
+\begin{itemize}
+ \item \verb|Invitation| --- dokumenty dotyczące zaproszeń wysyłanych do użytkowników gdy są zapraszaniu do organizacji lub do udziału w projektach;
+ \item \verb|Project| --- dokumenty dotyczące projektów tworzonych przez organizację jaki użytkowników;
+ \item \verb|Talks| --- konwersacje prowadzone w ramach projektu;
+ \item \verb|Meteor.users| --- kolekcja przechowująca dane użytkowników, jest to kolekcja specjalna dostarczana przez framework Metero.js;
+ \item \verb|UserScope| --- dokumenty przechowujące dane o zakresach dla organizacji oraz użytkowników;
+ \item \verb|Wiki| --- dane dotyczące wiki tworzonych na potrzeby organizacji i użytkowników oraz ich zakresów;
+ \item \verb|WikiArticle| --- kolekcja zawierająca dokumenty dotyczące artykuły, które dodawane są do wiki.
+\end{itemize}
+Kolekcje definiowana są w osobnych plikach w katalogu \verb|lib| na moduł aplikacji. Wraz z definicjami kolekcji umieszczone są ich rozszerzenia wykonane z wykorzystaniem już wspomnianego pakietu \verb|collection-hooks|.
+
+  \subsubsection{Publikacje}
+Dostęp do zestawu danych jakie otrzyma klient jest realizowany za pomocą \emph{publikacji}. Publikacje kontrolują jaki zestaw danych otrzyma klient za każdym razem kiedy dokona subskrypcji tej publikacji. Z powodu sposobu realizacji dostępu do danych przez klienta jaki prezentuje framework a w szczególności to że klient posiada kopię wycinka danych i na nim przeprowadza wszystkie operacje, które następnie są synchronizowane z serwerem a następnie z innymi klientami, bardzo istotne jest poprawne sformowanie publikacji. Źle zakodowana publikacja w ostateczności może doprowadzić do całkowitego ,,zabicia'' przeglądarki klienta. W łatwy sposób możemy przesłać do klienta zestaw np. 100 000 dokumentów, bez znaczącego obciążenia serwera, co całkowicie zatrzyma aplikacje po stronie klienta. Publikacje to także jedyne miejsce, w którym może realizować zasady dostępu --- np. uprawnienia --- co do zestawu danych, ich pól, ilości jakie klient ma otrzymać. W publikacja mamy dostęp do \verb|id| użytkownika, który dokonuje subskrypcji. W oparciu o \verb|id| możemy odszukać dokument reprezentujący użytkownik i na jego podstawie zrealizować zasady dostępu. Tu warto wspomnieć o braku ograniczenia co do zestawu danych dla zapytań oraz operacji realizowanych po stornie serwera. 
+\begin{js}[caption={{Publikacja \textit{,,talks''} dla kolekcji Talks}},label={lst:talks_pub}]
+"use strict";
+
+Meteor.publish('talks', function (selector, options) {
+    let sel = selector || {},
+        opt = options || {};
+
+    if (this.userId && sel['project.id']) {
+        let draft = Talks.findOne({
+            'secure.status': "draft",
+            'secure.author.id': this.userId,
+            'secure.project.id': sel['project.id']
+        });
+        _.assign(opt, {sort: {createdAt: -1}, fields: {secure: 0}});
+        
+        if (!draft) {
+            let user = Meteor.users.findOne(this.userId);
+            let insObj = {
+                title: "",
+                content: "",
+                status: "draft",
+                author: {
+                    id: this.userId,
+                    username: user.username
+                },
+                project: {
+                    id:  sel['project.id']
+                }
+            };
+
+            let taskSecure = {secure: {}};
+
+            _.assign(taskSecure.secure, insObj);
+
+            insObj['secure'] = taskSecure.secure;
+
+            Talks.insert(insObj);
+        }
+
+        let result = Talks.find(sel, opt);
+
+        console.log('pub talks', result.count(), sel, opt);
+        return result
+    }
+});
+\end{js}
+Na listingu \ref{lst:talks_pub} przedstawiono przykładową publikację dla dokumentów z kolekcji reprezentującej konwersacje --- kolekcja \verb|Talks|. Funkcja \verb|Meteor.publish| przyjmuje dwa parametry, pierwszy to łańcuch znaków reprezentujący nazwę publikacji, drugi parametr to funkcja, która będzie wywoływana za każdym razem gdy klient dokona subskrypcji tej publikacji. Funkcja ta, jeżeli klient może otrzymać dane, powinna zwracać obiekt \verb|Collection.Cursor| --- kursor dla kolekcji lub tablicę takich kursorów. Przedstawiona publikacja nie tylko zwraca kursor dla kolekcji \verb|Talks| ale także przeprowadza operacje dodania dokumentu do kolekcji. Podczas subskrypcji przez klienta publikacja sprawdza czy w bazie istnieje szkic dla konwersacji jeżeli taki szkic nie istnieje jest on tworzony (linia 36). Następnie tworzony jest kursor --- linia 39 --- który zawiera szkic dla konwersacji. Następnie taki kursor jest zwracany --- linia 42. Kursor powstaje poprzez wywołanie metody \verb|find| na kolekcji i ma postać \verb|Talks.find(selektor, opcje)|. W kodzie widoczny jest \verb|consol.log| w linii 41. Jest on bardzo przydatny w ustaleniu czy subskrypcja realizowana przez klienta przebiegła tak jak należy.
+
+  \subsubsection{Operacje tworzenia, aktualizacji oraz usuwania dokumentów}
    allow/deny
    \subsubsection{Metody}
-   \subsubsection{Publikacje}
+   wspomnieć o braku ograniczeń co do zestawu danych.
 % \subsection{Publikacje}
-  \subsection{Migracje danych}
+%   \subsection{Migracje danych}
   \subsection{Konfiguracja}
 
 
