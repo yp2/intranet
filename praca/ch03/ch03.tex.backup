@@ -175,9 +175,9 @@ Project.before.update(function (userId, doc, fieldNames, modifier, options) {
 \end{js}
 
 \subsection{Metody}
-Meteor.js oferuje mechanizm zdalnie wywoływanych metod. Klient może wywołać zdefiniowane metody zdalnie na serwerze. Metody są definiowane przez wywołanie \verb|Meteor.methodes|. Wywołanie \verb|Meteor.methodes| po stornie serwera tworzy funkcje, które mogą zostać zdalnie wywoływane przez klienta. Funkcje takie powinny zwracać wartość, która może zostać sparsowana do obiektu \textit{EJSON} lub zwracać błąd. Natomiast wywołanie \verb|methods| po stornie klienta definiuje funkcje typu \textit{stub} --- funkcja symulująca zachowanie metody o takiej samej nazwie  zdefiniowanej na serwerze. Jeżeli \textit{stub} zostanie zdefiniowany a klient wywoła metodę z nim powiązaną \textit{stub} zostanie wywołany równolegle. Po stronie klienta wartość zwracana przez \textit{stub} jest ignorowana. Funkcje \verb|stub| są uruchamiane dla ich skutków ubocznych --- ich celem jest symulacja wyników funkcji wywoływanych na serwerze bez konieczności oczekiwania na ich ukończenie oraz przesłanie ich wyniku z serwera.
+Meteor.js oferuje mechanizm zdalnie wywoływanych metod. Klient może wywołać zdefiniowane metody zdalnie na serwerze. Metody są definiowane przez wywołanie \verb|Meteor.methods|. Wywołanie \verb|Meteor.methods| po stornie serwera tworzy funkcje, które mogą zostać zdalnie wywoływane przez klienta. Funkcje takie powinny zwracać wartość, która może zostać sparsowana do obiektu \textit{EJSON} lub zwracać błąd. Natomiast wywołanie \verb|methods| po stornie klienta definiuje funkcje typu \textit{stub} --- funkcja symulująca zachowanie metody o takiej samej nazwie  zdefiniowanej na serwerze. Jeżeli \textit{stub} zostanie zdefiniowany a klient wywoła metodę z nim powiązaną \textit{stub} zostanie wywołany równolegle. Po stronie klienta wartość zwracana przez \textit{stub} jest ignorowana. Funkcje \verb|stub| są uruchamiane dla ich skutków ubocznych --- ich celem jest symulacja wyników funkcji wywoływanych na serwerze bez konieczności oczekiwania na ich ukończenie oraz przesłanie ich wyniku z serwera.
 
-\begin{js}[caption={{Wywołanie \textit{Meteor.methodes} oraz definiowanie metod}},label={lst:projects_methodes}]
+\begin{js}[caption={{Wywołanie \textit{Meteor.methods} oraz definiowanie metod}},label={lst:projects_methods}]
 Meteor.methods({
     removeUserFromProject (data) {
         check(data, {
@@ -202,9 +202,9 @@ Meteor.methods({
 })
 
 \end{js}
-Wykorzystując \verb|Meteor.isServer| oraz \verb|Meteor.isClient| możemy rozdzielić kod metod na część wykonywaną tylko na serwerze, kliencie lub wspólnie dla obu przypadków. Definiując metody w części wspólnej dla serwera oraz klienta z wykorzystaniem powyższych elementów API możemy pominąć definiowanie \textit{stubów} dla metod po stronie klienta. Listing \ref{lst:projects_methodes} przedstawia  tak zdefiniowaną metodę umieszczoną w  pliku \verb|projectsMethodes.js| znajdującym się w katalogu \verb|lib|. Metody mogą przyjmować argumenty. Do sprawdzenia poprawność argumentów metody można skorzystać z funkcji sprawdzających wzorce takich jak \verb|check| oraz \verb|Match.test|. Funkcje te dostarczane są przez pakiet \verb|check|. Listing przedstawia usuwanie użytkownika z projektu. Linia 15 przedstawia aktualizację dokumentu w kolekcji \verb|Project| o podanym \verb|_id|. Z tablicy \verb|allowedUsers| usuwany jest ciąg znaków zawierających id danego użytkownika przekazane do metody w argumencie \verb|data|. Pierwszym atrybutem przejmowanym przez metodę \verb|update| wykonywaną na rzecz kolekcji to selektor określający jaki dokument lub dokumenty mają zostać zmodyfikowane. Drugi argument to modyfikator określający sposób modyfikacji danego dokumentu. 
+Wykorzystując \verb|Meteor.isServer| oraz \verb|Meteor.isClient| możemy rozdzielić kod metod na część wykonywaną tylko na serwerze, kliencie lub wspólnie dla obu przypadków. Definiując metody w części wspólnej dla serwera oraz klienta z wykorzystaniem powyższych elementów API możemy pominąć definiowanie \textit{stubów} dla metod po stronie klienta. Listing \ref{lst:projects_methods} przedstawia  tak zdefiniowaną metodę umieszczoną w  pliku \verb|projectsMethodes.js| znajdującym się w katalogu \verb|lib|. Metody mogą przyjmować argumenty. Do sprawdzenia poprawność argumentów metody można skorzystać z funkcji sprawdzających wzorce takich jak \verb|check| oraz \verb|Match.test|. Funkcje te dostarczane są przez pakiet \verb|check|. Listing przedstawia usuwanie użytkownika z projektu. Linia 15 przedstawia aktualizację dokumentu w kolekcji \verb|Project| o podanym \verb|_id|. Z tablicy \verb|allowedUsers| usuwany jest ciąg znaków zawierających id danego użytkownika przekazane do metody w argumencie \verb|data|. Pierwszym atrybutem przejmowanym przez metodę \verb|update| wykonywaną na rzecz kolekcji to selektor określający jaki dokument lub dokumenty mają zostać zmodyfikowane. Drugi argument to modyfikator określający sposób modyfikacji danego dokumentu. 
 
-\section{Serwer}
+\section{Cześć serwerowa}
   \subsection{Baza danych}
   \subsubsection{Relacje}
 Jako już wspomniano jako bazę danych wykorzystano MongoDB. Jest to baza nierelacyjna zorientowana na dokumenty, które logicznie grupowane są w kolekcje. Struktura dokumentów jest bardzo elastyczna a same kolekcje dokumentów nie narzucają jej. Aby odwzorować relacje pomiędzy dokumentami możemy użyć następujących wzorców: dokumenty wbudowane lub referencji.\newline 
@@ -392,7 +392,7 @@ Aplikacja Intranet używa następujących kolekcji:
 Kolekcje definiowana są w osobnych plikach w katalogu \verb|lib| na moduł aplikacji. Wraz z definicjami kolekcji umieszczone są ich rozszerzenia wykonane z wykorzystaniem już wspomnianego pakietu \verb|collection-hooks|.
 
   \subsubsection{Publikacje}
-Dostęp do zestawu danych jakie otrzyma klient jest realizowany za pomocą \emph{publikacji}. Publikacje kontrolują jaki zestaw danych otrzyma klient za każdym razem kiedy dokona subskrypcji tej publikacji. Z powodu sposobu realizacji dostępu do danych przez klienta jaki prezentuje framework a w szczególności to że klient posiada kopię wycinka danych i na nim przeprowadza wszystkie operacje, które następnie są synchronizowane z serwerem a następnie z innymi klientami, bardzo istotne jest poprawne sformowanie publikacji. Źle zakodowana publikacja w ostateczności może doprowadzić do całkowitego ,,zabicia'' przeglądarki klienta. W łatwy sposób możemy przesłać do klienta zestaw np. 100 000 dokumentów, bez znaczącego obciążenia serwera, co całkowicie zatrzyma aplikacje po stronie klienta. Publikacje to także jedyne miejsce, w którym może realizować zasady dostępu --- np. uprawnienia --- co do zestawu danych, ich pól, ilości jakie klient ma otrzymać. W publikacja mamy dostęp do \verb|id| użytkownika, który dokonuje subskrypcji. Na podstawie tego \verb|id| możemy odszukać dokument reprezentujący użytkownik i na jego podstawie zrealizować zasady dostępu. Tu warto wspomnieć o braku ograniczenia co do zestawu danych dla zapytań oraz operacji realizowanych po stornie serwera. 
+Dostęp do zestawu danych jakie otrzyma klient jest realizowany za pomocą \emph{publikacji}. Publikacje kontrolują jaki zestaw danych otrzyma klient za każdym razem kiedy dokona subskrypcji tej publikacji. Z powodu sposobu realizacji dostępu do danych przez klienta jaki prezentuje framework a w szczególności to że klient posiada kopię wycinka danych i na nim przeprowadza wszystkie operacje, które następnie są synchronizowane z serwerem a następnie z innymi klientami, bardzo istotne jest poprawne sformowanie publikacji. Źle zakodowana publikacja w ostateczności może doprowadzić do całkowitego ,,zabicia'' przeglądarki klienta. W łatwy sposób możemy przesłać do klienta zestaw np. 100 000 dokumentów, bez znaczącego obciążenia serwera, co całkowicie zatrzyma aplikacje po stronie klienta. Publikacje to także jedyne miejsce, w którym może realizować zasady dostępu --- np. uprawnienia --- co do zestawu danych, ich pól, ilości jakie klient ma otrzymać. W publikacja mamy dostęp do \verb|id| użytkownika, który dokonuje subskrypcji. W oparciu o \verb|id| możemy odszukać dokument reprezentujący użytkownik i na jego podstawie zrealizować zasady dostępu. Tu warto wspomnieć o braku ograniczenia co do zestawu danych dla zapytań oraz operacji realizowanych po stornie serwera. 
 \begin{js}[caption={{Publikacja \textit{,,talks''} dla kolekcji Talks}},label={lst:talks_pub}]
 "use strict";
 
@@ -439,20 +439,69 @@ Meteor.publish('talks', function (selector, options) {
     }
 });
 \end{js}
-Na listingu \ref{lst:talks_pub} przedstawiono przykładową publikację dla dokumentów z kolekcji reprezentującej konwersacje --- kolekcja \verb|Talks|. Funkcja \verb|Meteor.publish| przyjmuje dwa parametry, pierwszy to łańcuch znaków reprezentujący nazwę publikacji, drugi parametr to funkcja, która będzie wywoływana za każdym razem gdy klient dokona subskrypcji tej publikacji. Funkcja ta, jeżeli klient może otrzymać dane, powinna zwracać obiekt \verb|Collection.Cursor| kursor dla kolekcji lub tablicę takich kursorów.   
+Na listingu \ref{lst:talks_pub} przedstawiono przykładową publikację dla dokumentów z kolekcji reprezentującej konwersacje --- kolekcja \verb|Talks|. Funkcja \verb|Meteor.publish| przyjmuje dwa parametry, pierwszy to łańcuch znaków reprezentujący nazwę publikacji, drugi parametr to funkcja, która będzie wywoływana za każdym razem gdy klient dokona subskrypcji tej publikacji. Funkcja ta, jeżeli klient może otrzymać dane, powinna zwracać obiekt \verb|Collection.Cursor| --- kursor dla kolekcji lub tablicę takich kursorów. Przedstawiona publikacja nie tylko zwraca kursor dla kolekcji \verb|Talks| ale także przeprowadza operacje dodania dokumentu do kolekcji. Podczas subskrypcji przez klienta publikacja sprawdza czy w bazie istnieje szkic dla konwersacji jeżeli taki szkic nie istnieje jest on tworzony (linia 36). Następnie tworzony jest kursor --- linia 39 --- który zawiera szkic dla konwersacji. Następnie taki kursor jest zwracany --- linia 42. Kursor powstaje poprzez wywołanie metody \verb|find| na kolekcji i ma postać \verb|Talks.find(selektor, opcje)|. W kodzie widoczny jest \verb|consol.log| w linii 41. Jest on bardzo przydatny w ustaleniu czy subskrypcja realizowana przez klienta przebiegła tak jak należy.
 
+  \subsubsection{Operacje CRUD}
+Operacje \emph{CRUD}\footnote{akronim z języka angielskiego powstały ze słów Create, Read, Update, Delete} --- tworzenie (\textit{create}), odczytywanie (\textit{read}), aktualizacja (\textit{update}) oraz usuwanie (\textit{delete}) --- realizowane jest przez wywoływanie odpowiednich metod na rzecz zdefiniowanych obiektów kolekcji. Tworzenie dokumentów w kolekcji realizowane jest z wykorzystaniem metody \verb|insert|, odczyt danych realizuje metoda \verb|find|, aktualizacja odbywa się z wykorzystaniem metody \verb|update| a metoda \verb|remove| usuwa dokumenty z kolekcji. Listing \ref{lst:crud} przedstawia przykładowe operacje CRUD.
+\begin{js}[caption={{Operacje \textit{CRUD}}},label={lst:crud}]
+// Tworzenie dokumentu
+Posts.insert({title: "Hello world", body: "First post"});
 
-  \subsubsection{Dostęp}
-   allow/deny
-   \subsubsection{Metody}
-   wspomnieć o braku ograniczeń co do zestawu danych.
-% \subsection{Publikacje}
-  \subsection{Migracje danych}
+// Odczyt danych
+Messages.find({userId: Session.get('myUserId')});
+
+// Aktualizacja dokumentu
+Messages.update(myMessages[0]._id, {$set: {important: true}});
+
+// Usuwanie dokumentu strona kliencka
+Messages.remove({_id: this._id});
+
+// Usuwanie dokumentu strona serwerowa
+Players.remove({karma: {$lt: -2}});
+\end{js}
+
+Powyższy listing pokazuje także różnice pomiędzy operacjami wykonywanymi na kolekcjach po stornie klienta jak i serwera. Po stronie klienta aby usunąć dokument musi podać jego \verb|id|, po stronie serwera takie ograniczenie nie występuje. 
+
+Wcześniej wspomniane publikacje regulują dostęp do danych podczas ich odczytu. Aby klient mógł odczytać dane te muszą zostać opublikowane przez serwer i następnie przez niego za subskrybowane. Inne operacje regulowane są przez metody \verb|allow| oraz \verb|deny| wywoływane na rzecz kolekcji. Listing \ref{lst:allow_deny} obrazuje przykładowe definicje reguł dostępu.
+\begin{js}[caption={{Definicje \textit{allow} oraz \textit{deny}}},label={lst:allow_deny}]
+Posts = new Mongo.Collection("posts");
+
+Posts.allow({
+  insert: function (userId, doc) {
+    // użytkownik musi być zalogowany oraz dokument musi do niego należeć
+    return (userId && doc.owner === userId);
+  },
+  update: function (userId, doc, fields, modifier) {
+    // może modyfikować tylko swoje dokumenty
+    return doc.owner === userId;
+  },
+  remove: function (userId, doc) {
+    // może usuwać tylko swoje dokumenty
+    return doc.owner === userId;
+  }
+});
+
+Posts.deny({
+  update: function (userId, doc, fields, modifier) {
+    // nie może zmienić pola właściciel
+    return _.contains(fields, 'owner');
+  },
+  remove: function (userId, doc) {
+    // nie może usunąć dokumentów zablokowanych - locked
+    return doc.locked;
+  }
+});
+\end{js}
+
+Gdy klient wywołuje, którąś z metod \verb|insert|, \verb|update| lub \verb|remove| po stornie serwera wywoływane są funkcje zwrotne zdefiniowane w \verb|allow| oraz \verb|deny| po to aby określić czy dana operacja zapisu jest możliwa. Aby dopuścić operacje na kolekcji przynajmniej jedna reguła zdefiniowana w \verb|allow| musi zwrócić prawdę i żadna reguła w \verb|deny| nie zwraca prawdy. Zasady te obowiązują tylko po stronie klienta gdyż nie mamy do końca zweryfikowanego kodu aplikacji. Po stornie serwera nie obowiązują zasady dotyczące dostępu do danych, gdyż mamy pełną kontrole oraz pewność, że nikt nie zmodyfikował naszej aplikacji. JavaScript to język skryptowy z tego powodu aplikacja dostarcza do przeglądarki klienta może być łatwo zmodyfikowana. 
+
+Utrzymanie reguł zdefiniowanych z wykorzystaniem \verb|allow| oraz \verb|deny| jest bardzo skomplikowane oraz czasochłonne. Dodając do tego łatwą modyfikację kodu części klienckiej naszej aplikacji nie jest dobrym pomysłem pozwalać klientom na bezpośredni dostęp do operacji na kolekcjach. Kolejnym elementem, który może znacznie utrudnić takie operacje to sam dostęp do danych --- klient aby dokonać modyfikacji danych musi mieć do nich dostęp, co może okazać się problemem podczas optymalizacji aplikacji. Wyobraźmy sobie widok wszystkich powiadomień jakie dostaje użytkownik. Powiadomienia mogą pochodzić ze wszystkich modułów aplikacji. Sprawa nie wydaja się skomplikowana --- wystarczy publikacja oraz subskrypcja na jedną kolekcję dotyczącą powiadomień. Sytuacja zaczyna się komplikować gdy z pojedynczego powiadomienia możemy dokonywać akcji dotyczących innych części systemu np. akceptowanie urlopu. Urlopy przechowywane są w innej kolekcji niż powiadomienia. Teraz aby umożliwić taką operację musimy mieć dostęp do kolekcji dotyczącej urlopów. Rodzą się kolejne pytania do jakiej części tej kolekcji ma mieć dostęp dany użytkownik, jak ograniczyć zestaw danych tak aby akceptacja urlopów była możliwa oraz znacząco nie obciążać ani nie spowalniać strony klienckiej. Przedstawiony wycinek to tylko część problemu podejścia do operacji CRUD po stronie klienta. Z tego powodu oficjalne przewodniki odradzają takiego podejścia na rzecz stosowania \verb|Meteor.methods|. Stosujące metody mamy pewność co do poprawności kodu --- kod umieszczony w części wspólnej nie może ulec modyfikacji po stronie klienta. Dzieląc umiejętnie kod metod z wykorzystaniem zmiennych \verb|Meteor.isServer| oraz \verb|Meteor.isClient| możemy dowolnie modyfikować zachowanie metod od tego czy kod jest uruchomiony po stronie serwera lub klienta. Drugą zaletą użycia metod to brak ograniczeń w dostępie do danych oraz ograniczeń narzuconych przez reguły \verb|allow| i \verb|deny| gdy metoda jest uruchamiana po stronie serwera. Stosując metody rozwiązanie powyższego problemu staje się trywialnie proste, bezpiecznie --- mamy pełną kontrolę nad kodem --- a implementacja reguł dostępu do operacji modyfikacji kolekcji jest o wiele prostsza. Utrzymanie tych reguł jest o wiele mniej pracochłonne oraz mniej podatne na błędy. Użycie metod ma jeszcze jedną zaletę --- chyba najważniejszą --- łatwo napisać kod testujący daną metodę.
+
   \subsection{Konfiguracja}
 
 
 
-\section{Klient}
+\section{Cześć kliencka}
   \subsection{Routing}
   \subsection{Subskrypcje}
   \subsection{Szablony}
