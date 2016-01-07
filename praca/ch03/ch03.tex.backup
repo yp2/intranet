@@ -498,21 +498,111 @@ Gdy klient wywołuje, którąś z metod \verb|insert|, \verb|update| lub \verb|r
 Utrzymanie reguł zdefiniowanych z wykorzystaniem \verb|allow| oraz \verb|deny| jest bardzo skomplikowane oraz czasochłonne. Dodając do tego łatwą modyfikację kodu części klienckiej naszej aplikacji nie jest dobrym pomysłem pozwalać klientom na bezpośredni dostęp do operacji na kolekcjach. Kolejnym elementem, który może znacznie utrudnić takie operacje to sam dostęp do danych --- klient aby dokonać modyfikacji danych musi mieć do nich dostęp, co może okazać się problemem podczas optymalizacji aplikacji. Wyobraźmy sobie widok wszystkich powiadomień jakie dostaje użytkownik. Powiadomienia mogą pochodzić ze wszystkich modułów aplikacji. Sprawa nie wydaja się skomplikowana --- wystarczy publikacja oraz subskrypcja na jedną kolekcję dotyczącą powiadomień. Sytuacja zaczyna się komplikować gdy z pojedynczego powiadomienia możemy dokonywać akcji dotyczących innych części systemu np. akceptowanie urlopu. Urlopy przechowywane są w innej kolekcji niż powiadomienia. Teraz aby umożliwić taką operację musimy mieć dostęp do kolekcji dotyczącej urlopów. Rodzą się kolejne pytania do jakiej części tej kolekcji ma mieć dostęp dany użytkownik, jak ograniczyć zestaw danych tak aby akceptacja urlopów była możliwa oraz znacząco nie obciążać ani nie spowalniać strony klienckiej. Przedstawiony wycinek to tylko część problemu podejścia do operacji CRUD po stronie klienta. Z tego powodu oficjalne przewodniki odradzają takiego podejścia na rzecz stosowania \verb|Meteor.methods|. Stosujące metody mamy pewność co do poprawności kodu --- kod umieszczony w części wspólnej nie może ulec modyfikacji po stronie klienta. Dzieląc umiejętnie kod metod z wykorzystaniem zmiennych \verb|Meteor.isServer| oraz \verb|Meteor.isClient| możemy dowolnie modyfikować zachowanie metod od tego czy kod jest uruchomiony po stronie serwera lub klienta. Drugą zaletą użycia metod to brak ograniczeń w dostępie do danych oraz ograniczeń narzuconych przez reguły \verb|allow| i \verb|deny| gdy metoda jest uruchamiana po stronie serwera. Stosując metody rozwiązanie powyższego problemu staje się trywialnie proste, bezpiecznie --- mamy pełną kontrolę nad kodem --- a implementacja reguł dostępu do operacji modyfikacji kolekcji jest o wiele prostsza. Utrzymanie tych reguł jest o wiele mniej pracochłonne oraz mniej podatne na błędy. Użycie metod ma jeszcze jedną zaletę --- chyba najważniejszą --- łatwo napisać kod testujący daną metodę.
 
   \subsection{Konfiguracja}
-
-
+Każda aplikacja potrzebuje pliku z danymi konfiguracyjnymi. Listing ... przedstawia plik \textit{exampleConfig.json}. Jest to plik przykładowy w formacie \textit{JSON} zwierający klucze używane przez aplikację Intranet, wartości są przykładowe lub zawierają puste ciągi znaków.
+\begin{js}[caption={{Przykładowa konfiguracja - \textit{exampleConfig.json}}},label={lst:config}]
+{
+  "debug": true,
+  "email": {
+    "SMTPCreds": "",
+    "invitationFrom": "admin@domain.com"
+  },
+  "hijackEmail": true,
+  "hijackEmailAddress": "a@a.pl"
+}
+\end{js}
+Aplikacja w środowisku produkcyjnym używa pliku \textit{serverConfig.json}, który jest uzupełniony danymi właściwymi dla tego środowiska. Podczas pisanie aplikacji i jej testowania używany jest inny plik -- \textit{developConfig.json}, który zawiera dane właściwe dla tego cyklu tworzenia aplikacji. Plik te przechowywane są po stronie serwerowej po to aby klient nie miał dostępu do wrażliwych danych, które mogą znajdować się w takich plikach. Uruchamianie aplikacji z parametrem \verb|--settings| pozwala na podanie właściwego pliku konfiguracyjnego. Z przyczyn bezpieczeństwa pliki używane podczas rozwoju aplikacji oraz w środowisku produkcyjnym nie są zamieszczone w repozytorium kodu.
 
 \section{Cześć kliencka}
   \subsection{Routing}
+Aplikacja Intranet jest to aplikacji typu \textit{Single-page Application (SPA)} --- aplikacja, która składa się z jednej strony internetowej. Aplikacje tego typu ładują się w całości do pamięci przeglądarki a akcje użytkownika powodują zmiany tylko określonych fragmentów strony bez jej całkowitego przeładowywania. Routing --- \textit{trasowanie} --- w przypadku aplikacji SPA określa tylko stan aplikacji. Po skierowaniu aplikacji na inny \textit{url} strona nie ulega przeładowaniu --- tylko właściwy dla stanu, określonego przez ten \textit{url}, element strony internetowej ulega zmianie. W aplikacji Intranet wykorzystywany jest \verb|FlowRouter| dostarczany przez pakiet \verb|kadira:flow-router|. Routing odbywa się w całości tylko po stronie klienta. 
+
+Aplikacja pisane z wykorzystaniem Meteor.js może posiadać w kodzie HTML tylko po jednym elemencie \verb|<body>| oraz \verb|<head>|. Wszystkie szablony będą renderowane w elemencie \verb|<body>| a w elemencie \verb|<head>| będą dołączane wszystkie zależności aplikacji -- to jest pliki css oraz js. Do poprawne obsługi routing z wykorzystaniem \verb|FlowRouter| musimy zdefiniować w jakim elemencie będą renderowane szablony obrazujące zmianę stanu aplikacji. Na listingu \ref{lst:main_html} przedstawiono główny plik HTML z tagami \verb|<body>| oraz \verb|<head>|. 
+\begin{html}[caption={Główny plik HTML},label={lst:main_html}]
+<head>
+    <title>IntranetApp</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+</head>
+
+<body>
+{{> sAlert}}
+</body>
+\end{html}
+Następny listing (\ref{lst:blaze_layout}) przedstawia wskazanie elementu HTML w jaki router ma renderować szablony. 
+
+\begin{js}[caption={Wskazanie elementu do renderowania szablonów},label={lst:blaze_layout}]
+BlazeLayout.setRoot('body');
+\end{js}
+Kolejny element niezbędny podczas renderowania to podstawowy układ --- \textit{layout}, który będzie używany przez aplikację. Aplikacja może posiadać kilka layoutów w zależności od potrzeb np. ekran logowania, widok dla nie zalogowanych użytkowników mogą mieć inne układy. Listing \ref{lst:main_layout} przedstawia layout dla aplikacji Intranet dla zalogowanych użytkowników.
+\begin{html}[caption={Główny layout dla aplikacji},label={lst:main_layout}]
+<template name="mainDashLayout">
+    <div class="wrapper">
+        {{# if authInProcess }}
+            {{> authInProcessLoading}}
+        {{else}}
+            {{#if canShow }}
+                    {{> Template.dynamic template=header}}
+                    {{> Template.dynamic template=sideBar}}
+
+                    {{> Template.dynamic template=content}}
+
+                    {{> Template.dynamic template=footer}}
+                    {{> Template.dynamic template=controlSideBar}}
+                    {{>inviteUserDialog}}
+            {{/if}}
+        {{/if}}
+    </div>
+</template>
+\end{html}
+Na listingu widać kilka nietypowych dla HTML znaczników użytych szablonie określającym layout. Znacznik otoczone podwójnymi nawiasami \verb|{{...}}| są to znacznik języka szablonów \emph{Spacebars}\footnote{https://github.com/meteor/meteor/tree/devel/packages/spacebars}. Język ten zostanie omówiony w późniejszej części pracy. Z punktu widzenie routera istotne są znaczniki \verb|Template.dynamic|. W miejsca oznaczone tymi znacznikami zostaną wstrzyknięte odpowiednie szablony. Za to będzie odpowiedzialny sam router, a dokładanie \verb|BlazeLayout.render|. Listing \ref{lst:routing} przedstawia definicję przykładowego routingu dla aplikacji.
+\begin{js}[caption={Definicja przykładowego routingu},label={lst:routing}]
+FlowRouter.route('/projectSummary/:projectId', {
+    action: function (params, queryParams) {
+        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('projectMain'));
+    },
+    name: 'projectMain'
+});
+
+FlowRouter.route('/projectWiki/:projectId', {
+    action: function (params, queryParams) {
+        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('mainWiki'));
+    },
+    name: 'projectWiki'
+});
+
+FlowRouter.route('/projectWiki/:projectId/:category/:articleId', {
+    action: function (params, queryParams) {
+        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('wikiArticle'))
+    },
+    name: 'projectWikiArticle'
+});
+
+FlowRouter.route('/projectWiki/:projectId/:category', {
+    action: function (params, queryParams) {
+        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('wikiCategory'));
+    },
+    name: 'projectWikiCategory'
+});
+
+FlowRouter.route('/projectConversation/:projectId', {
+    action: function (params, queryParams) {
+        BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('projectTalks'));
+    },
+    name: 'projectTalks'
+});
+\end{js}
+
+
+
+
   \subsection{Subskrypcje}
   \subsection{Szablony}
     \subsubsection{HTML}
+    spacbars
     \subsubsection{JS}
   \subsection{Eventy}
   \subsection{Helpery}
   \subsection{Pliki less}
     że są zbierane w całość i łączone w jeden duży plik.
-  \subsection{Formularze}
-    opis jak to jest obsługiwane plus yfform
   
 \section{Objekt MyApp}
   po co go się stosuje

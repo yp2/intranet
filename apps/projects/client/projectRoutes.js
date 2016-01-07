@@ -10,7 +10,8 @@ FlowRouter.route('/projectWiki/:projectId', {
         BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('mainWiki'));
     },
     name: 'projectWiki'
-})
+});
+
 FlowRouter.route('/projectWiki/:projectId/:category/:articleId', {
     action: function (params, queryParams) {
         BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('wikiArticle'))
@@ -30,4 +31,4 @@ FlowRouter.route('/projectConversation/:projectId', {
         BlazeLayout.render('mainDashLayout', MyApp.mainDashRegions('projectTalks'));
     },
     name: 'projectTalks'
-})
+});

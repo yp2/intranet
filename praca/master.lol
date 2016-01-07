@@ -11,3 +11,7 @@
 \contentsline {lstlisting}{\numberline {3.10}Operacje \textit {CRUD}}{34}{lstlisting.3.10}
 \contentsline {lstlisting}{\numberline {3.11}Definicje \textit {allow} oraz \textit {deny}}{35}{lstlisting.3.11}
 \contentsline {lstlisting}{\numberline {3.12}Przyk\IeC {\l }adowa konfiguracja - \textit {exampleConfig.json}}{36}{lstlisting.3.12}
+\contentsline {lstlisting}{\numberline {3.13}G\IeC {\l }\IeC {\'o}wny plik HTML}{37}{lstlisting.3.13}
+\contentsline {lstlisting}{\numberline {3.14}Wskazanie elementu do renderowania szablon\IeC {\'o}w}{38}{lstlisting.3.14}
+\contentsline {lstlisting}{\numberline {3.15}G\IeC {\l }\IeC {\'o}wny layout dla aplikacji}{38}{lstlisting.3.15}
+\contentsline {lstlisting}{\numberline {3.16}Definicja przyk\IeC {\l }adowego routingu}{38}{lstlisting.3.16}

@@ -31,15 +31,14 @@
 \contentsline {subsection}{\numberline {3.5.2}Konfiguracja}{36}{subsection.3.5.2}
 \contentsline {section}{\numberline {3.6}Cze\IeC {\'s}\IeC {\'c} kliencka}{37}{section.3.6}
 \contentsline {subsection}{\numberline {3.6.1}Routing}{37}{subsection.3.6.1}
-\contentsline {subsection}{\numberline {3.6.2}Subskrypcje}{37}{subsection.3.6.2}
-\contentsline {subsection}{\numberline {3.6.3}Szablony}{37}{subsection.3.6.3}
-\contentsline {subsubsection}{HTML}{37}{section*.8}
-\contentsline {subsubsection}{JS}{37}{section*.9}
-\contentsline {subsection}{\numberline {3.6.4}Eventy}{37}{subsection.3.6.4}
-\contentsline {subsection}{\numberline {3.6.5}Helpery}{37}{subsection.3.6.5}
-\contentsline {subsection}{\numberline {3.6.6}Pliki less}{37}{subsection.3.6.6}
-\contentsline {subsection}{\numberline {3.6.7}Formularze}{37}{subsection.3.6.7}
-\contentsline {section}{\numberline {3.7}Objekt MyApp}{37}{section.3.7}
-\contentsline {section}{\numberline {3.8}Paczki powtsta\IeC {\l }e na potrzeby aplikacji}{37}{section.3.8}
-\contentsline {chapter}{\numberline {4}Wdro\IeC {\.z}enie}{39}{chapter.4}
-\contentsline {chapter}{\numberline {5}Podsumowanie}{41}{chapter.5}
+\contentsline {subsection}{\numberline {3.6.2}Subskrypcje}{39}{subsection.3.6.2}
+\contentsline {subsection}{\numberline {3.6.3}Szablony}{39}{subsection.3.6.3}
+\contentsline {subsubsection}{HTML}{39}{section*.8}
+\contentsline {subsubsection}{JS}{40}{section*.9}
+\contentsline {subsection}{\numberline {3.6.4}Eventy}{40}{subsection.3.6.4}
+\contentsline {subsection}{\numberline {3.6.5}Helpery}{40}{subsection.3.6.5}
+\contentsline {subsection}{\numberline {3.6.6}Pliki less}{40}{subsection.3.6.6}
+\contentsline {section}{\numberline {3.7}Objekt MyApp}{40}{section.3.7}
+\contentsline {section}{\numberline {3.8}Paczki powtsta\IeC {\l }e na potrzeby aplikacji}{40}{section.3.8}
+\contentsline {chapter}{\numberline {4}Wdro\IeC {\.z}enie}{41}{chapter.4}
+\contentsline {chapter}{\numberline {5}Podsumowanie}{43}{chapter.5}
