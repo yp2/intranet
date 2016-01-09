@@ -15,3 +15,8 @@
 \contentsline {lstlisting}{\numberline {3.14}Wskazanie elementu do renderowania szablon\IeC {\'o}w}{38}{lstlisting.3.14}
 \contentsline {lstlisting}{\numberline {3.15}G\IeC {\l }\IeC {\'o}wny layout dla aplikacji}{38}{lstlisting.3.15}
 \contentsline {lstlisting}{\numberline {3.16}Definicja przyk\IeC {\l }adowego routingu}{38}{lstlisting.3.16}
+\contentsline {lstlisting}{\numberline {3.17}Funkcja pomocnicza --- definicja region\IeC {\'o}w}{39}{lstlisting.3.17}
+\contentsline {lstlisting}{\numberline {3.18}Pobieranie parametr\IeC {\'o}w z routera}{40}{lstlisting.3.18}
+\contentsline {lstlisting}{\numberline {3.19}Podstawowe subskrypcje}{40}{lstlisting.3.19}
+\contentsline {lstlisting}{\numberline {3.20}Subskrypcje na poziomie szablonu}{41}{lstlisting.3.20}
+\contentsline {lstlisting}{\numberline {3.21}\textit {Spacebars}}{42}{lstlisting.3.21}

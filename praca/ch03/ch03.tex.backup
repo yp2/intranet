@@ -590,15 +590,124 @@ FlowRouter.route('/projectConversation/:projectId', {
     name: 'projectTalks'
 });
 \end{js}
+Poprzez wywołanie funkcji \verb|FlowRouter.route| definiujemy trasę. Funkcja przyjmuje dwa parametry, pierwszy z nich to ciąg znaków określający \textit{url} danej ścieżki, drugi to obiekt konfiguracyjny dla trasy. W tym przypadku obiekt ten ma dwie właściwości: \verb|action| --- określa co się stanie po wejściu na daną ścieżkę oraz \verb|name| --- używany np. do określenia aktywnej ścieżki. Wewnątrz ciała funkcji, która jest zdefiniowana we właściwości \verb|action| do renderowania poszczególnych szablonów używana jest funkcja \verb|BlazeLayout.render|. Jako pierwszy parametr przyjmuje ona ciąg znaków określający jaki layout ma zostać użyty drugi parametr to obiekt tworzony przez funkcję pomocniczą \verb|MyApp.mainDashRegions|. Jako parametr przyjmuje ona ciąg znaków określający nazwę szablonu, który zostanie wstrzyknięty w miejsce określone przez wyrażenie \verb|{{> Template.dynamic template=content}}| w layoucie (szablonie) \verb|mainDashLayout| --- listing \ref{lst:main_layout}. Reszta regionów definiowanych przez inne wyrażenia \verb|Template.dynamic| zostanie utworzona przez funkcję pomocniczą przedstawioną na listingu \ref{lst:regions}.
 
+\begin{js}[caption={Funkcja pomocnicza --- definicja regionów},label={lst:regions}]
+MyApp._mainDashRegions = {
+    header: "mainDashHeader",
+    sideBar: "mainDashSideBar",
+    footer: "mainDashFooter",
+    controlSideBar: "mainDashControlSideBar"
+};
+MyApp.mainDashRegions = function (contentTemplate) {
+    var regions;
+    if (contentTemplate) {
+        check(contentTemplate, String);
+        regions = _.extend({content: contentTemplate}, this._mainDashRegions)
+    } else {
+        regions = _.clone(this._mainDashRegions)
+    }
+    return regions
+};
+\end{js}
 
+Na listingu \ref{lst:routing} widzimy także użycie parametrów -- wyrazy poprzedzone ,,:'' --- w ciągach znaków użytych do definicji \textit{url} w funkcji \verb|FlowRouter.route|. Router traktuje je w specjalny sposób przy dopasowywaniu ścieżek. Router umożliwia także pobranie jego wartości. Listing \ref{lst:router_param} przedstawia przykładowe sposoby pobierania takich wartości.
+\begin{js}[caption={Pobieranie parametrów z routera},label={lst:router_param}]
+// ścieżka /projectSummary/:projectId
+self.project = function () {
+    FlowRouter.watchPathChange();
+    let context = FlowRouter.current();
+    return Project.findOne({_id: context.params.projectId})
+};
 
+// lub:
+let projectId = FlowRouter.getParam("projectId");
+console.log(projectId);
+\end{js}
 
   \subsection{Subskrypcje}
+% autorun
+Jak już wspomniano aby klient miał dostęp do zestawu danych musi być zdefiniowana publikacja określająca dany zestaw oraz klient musi dokonać subskrypcja takiej publikacji. Listing \ref{lst:subs_basic} obrazuje przykładowe subskrypcje.
+\begin{js}[caption={Podstawowe subskrypcje},label={lst:subs_basic}]
+// publikacja "chat"
+Meteor.subscribe("chat", {room: Session.get("current-room")});
+
+// publikacja "privateMessages"
+Meteor.subscribe("privateMessages");
+\end{js}
+
+Jak widać na listingu do subskrypcji możemy użyć metody \verb|Meteor.subscribe|, która przyjmuje jako pierwszy parametr nazwę publikacji a następne parametry zostaną przekazane do funkcji zwrotnej zdefiniowanej w danej publikacji. Inny sposobem jest wykorzystanie obiektu \verb|Blaze.TemplateInstance|. Listing \ref{lst:subs_template} pokazuje wykorzystanie drugiego sposobu.
+\begin{js}[caption={Subskrypcje na poziomie szablonu},label={lst:subs_template}]
+Template.projectTalks.onCreated(function () {
+    let self = this;
+
+    self.autorun(() => {
+
+        self.projectId = () => {
+            FlowRouter.watchPathChange();
+            let context = FlowRouter.current();
+            return context.params.projectId
+        };
+
+        self.subscribe('userProjects');
+        self.subscribe('talks', {'project.id': self.projectId()});
+
+
+        if (self.subscriptionsReady()) {
+            self.project = function () {
+                return Project.findOne({_id: self.projectId()})
+            };
+
+            if (!self.project()) {
+                FlowRouter.go('mainDash');
+            }
+            self.talks = () => {
+                return Talks.find({'project.id': self.project()._id, status: "publish"}, {sort: {createdAt: -1}})
+            };
+            self.draftTalk = () => {
+                return Talks.findOne({
+                    'author.id': Meteor.user()._id,
+                    'project.id': self.project()._id,
+                    status: "draft"
+                })
+            };
+        }
+
+
+    })
+});
+\end{js}
+Wykorzystując ten sposób subskrypcji musimy dokonać podczas tworzenia szablonu z wykorzystaniem wywołania funkcji \verb|onCreated|. Jako parametr przekazujemy funkcję zwrotną która zostanie wywołana podczas tworzenia szablonu. Jak widzimy na listingu \ref{lst:subs_template} tak samo wykorzystujemy \verb|subscribe| będą właściwością obiektu \verb|this|. W tym kontekście w trakcie tworzenia szablonu będzie to obiekt \verb|Blaze.TemplateInstance|. W szablonie \verb|projectTalks| subskrybowane są dwie publikacje: \verb|userProjects| oraz \verb|talks|. W przedstawiony kodzie wykorzystujemy jeszcze jedną ciekawą funkcję \verb|autorun| związaną z obiektem \verb|Blaze.TemplateInstance|. Funkcja te jest pochodną funkcji \verb|Tracker.autorun|. Mechanizm użyty w tych funkcjach odpowiada za reaktywność aplikacji i jest dostarczany przez bibliotekę \verb|Deps|. Funkcja \verb|autorun| przyjmuje jeden parametr funkcję która zostanie przeliczona za każdym razem gdy zmieni się jakakolwiek zależność umieszczona w jej ciele. Przez zależności rozumiemy \textit{reaktywne źródła danych}. W przypadku pokazanym w listingu za takie reaktywne źródła danych uznajemy subskrypcje (linie 12 i 13) oraz wywołanie \verb|FlowRouter.watchPathChange()| (linia 7), które to tworzy takie źródło. Każda zmiana subskrypcji oraz zmiana parametru w adresie \verb|url| spowoduje ponowne przeliczenie funkcji przekazanej do \verb|autorun|. Ten mechanizm jest jedną z najważniejszych zalet tego frameworka.
+
   \subsection{Szablony}
+Szablony wykorzystywane przez framework składają się z dwu części: cześć z kodem HTML umieszczonym pomiędzy elementami \verb|<template>| oraz opcjonalnej część JavaScriptowej. W części HTML możemy umieszczać znaczniki języka szablonów \verb|Spacebars|. Szablony mogą być używane wielokrotnie w tym samy kodzie HTML. W ostatnim czasie prężnie rozwija się intergracja Meteora z innymi frameworkami JavaScriptowymi takimi jak \emph{AngularJS}\footnote{http://www.angular-meteor.com} oraz \emph{React}\footnote{https://github.com/reactjs/react-meteor}. 
     \subsubsection{HTML}
-    spacbars
+W części HTML szablonów możemy wykorzystywać dowolne elementy HTML oraz dodatkowo możemy skorzystać z języka szablonów \verb|Spacebars|, które zostały stworzone na podstawie języka szablonów \verb|Handlebars|. \verb|Spacbars| są domyślnie instalowane przy tworzeniu nowej aplikacji. Dostarczają nam dodatkowych znaczników umieszczanych w podwójnych nawiasach wąsatych \verb|{{ }}|. Listing \ref{lst:spacbars_basic} przedstawia przykładowe użycie \verb|Spacebars|.
+\begin{js}[caption={{\textit{Spacebars}}},label={lst:spacbars_basic}]
+<template name="myPage">
+  <h1>{{pageTitle}}</h1>
+
+  {{> nav}}
+
+  {{#each posts}}
+    <div class="post">
+      <h3>{{title}}</h3>
+      <div class="post-content">
+        {{{content}}}
+      </div>
+    </div>
+  {{/each}}
+</template>
+\end{js}
+W listingu pokazano wykorzystanie kilku znaczników:
+\begin{itemize}
+ \item \verb|{{pageTitle}}| --- podwójne nawiasy wąsate używane są do wstawiania ciągów znaków, tak wstawiany tekst jest oznaczany jako bezpieczny --- czyli pomimo obecnośći znaków \verb|<| w tekście niezostanie stworzony żaden znacznik HTML;
+ \item \verb|{{> nav}}|
+\end{itemize}
+
+
     \subsubsection{JS}
+    autorun
   \subsection{Eventy}
   \subsection{Helpery}
   \subsection{Pliki less}
