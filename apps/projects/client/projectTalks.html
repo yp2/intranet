@@ -1,10 +1,7 @@
 <template name="projectTalks">
     <div class="content-wrapper">
-    <!--{{#if parentSubsReady}}-->
-        <!-- Content Header (Page header) -->
         {{# if Template.subscriptionsReady}}
             {{#with project }}
-
                 <section class="content-header">
                     <h1>
                         Conversations - project {{title}}
@@ -38,8 +35,6 @@
                             {{>talkElement }}
                         </div>
                     {{/each}}
-
-
                     <div class="col-lg-8 col-lg-offset-2">
                     </div>
                 </section>
@@ -47,8 +42,5 @@
                 {{> contentLoading }}
             {{/with}}
         {{/if}}
-            <!--{{else}}-->
-        <!--{{> contentLoading }}-->
-            <!--{{/if}}-->
     </div>
 </template>

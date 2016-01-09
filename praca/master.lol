@@ -20,3 +20,9 @@
 \contentsline {lstlisting}{\numberline {3.19}Podstawowe subskrypcje}{40}{lstlisting.3.19}
 \contentsline {lstlisting}{\numberline {3.20}Subskrypcje na poziomie szablonu}{41}{lstlisting.3.20}
 \contentsline {lstlisting}{\numberline {3.21}\textit {Spacebars}}{42}{lstlisting.3.21}
+\contentsline {lstlisting}{\numberline {3.22}Funkcje pomocnicze szablon\IeC {\'o}w}{43}{lstlisting.3.22}
+\contentsline {lstlisting}{\numberline {3.23}Przyk\IeC {\l }adowy szablon}{44}{lstlisting.3.23}
+\contentsline {lstlisting}{\numberline {3.24}Definicja zdarze\IeC {\'n}}{45}{lstlisting.3.24}
+\contentsline {lstlisting}{\numberline {3.25}Tworzenia, renderowani oraz niszczenie szablonu}{46}{lstlisting.3.25}
+\contentsline {lstlisting}{\numberline {3.26}Przyk\IeC {\l }adowy plik less}{47}{lstlisting.3.26}
+\contentsline {lstlisting}{\numberline {3.27}Dodwanie pakiet\IeC {\'o}w do aplikacji}{49}{lstlisting.3.27}

@@ -681,9 +681,9 @@ Wykorzystując ten sposób subskrypcji musimy dokonać podczas tworzenia szablon
 
   \subsection{Szablony}
 Szablony wykorzystywane przez framework składają się z dwu części: cześć z kodem HTML umieszczonym pomiędzy elementami \verb|<template>| oraz opcjonalnej część JavaScriptowej. W części HTML możemy umieszczać znaczniki języka szablonów \verb|Spacebars|. Szablony mogą być używane wielokrotnie w tym samy kodzie HTML. W ostatnim czasie prężnie rozwija się intergracja Meteora z innymi frameworkami JavaScriptowymi takimi jak \emph{AngularJS}\footnote{http://www.angular-meteor.com} oraz \emph{React}\footnote{https://github.com/reactjs/react-meteor}. 
-    \subsubsection{HTML}
+    \subsubsection{Część HTML}
 W części HTML szablonów możemy wykorzystywać dowolne elementy HTML oraz dodatkowo możemy skorzystać z języka szablonów \verb|Spacebars|, które zostały stworzone na podstawie języka szablonów \verb|Handlebars|. \verb|Spacbars| są domyślnie instalowane przy tworzeniu nowej aplikacji. Dostarczają nam dodatkowych znaczników umieszczanych w podwójnych nawiasach wąsatych \verb|{{ }}|. Listing \ref{lst:spacbars_basic} przedstawia przykładowe użycie \verb|Spacebars|.
-\begin{js}[caption={{\textit{Spacebars}}},label={lst:spacbars_basic}]
+\begin{html}[caption={{\textit{Spacebars}}},label={lst:spacbars_basic}]
 <template name="myPage">
   <h1>{{pageTitle}}</h1>
 
@@ -698,30 +698,227 @@ W części HTML szablonów możemy wykorzystywać dowolne elementy HTML oraz dod
     </div>
   {{/each}}
 </template>
-\end{js}
+\end{html}
 W listingu pokazano wykorzystanie kilku znaczników:
 \begin{itemize}
- \item \verb|{{pageTitle}}| --- podwójne nawiasy wąsate używane są do wstawiania ciągów znaków, tak wstawiany tekst jest oznaczany jako bezpieczny --- czyli pomimo obecnośći znaków \verb|<| w tekście niezostanie stworzony żaden znacznik HTML;
+ \item \verb|{{pageTitle}}| --- podwójne nawiasy wąsate używane są do wstawiania ciągów znaków, tak wstawiany tekst jest oznaczany jako bezpieczny --- czyli pomimo obecność znaków \verb|<| w tekście niezostanie stworzony żaden znacznik HTML;
  \item \verb|{{> nav}}| --- tag służący do wstawiania innych szablonów rozpoznawanych po nazwie;
  \item \verb|{{#each}}| --- tag blokowy posiadający blok treści, tagi \verb|#if|, \verb|#each|, \verb|#with| oraz \verb|#unless| są wbudowane, możliwe jest także definiowanie swoich własnych tagów blokowych, tagi \verb|#each| oraz \verb|#with| tworzą nowy kontekst danych dla swoich zawartości, w przykładzie \verb|{{tile}}| i \verb|{{content}}| odnoszą się do właściwości pojedynczego postu;
  \item \verb|{{{content}}}| --- potrójne nawiasy wąsate używane są do wstawiania treści HTML, które nie są określane jako bezpieczne --- wstawiany jest surowy kod HTML. 
 \end{itemize}
-Tagi warunkowe if else unless else pętle.
+Korzystając z języka szablonów mam możliwość użycia dwóch instrukcji warunkowych \verb|#if| oraz \verb|#unless| z opcjonalnym blokiem \verb|else|. Iterować elementy możemy z wykorzystaniem tagu \verb|#each|. 
+    \subsubsection{Część JavaScript}
+JavaScriptowa cześć szablonów to przeważnie osobne plik zawierające definicje funkcji pomocniczych (\verb|helpers|), zdarzeń (\verb|events|) jakie są obsługiwane przez szablon oraz trzech funkcji zwrotnych wywoływanych podczas tworzenia (\verb|onCreated|), renderowanie (\verb|onRendered|) oraz niszczenia (\verb|onDestroyed|) szablonu.
 
-    \subsubsection{JS}
-    autorun
-  \subsection{Eventy}
-  \subsection{Helpery}
-  \subsection{Pliki less}
-    że są zbierane w całość i łączone w jeden duży plik.
-  
-\section{Objekt MyApp}
-  po co go się stosuje
+Funkcje pomocnicze tak zwane \textit{helpery} definiowanie są poprzez wywołanie funkcji \verb|helpers| i przekazaniu jej obiektu zwierającego definicje funkcji pomocniczych. Na listingu \ref{lst:helpers}  przedstawiono taką definicje.
+\begin{js}[caption={Funkcje pomocnicze szablonów},label={lst:helpers}]
+Template.projectTalks.helpers({
+    project () {
+        return Template.instance().project()
+    },
+    draftTalk () {
+        return Template.instance().draftTalk();
+    },
+    canAdd () {
+        let draftTalk = Template.instance().draftTalk();
+        return draftTalk && !!draftTalk.title.length && !!draftTalk.content.length ?  "": "disabled";
+    },
+    talks () {
+        return Template.instance().talks();
+    }
+});
+\end{js}
+Tak zdefiniowane helpery możemy użyć w szablonach HTML podając ich nazwę w podwójnych lub potrójnych nawiasach wąsatych. Listing \ref{lst:projectTalks_templ} przedstawia część HTML dla szablonu \verb|projectTalks|, dla którego pokazano definicje funkcji pomocniczych.
+\begin{html}[caption={Przykładowy szablon},label={lst:projectTalks_templ}]
+<template name="projectTalks">
+    <div class="content-wrapper">
+        {{# if Template.subscriptionsReady}}
+            {{#with project }}
+                <section class="content-header">
+                    <h1>
+                        Conversations - project {{title}}
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="{{pathFor 'mainDash'}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                        <li><a href="{{pathFor 'projectMain' projectId=_id}}"><i class="fa fa-archive"></i> {{title}}
+                        </a></li>
+                        <li class="active">Talks</li>
+                    </ol>
+                </section>
+                <section class="content">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2">
+                            {{# with draftTalk}}
+                                <div class="box box-solid">
+                                    <div class="box-body ">
+                                        {{>addTalk }}
+                                    </div>
+                                    <div class="box-footer">
+                                        <button {{canAdd}} class="btn btn-flat btn-primary pull-right add-talk"><i
+                                                class="fa fa-plus"></i> Add
+                                        </button>
+                                    </div>
+                                </div>
+                            {{/with}}
+                        </div>
+                    </div>
+                    {{#each talks}}
+                        <div class="row">
+                            {{>talkElement }}
+                        </div>
+                    {{/each}}
+                    <div class="col-lg-8 col-lg-offset-2">
+                    </div>
+                </section>
+            {{else}}
+                {{> contentLoading }}
+            {{/with}}
+        {{/if}}
+    </div>
+</template>
+\end{html}
+Linia nr 4 przedstawia użycie helpera \verb|project|, który zwraca na obiekt projektu. Użycie tagu blokowego \verb|#with| zmienia w jego ciele kontekst na obiekt projektu przekazanego przez helper. W ten sposób możemy bezpośrednio odnosić się do właściwości obiektu projektu z wykorzystaniem nawiasów wąsatych lub do zdefiniowanych helperów. Taka sytuacja ma miejsce w linii 19 --- odniesienie do helpera \verb|defatTalk| wraz ze zmianą kontekstu oraz w linii 33 --- iteracja po tablicy obiektów zwracanych przez helper \verb|talks|. Iteracja także zmienia kontekst. Każdy element w pętli \verb|#each| jest renderowany z wykorzystaniem wstrzykiwanego szablonu \verb|talkElement|. W liniach 10 oraz 11 widzimy w jaki sposób możemy utworzyć url dal routera. Wykorzystujemy to helper dostarczany przez pakiet routera.
 
+Następnym element --- zdarzenia (\emph{events}), odpowiedzialny jest za interakcje. Definicja zdarzeń dla szablonu wygląda bardzo podobnie do definicji helperów. Wykorzystujemy tu funkcję \verb|events|, do której przekazujemy mapę zdarzeń. Listing \ref{lst:events} przedstawia definicję zdarzeń 
+\begin{js}[caption={Definicja zdarzeń},label={lst:events}]
+Template.projectTalks.events({
+    'click .add-talk' (e, t) {
+        e.preventDefault();
+        
+        Meteor.call('addTalk', this, function(error, result) {
+            if (error) {
+                sAlert.addError(error.reason, "Add talk edit");
+            }
+
+            if (result) {
+                sAlert.addSuccess("Talk added");
+            }
+        });
+    }
+});
+\end{js}
+Nazwy właściwości obiektu mapy zdarzeń przekazywanego do funkcji \verb|events| przyjmują określony schemat. Pierwszy człon nazwy to typ zdarzenia, może on przyjmować następujące wartości:
+\begin{itemize}
+ \item \verb|click| --- kliknięcie myszy na element HTML wliczając w to linki, przyciski, elementy formularzy lub elementy \verb|<div>|;
+ \item \verb|dblclick| --- dwuklik myszy na elemencie;
+ \item \verb|focus|, \verb|blur| --- element formularz zostaje zaznaczony lub traci takie zaznaczenie;
+ \item \verb|change| --- element \textit{checkbox} lub \textit{radio button} uległ zmianie;
+ \item \verb|mouseenter|, \verb|mouseleave| --- kursor wchodzi w granice elementu lub opuszcza granice elementu;
+ \item \verb|mousedown|, \verb|mouseup| --- klawisz myszy został niedawno wciśnięty lub został niedawno puszczony;
+ \item \verb|keydown|, \verb|keypress|, \verb|keyup| --- klawisz na klawiaturze został wciśnięty, \verb|keyup| oraz \verb|keydown| najlepiej używać dla klawiszy strzałek lub klawiszy będących modyfikatorami, \verb|keypress| najlepiej używać do wychwytywania wprowadzania tekstu w pola tekstowe. 
+\end{itemize}
+Drugi człon nazwy jest opcjonalny i jest to selektor typu CSS. W listingu jest to klasa \verb|.add-talk|. Klasa ta jest znajduje się w elemencie \verb|<button>|. Po przechwyceniu przez framework danego zdarzenia wykonywana jest zdefiniowana funkcja w mapie zdarzeń. W przedstawionym przykładzie będzie to wywołanie metody pod nazwą \verb|addTalk|. Do funkcji przekazywane jest obiekt danego zdarzenia oraz instancja szablonu, w którym zostało zdefiniowanie to zdarzenie. 
+
+Następne elementy znajdujące się w pliku JavaScript to metody do rejestrowania funkcji zwrotnych, które to będą wykonane podczas tworzenia, renderowania oraz niszczenia szablonu. Metoda \verb|onRendered| rejestruje funkcję, które będą wykonane podczas renderowania szablonu. Funkcje te zostaną wywołane raz podczas renderowania szablonu do obiektu DOM i wstawiania go do dokumentu. Jest to najlepsze miejsce na inicjalizację różnych wtyczek, które muszą operować na już obecnych na w dokumencie elementach drzewa DOM. \newline
+Wywołanie metody \verb|onCreated| zarejestruje przekazaną funkcją do wywołania podczas tworzenie szablonu. Funkcja taka zostanie wywołana przed wyliczenie logiki szablonu po raz pierwszy. W ciele funkcji \verb|this| jest to nowy obiekt instancji szablonu. Właściwości przypisane w tej funkcji do \verb|this| będą widziane w funkcjach zwrotnych zarejestrowanych przez wywołania metod \verb|onRendered| oraz \verb|onDestroyed|. Jest to najlepsze miejsce na inicjalizację szablonów oraz innych zmiennych, które mają być używane w innych funkcjach zwrotnych. Jest to także dobre miejsce na dokonanie subskrypcji. \newline
+Funkcje zwrotne zarejestrowane przez metodę \verb|onDestroyed| zostaną wykonane podczas niszczenia szablonu. Następuje to wtedy kiedy szablon zostaje ,,zdjęty'' z dokumentu HTML. Jest to najlepsze miejsce na wyczyszczenie oraz przywrócenie zmian dokonanych podczas tworzenie oraz renderowania szablonu. Listing \ref{lst:templ_metodes} przedstawia przykładowe wykorzystania omówionych metod.
+\begin{js}[caption={Tworzenia, renderowani oraz niszczenie szablonu},label={lst:templ_metodes}]
+Template.mainDashLayout.onCreated(function () {
+    var self = this;
+
+    Session.set('showInviteUserDialog', false);
+
+    self.renderedTemplates = new ReactiveVar(0);
+    self.autorun(function () {
+        var userId = Meteor.userId();
+        var loggingIn = Meteor.loggingIn();
+        if (!userId && !loggingIn) {
+            FlowRouter.go('login')
+        }
+        var user = Meteor.user();
+        var scopeSelected = user ? user.profile.scopeSelected.id : "";
+        self.subscribe('userScopes');
+        self.subscribe('scopeWiki', scopeSelected);
+        self.subscribe('userProjects');
+        self.subscribe("projectWiki");
+        self.subscribe("appUsers");
+    })
+});
+
+Template.mainDashLayout.onRendered(function () {
+
+    var self = this;
+    self.autorun(function () {
+        if (Session.get('showInviteUserDialog')) {
+            $("#inviteUserDialog").modal('show')
+        } else {
+            $("#inviteUserDialog").modal('hide')
+        }
+    });
+    Deps.autorun(function () {
+        if (self.renderedTemplates.get() === 4){
+            var body = $('body');
+                body.removeClass();
+                body.addClass("skin-blue sidebar-mini");
+
+                $(function () {
+                    $(document).off('click','.sidebar li a');
+                    MeteorAdminLTE.run()
+                });
+        }
+    })
+});
+
+Template.mainDashLayout.onDestroyed(function () {
+    Session.set('showInviteUserDialog', false);
+});$
+
+\end{js}
+\subsection{Pliki less}
+Pliki szablonów stylów napisanych w wykorzystanie dynamicznego języka styli \emph{less} są kompilowane do CSS. Tak skompilowane pliki wraz z innymi plikami CSS dostarczanymi np przez inne pakiety lub wtyczki łączone są w jeden duży plik i w takiej postaci wysyłane są do klientów. Listing \ref{lst:less} przedstawia przykładowy plik less wykorzystywany przez aplikację Intranet
+\begin{css}[caption={Przykładowy plik less},label={lst:less}]
+.content-wrapper {
+  min-height: 800px;
+
+}
+
+.scope-menu {
+  .scope-selected {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+  h3 {
+    margin-bottom: 0 !important;
+  }
+}
+
+.sidebar-menu.selected-scope {
+  .header {
+    color: lightgrey !important;
+  }
+}
+
+.sidebar-menu {
+  .user-list {
+    padding-left: 15px;
+    overflow: hidden;
+    .sidebar-project.user-element {
+      padding: 4px 0;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background-color: black;
+      text-align: center;
+      line-height: 1em;
+      border-radius: 25%;
+      font-size: 12px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+  }
+}
+\end{css}
   
-\section{Paczki powtstałe na potrzeby aplikacji}
-yp2:admin-lte@2.3.1
-yp2:confirm-modal-bs3@1.1.1
-yp2:hijack-email@1.0.0
-yp2:yfform@0.3.10
-plus informacje że są one dostępne na Atmosfer i githubie
+\section{Pakiety powstałe na potrzeby aplikacji}
+Na potrzeby aplikacji stworzono kilka otwarto źródłowych pakietów. Pakiety te zostały umieszczone w publicznym repozytorium pakietów \emph{Atmosphere}. Natomiast kod źródłowy jest dostępny na platformie GitHub. Pakiety te zostały zbudowane oraz opublikowane z wykorzystaniem narzędzi dostarczanych przez framework. Pakiety stworzone na potrzeby aplikacji oraz udostępnione publicznie:
+\begin{itemize}
+ \item \verb|yp2:admin-lte| --- pakiet udostępniający szablon \emph{AdminLTE} dla framework'a Meteor.js;
+ \item \verb|yp2:confirm-modal-bs3| --- tworzenie oraz proste zarządzanie elementem typu \emph{modal} dostarczanym przez \emph{Bootstrap 3}; umożliwia szybkie stworzenie modala potwierdzającego jaką czynność dokonaną przez użytkownika;
+ \item \verb|yp2:hijack-email| --- pakiet umożliwiający przechwytywanie emaili podczas pracy nad rozwojem aplikacji, emaile przekazywane są na jeden adres email zdefiniowany w konfiguracji aplikacji;
+ \item \verb|yp2:yfform| --- obsługa formularz z wykorzystaniem \verb|Meteor.methods| oraz funkcji, pakiet generuje formularze w stylu Bootstrap 3.
+\end{itemize}
+
+Powyższe pakiety mogą zostać dodane do aplikacji poprzez użycie polecenia, które zostało przedstawione na listingu \ref{lst:meteor_add}.
+\begin{bash}[caption={Dodwanie pakietów do aplikacji},label={lst:meteor_add}]
+meteor add autor:nazwa_pakietu
+\end{bash}

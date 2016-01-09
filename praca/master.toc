@@ -33,12 +33,9 @@
 \contentsline {subsection}{\numberline {3.6.1}Routing}{37}{subsection.3.6.1}
 \contentsline {subsection}{\numberline {3.6.2}Subskrypcje}{40}{subsection.3.6.2}
 \contentsline {subsection}{\numberline {3.6.3}Szablony}{42}{subsection.3.6.3}
-\contentsline {subsubsection}{HTML}{42}{section*.8}
-\contentsline {subsubsection}{JS}{43}{section*.9}
-\contentsline {subsection}{\numberline {3.6.4}Eventy}{43}{subsection.3.6.4}
-\contentsline {subsection}{\numberline {3.6.5}Helpery}{43}{subsection.3.6.5}
-\contentsline {subsection}{\numberline {3.6.6}Pliki less}{43}{subsection.3.6.6}
-\contentsline {section}{\numberline {3.7}Objekt MyApp}{43}{section.3.7}
-\contentsline {section}{\numberline {3.8}Paczki powtsta\IeC {\l }e na potrzeby aplikacji}{43}{section.3.8}
-\contentsline {chapter}{\numberline {4}Wdro\IeC {\.z}enie}{45}{chapter.4}
-\contentsline {chapter}{\numberline {5}Podsumowanie}{47}{chapter.5}
+\contentsline {subsubsection}{Cz\IeC {\k e}\IeC {\'s}\IeC {\'c} HTML}{42}{section*.8}
+\contentsline {subsubsection}{Cz\IeC {\k e}\IeC {\'s}\IeC {\'c} JavaScript}{43}{section*.9}
+\contentsline {subsection}{\numberline {3.6.4}Pliki less}{47}{subsection.3.6.4}
+\contentsline {section}{\numberline {3.7}Pakiety powsta\IeC {\l }e na potrzeby aplikacji}{48}{section.3.7}
+\contentsline {chapter}{\numberline {4}Wdro\IeC {\.z}enie}{51}{chapter.4}
+\contentsline {chapter}{\numberline {5}Podsumowanie}{53}{chapter.5}
