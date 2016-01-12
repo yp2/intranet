@@ -26,3 +26,4 @@
 \contentsline {lstlisting}{\numberline {3.25}Tworzenia, renderowani oraz niszczenie szablonu}{46}{lstlisting.3.25}
 \contentsline {lstlisting}{\numberline {3.26}Przyk\IeC {\l }adowy plik less}{47}{lstlisting.3.26}
 \contentsline {lstlisting}{\numberline {3.27}Dodwanie pakiet\IeC {\'o}w do aplikacji}{49}{lstlisting.3.27}
+\contentsline {lstlisting}{\numberline {4.1}Uruchomienie aplikacji na serwerze}{51}{lstlisting.4.1}
