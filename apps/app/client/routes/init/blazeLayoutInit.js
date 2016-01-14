@@ -1,2 +1,2 @@
-BlazeLayout.setRoot('body');
+BlazeLayout.setRoot('.main-wrapper');
 

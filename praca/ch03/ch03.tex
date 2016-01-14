@@ -1,4 +1,4 @@
-Poniższy rozdział omawia implementację aplikacji służącej jako intranet dla firmy z sektora IT, opisane zostaną założenia oraz --wymagania stawanie dla strony serwerowej oraz dla klientów--. W rozdziale poruszone zostaną najistotniejsze oraz kluczowe elementy aplikacji. Aplikacja została napisana z wykorzystaniem frameworka Meteor.js. Część serwera jak i kliencka została za programowana z użyciem JavaScriptu. Warstwa prezentacji została napisana z użyciem HTML5, CSS3/less, Bootstrap oraz AdminLTE. Bazę danych dla aplikacji stanowi nierelacyjna baza danych MongoDB wraz z jej kliencką implementacją Minimongo.
+Poniższy rozdział omawia implementację aplikacji służącej jako intranet dla firmy z~sektora IT, opisane zostaną założenia oraz wymagania stawanie dla strony serwerowej oraz dla klientów. W rozdziale poruszone zostaną najistotniejsze oraz kluczowe elementy aplikacji. Aplikacja została napisana z wykorzystaniem frameworka Meteor.js. Część serwera jak i kliencka została zaprogramowana z użyciem JavaScriptu. Warstwa prezentacji została napisana z użyciem HTML5, CSS3/less, Bootstrap oraz AdminLTE. Bazę danych dla aplikacji stanowi nierelacyjna baza danych MongoDB wraz z jej kliencką implementacją Minimongo.
 
 \section{Założenia}
 % założenia aplikacji intranet
@@ -36,7 +36,7 @@ Jak już wspomniono wcześniej do najważniejszych funkcjonalności aplikacji in
  \item twórca projektu może dodawać oraz usuwać użytkowników, którzy mają do niego dostęp;
  \item użytkownicy widzą tylko projekty, do których zostali zaproszeni;
  \item organizacja ma dostęp do wszystkich projektów utworzonych w jej zakresie;
- \item komunikacja w obrębie projektu mam mieć możliwość dodania wiadomości wraz z jej tytułem oraz możliwością dodana komentarzy;
+ \item komunikacja w obrębie projektu mam mieć możliwość dodania wiadomości wraz z jej tytułem oraz możliwością dodania komentarzy;
  \item wysyłanie zaproszeń do projektów oraz organizacji --- jeżeli użytkownik z podanym adresem email istnieje w systemie ma być automatycznie dodany do projektu lub organizacji;
  \item aplikacja ma być dostępna na wszystkich znaczących platformach oraz jak największej ilości urządzeń.
 \end{itemize} 
@@ -46,7 +46,7 @@ Jak już wspomniono wcześniej do najważniejszych funkcjonalności aplikacji in
 
 Niezależność od platformy oraz dostępność na jak największej ilości urządzeń narzuciła wybór typu aplikacji. Budowana aplikacja będzie typu sieciowego. Klienci będą uzyskiwać do niej dostęp poprzez przeglądarki internetowe kontaktując się z serwerem, na którym będzie dostępna budowana aplikacja. 
 
-W oparciu o założenia jakie ma spełniać aplikacja \emph{Intranet} oraz o obecne trendy w rozwoju aplikacji sieciowych do budowy aplikacji został wybrany framework Meteor.js, a jako język programowania JavaScript. Wybór tych technologii był podyktowany także szybkością oraz prostotą budowania aplikacji. Meteor.js używa JavaScriptu zarówno po stornie klienta oraz serwera co skraca czas nauki samego framework'a eliminując potrzebę nauki dodatkowego języka programowania. Tematyka oraz założenia projektu nie stanowią problemu dla przyjętego przez framework Meteor.js nierelacyjnego rozwiązania bazodanowego. Aplikacja nie posiada krytycznych elementów takich jak transakcje finansowe, zamówienia oraz innych elementów wymagających transakcji operacji na całej bazie danych. Dane są typowo informacyjne w związku z tym wykorzystanie bazy MongoDB nie stanowi żadnego zagrożenia dla użytkowników oraz samej aplikacji.
+W oparciu o założenia jakie ma spełniać aplikacja \emph{Intranet} oraz o obecne trendy w~rozwoju aplikacji sieciowych do budowy aplikacji został wybrany framework Meteor.js, a jako język programowania JavaScript. Wybór tych technologii był podyktowany także szybkością oraz prostotą budowania aplikacji. Meteor.js używa JavaScriptu zarówno po stornie klienta oraz serwera co skraca czas nauki samego framework'a eliminując potrzebę nauki dodatkowego języka programowania. Tematyka oraz założenia projektu nie stanowią problemu dla przyjętego przez framework Meteor.js nierelacyjnego rozwiązania bazodanowego. Aplikacja nie posiada krytycznych elementów takich jak transakcje finansowe, zamówienia oraz innych elementów wymagających transakcji operacji na całej bazie danych. Dane są typowo informacyjne w związku z tym wykorzystanie bazy MongoDB nie stanowi żadnego zagrożenia dla użytkowników oraz samej aplikacji.
 
 Aplikacja ma być dostępna na wszystkich znaczących platformach oraz jak największej ilości urządzeń. Aby to zapewnić w warstwie prezentacji wykorzystano HTML5, CSS3 wraz z kompilatorem less oraz domyślnie wykorzystywaną przez Meteor.js bibliotekę JQuery. W celu zachowania responsywności interfejsu użytkownika wykorzystano szablon AdminLTE, który oparty jest o framework Bootstrap. Wykorzystanie Bootstrapa dostarcza prosty oraz szybki sposób na dostosowanie układu i wyglądu interfejsu użytkownika w zależności od używanego przez niego urządzenia. Rozwiązanie to znaczenie zwiększa użyteczność aplikacji podczas używania urządzeń o różnych wielkościach oraz rozdzielczościach ekranu. 
 
@@ -57,7 +57,7 @@ Aplikacje napisane z wykorzystaniem frameworka Meteor.js to zestaw plików JavaS
 
 Katalogi o nazwie \verb|client| nie są ładowane po stronie serwera. Wszystkie zasoby znajdujące się w tym katalogu gdy aplikacja nie jest uruchomiona w trybie produkcyjnym są łączone oraz minimalizowane. W trybie developerskim plik JavaScript oraz CSS nie są minimalizowane aby ułatwić znajdowanie błędów w aplikacji. Jednakże pliki CSS nadal są łączone w jeden plik. Pliki HTML po stronie klienta są skanowane w poszukiwaniu trzech elementów najwyższego poziomu \verb|<head>|, \verb|<body>|, \verb|<template>|. Elementy head oraz body łączone są w jeden element i następnie przesyłane do klienta podczas pierwszego ładowania strony.
 
-Zasoby znajdujące się w katalogach o nazwie \verb|server| nie są ładowane po stronie klienta. Krytyczne oraz wrażliwe elementy aplikacji takie jak zarządzenia hasłami, proces autoryzacji powinny znajdować się w tych katalogach. Meteor zbiera wszystkie pliki JavaScript za wyjątkiem tych znajdujących się w katalogach \verb|public|, \verb|client| i \verb|private| oraz ich podkatalogach i ładuje je do instancje Node.js znajdującej się na serwerze. Kod na serwerze nie jest uruchamiany jako kod asynchroniczny typowy dla aplikacji opartych o Node.js. Meteor uruchamia kod pojedynczy wątek na żądanie
+Zasoby znajdujące się w katalogach o nazwie \verb|server| nie są ładowane po stronie klienta. Krytyczne oraz wrażliwe elementy aplikacji takie jak zarządzenia hasłami, proces autoryzacji powinny znajdować się w tych katalogach. Meteor zbiera wszystkie pliki JavaScript za wyjątkiem tych znajdujących się w katalogach \verb|public|, \verb|client| i \verb|private| oraz ich podkatalogach i ładuje je do instancje Node.js znajdującej się na serwerze. Kod na serwerze nie jest uruchamiany jako kod asynchroniczny typowy dla aplikacji opartych o Node.js. Meteor na żądanie uruchamia kod aplikacji jako pojedynczy wątek.
 
 Wszystkie pliki znajdujące w katalogu \verb|public| najwyższego poziomu serwowane są dla klientów takim jakimi są. Jest to właściwe miejsce dla plików takich jak \verb|favicon.ico|, \verb|robots.txt| oraz innych podobnych plików.
 
@@ -175,7 +175,7 @@ Project.before.update(function (userId, doc, fieldNames, modifier, options) {
 \end{js}
 
 \subsection{Metody}
-Meteor.js oferuje mechanizm zdalnie wywoływanych metod. Klient może wywołać zdefiniowane metody zdalnie na serwerze. Metody są definiowane przez wywołanie \verb|Meteor.methods|. Wywołanie \verb|Meteor.methods| po stornie serwera tworzy funkcje, które mogą zostać zdalnie wywoływane przez klienta. Funkcje takie powinny zwracać wartość, która może zostać sparsowana do obiektu \textit{EJSON} lub zwracać błąd. Natomiast wywołanie \verb|methods| po stornie klienta definiuje funkcje typu \textit{stub} --- funkcja symulująca zachowanie metody o takiej samej nazwie  zdefiniowanej na serwerze. Jeżeli \textit{stub} zostanie zdefiniowany a klient wywoła metodę z nim powiązaną \textit{stub} zostanie wywołany równolegle. Po stronie klienta wartość zwracana przez \textit{stub} jest ignorowana. Funkcje \verb|stub| są uruchamiane dla ich skutków ubocznych --- ich celem jest symulacja wyników funkcji wywoływanych na serwerze bez konieczności oczekiwania na ich ukończenie oraz przesłanie ich wyniku z serwera.
+Meteor.js oferuje mechanizm zdalnie wywoływanych metod. Klient może wywołać zdefiniowane metody zdalnie na serwerze. Metody są definiowane przez wywołanie \linebreak \verb|Meteor.methods|. Wywołanie \verb|Meteor.methods| po stornie serwera tworzy funkcje, które mogą zostać zdalnie wywoływane przez klienta. Funkcje takie powinny zwracać wartość, która może zostać sparsowana do obiektu \textit{EJSON} lub zwracać błąd. Natomiast wywołanie \verb|methods| po stornie klienta definiuje funkcje typu \textit{stub} --- funkcja symulująca zachowanie metody o takiej samej nazwie  zdefiniowanej na serwerze. Jeżeli \textit{stub} zostanie zdefiniowany a klient wywoła metodę z nim powiązaną \textit{stub} zostanie wywołany równolegle. Po stronie klienta wartość zwracana przez \textit{stub} jest ignorowana. Funkcje \verb|stub| są uruchamiane dla ich skutków ubocznych --- ich celem jest symulacja wyników funkcji wywoływanych na serwerze bez konieczności oczekiwania na ich ukończenie oraz przesłanie ich wyniku z serwera.
 
 \begin{js}[caption={{Wywołanie \textit{Meteor.methods} oraz definiowanie metod}},label={lst:projects_methods}]
 Meteor.methods({
@@ -198,11 +198,11 @@ Meteor.methods({
 
 
     },
-    ...$
+    ...
 })
 
 \end{js}
-Wykorzystując \verb|Meteor.isServer| oraz \verb|Meteor.isClient| możemy rozdzielić kod metod na część wykonywaną tylko na serwerze, kliencie lub wspólnie dla obu przypadków. Definiując metody w części wspólnej dla serwera oraz klienta z wykorzystaniem powyższych elementów API możemy pominąć definiowanie \textit{stubów} dla metod po stronie klienta. Listing \ref{lst:projects_methods} przedstawia  tak zdefiniowaną metodę umieszczoną w  pliku \verb|projectsMethodes.js| znajdującym się w katalogu \verb|lib|. Metody mogą przyjmować argumenty. Do sprawdzenia poprawność argumentów metody można skorzystać z funkcji sprawdzających wzorce takich jak \verb|check| oraz \verb|Match.test|. Funkcje te dostarczane są przez pakiet \verb|check|. Listing przedstawia usuwanie użytkownika z projektu. Linia 15 przedstawia aktualizację dokumentu w kolekcji \verb|Project| o podanym \verb|_id|. Z tablicy \verb|allowedUsers| usuwany jest ciąg znaków zawierających id danego użytkownika przekazane do metody w argumencie \verb|data|. Pierwszym atrybutem przejmowanym przez metodę \verb|update| wykonywaną na rzecz kolekcji to selektor określający jaki dokument lub dokumenty mają zostać zmodyfikowane. Drugi argument to modyfikator określający sposób modyfikacji danego dokumentu. 
+Wykorzystując \verb|Meteor.isServer| oraz \verb|Meteor.isClient| możemy rozdzielić kod metod na część wykonywaną tylko na serwerze, kliencie lub wspólnie dla obu przypadków. Definiując metody w części wspólnej dla serwera oraz klienta z wykorzystaniem powyższych elementów API możemy pominąć definiowanie \textit{stubów} dla metod po stronie klienta. Listing \ref{lst:projects_methods} przedstawia  tak zdefiniowaną metodę umieszczoną w  pliku \verb|projectsMethodes.js| znajdującym się w katalogu \verb|lib|. Metody mogą przyjmować argumenty. Do sprawdzenia poprawność argumentów metody można skorzystać z funkcji sprawdzających wzorce takich jak \verb|check| oraz \verb|Match.test|. Funkcje te dostarczane są przez pakiet \verb|check|. Listing przedstawia usuwanie użytkownika z projektu. Linia~15 przedstawia aktualizację dokumentu w kolekcji \verb|Project| o podanym \verb|_id|. Z tablicy \verb|allowedUsers| usuwany jest ciąg znaków zawierających \verb|_id| danego użytkownika przekazane do metody w argumencie \verb|data|. Pierwszym paramterem przejmowanym przez metodę \verb|update| wykonywaną na rzecz kolekcji to selektor określający jaki dokument lub dokumenty mają zostać zmodyfikowane. Drugi paramter to modyfikator określający sposób modyfikacji danego dokumentu. 
 
 \section{Cześć serwerowa}
   \subsection{Baza danych}
@@ -260,13 +260,13 @@ Następny listing (\ref{lst:mongo_embeded_otm}) przedstawia wykorzystanie tego s
 }
 \end{js}
 
-Wzorzec referencji unikamy powielania danych poprzez podanie referencji do innego dokumentu w innej lub tej samej kolekcji. Referencją najczęściej jest  \verb|_id| dokumentu. Wadą tego wzorca jest konieczność pobierania kolejnych dokumentów z bazy w celu odczytania danych z dokumentu powiązanego. Wykorzystując ten wzorzec otrzymujemy relację jeden do wielu. Listing \ref{lst:mongo_ref} przedstawia wykorzystaniem podlegającej zmianie oraz rosnącej tablicy z \verb|_id| poszczególnych dokumentów.
+We wzorcu referencji unikamy powielania danych poprzez podanie referencji do innego dokumentu w innej lub tej samej kolekcji. Referencją najczęściej jest  \verb|_id| dokumentu. Wadą tego wzorca jest konieczność pobierania kolejnych dokumentów z bazy w celu odczytania danych z dokumentu powiązanego. Wykorzystując ten wzorzec otrzymujemy relację jeden do wielu. Listing \ref{lst:mongo_ref} przedstawia wykorzystanie rosnącej oraz podlegającej zmianie tablicy z \verb|_id| poszczególnych dokumentów.
 \begin{js}[caption={{Referencje (tablica) -- relacja jeden do wielu}},label={lst:mongo_ref}]
 {
    name: "O'Reilly Media",
    founded: 1980,
    location: "CA",
-   books: [12346789, 234567890, ...] // _id of books for this publisher
+   books: [12346789, 234567890, ...] // _id książek dla tego wydawcy
 }
 
 {
@@ -304,7 +304,7 @@ Inny sposób tworzenie referencji został pokazany na listingu \ref{lst:mongo_re
    published_date: ISODate("2010-09-24"),
    pages: 216,
    language: "English",
-   publisher_id: "oreilly"	// reference
+   publisher_id: "oreilly"	// referencja
 }
 
 {
@@ -314,7 +314,7 @@ Inny sposób tworzenie referencji został pokazany na listingu \ref{lst:mongo_re
    published_date: ISODate("2011-05-06"),
    pages: 68,
    language: "English",
-   publisher_id: "oreilly" 	// reference
+   publisher_id: "oreilly" 	// referencja
 }
 \end{js}
 
@@ -382,17 +382,17 @@ Pole \verb|categories| przedstawia wykorzystanie wzorca dokumentów wbudowanych 
 Aplikacja Intranet używa następujących kolekcji:
 \begin{itemize}
  \item \verb|Invitation| --- dokumenty dotyczące zaproszeń wysyłanych do użytkowników gdy są zapraszaniu do organizacji lub do udziału w projektach;
- \item \verb|Project| --- dokumenty dotyczące projektów tworzonych przez organizację jaki użytkowników;
+ \item \verb|Project| --- dokumenty dotyczące projektów tworzonych przez organizację jak i~użytkowników;
  \item \verb|Talks| --- konwersacje prowadzone w ramach projektu;
  \item \verb|Meteor.users| --- kolekcja przechowująca dane użytkowników, jest to kolekcja specjalna dostarczana przez framework Metero.js;
  \item \verb|UserScope| --- dokumenty przechowujące dane o zakresach dla organizacji oraz użytkowników;
  \item \verb|Wiki| --- dane dotyczące wiki tworzonych na potrzeby organizacji i użytkowników oraz ich zakresów;
- \item \verb|WikiArticle| --- kolekcja zawierająca dokumenty dotyczące artykuły, które dodawane są do wiki.
+ \item \verb|WikiArticle| --- kolekcja zawierająca dokumenty dotyczące artykułów, które dodawane są do wiki.
 \end{itemize}
 Kolekcje definiowana są w osobnych plikach w katalogu \verb|lib| na moduł aplikacji. Wraz z definicjami kolekcji umieszczone są ich rozszerzenia wykonane z wykorzystaniem już wspomnianego pakietu \verb|collection-hooks|.
 
   \subsubsection{Publikacje}
-Dostęp do zestawu danych jakie otrzyma klient jest realizowany za pomocą \emph{publikacji}. Publikacje kontrolują jaki zestaw danych otrzyma klient za każdym razem kiedy dokona subskrypcji tej publikacji. Z powodu sposobu realizacji dostępu do danych przez klienta jaki prezentuje framework a w szczególności to że klient posiada kopię wycinka danych i na nim przeprowadza wszystkie operacje, które następnie są synchronizowane z serwerem a następnie z innymi klientami, bardzo istotne jest poprawne sformowanie publikacji. Źle zakodowana publikacja w ostateczności może doprowadzić do całkowitego ,,zabicia'' przeglądarki klienta. W łatwy sposób możemy przesłać do klienta zestaw np. 100 000 dokumentów, bez znaczącego obciążenia serwera, co całkowicie zatrzyma aplikacje po stronie klienta. Publikacje to także jedyne miejsce, w którym może realizować zasady dostępu --- np. uprawnienia --- co do zestawu danych, ich pól, ilości jakie klient ma otrzymać. W publikacja mamy dostęp do \verb|id| użytkownika, który dokonuje subskrypcji. W oparciu o \verb|id| możemy odszukać dokument reprezentujący użytkownik i na jego podstawie zrealizować zasady dostępu. Tu warto wspomnieć o braku ograniczenia co do zestawu danych dla zapytań oraz operacji realizowanych po stornie serwera. 
+Dostęp do zestawu danych jakie otrzyma klient jest realizowany za pomocą \emph{publikacji}. Publikacje kontrolują jaki zestaw danych otrzyma klient za każdym razem kiedy dokona subskrypcji tej publikacji. Z powodu sposobu realizacji dostępu do danych przez klienta jaki prezentuje framework a w szczególności to że klient posiada kopię wycinka danych i na nim przeprowadza wszystkie operacje, które są synchronizowane z serwerem a następnie z innymi klientami, bardzo istotne jest poprawne sformowanie publikacji. Źle zakodowana publikacja w ostateczności może doprowadzić do całkowitego ,,zabicia'' przeglądarki klienta. W łatwy sposób możemy przesłać do klienta zestaw np. 100 000 dokumentów, bez znaczącego obciążenia serwera, co całkowicie zatrzyma aplikacje po stronie klienta. Publikacje to także jedyne miejsce, w którym może realizować zasady dostępu --- np. uprawnienia --- co do zestawu danych, ich pól, ilości dokumentów jakie klient ma otrzymać. W publikacja mamy dostęp do \verb|_id| użytkownika, który dokonuje subskrypcji. W oparciu o \verb|_id| możemy odszukać dokument reprezentujący użytkownik i na jego podstawie zrealizować zasady dostępu. Tu warto wspomnieć o braku ograniczenia co do zestawu danych dla zapytań oraz operacji realizowanych po stornie serwera. 
 \begin{js}[caption={{Publikacja \textit{,,talks''} dla kolekcji Talks}},label={lst:talks_pub}]
 "use strict";
 
@@ -460,7 +460,7 @@ Messages.remove({_id: this._id});
 Players.remove({karma: {$lt: -2}});
 \end{js}
 
-Powyższy listing pokazuje także różnice pomiędzy operacjami wykonywanymi na kolekcjach po stornie klienta jak i serwera. Po stronie klienta aby usunąć dokument musi podać jego \verb|id|, po stronie serwera takie ograniczenie nie występuje. 
+Powyższy listing pokazuje także różnice pomiędzy operacjami wykonywanymi na kolekcjach po stornie klienta jak i serwera. Po stronie klienta aby usunąć dokument musi podać jego \verb|_id|, po stronie serwera takie ograniczenie nie występuje. 
 
 Wcześniej wspomniane publikacje regulują dostęp do danych podczas ich odczytu. Aby klient mógł odczytać dane te muszą zostać opublikowane przez serwer i następnie przez niego za subskrybowane. Inne operacje regulowane są przez metody \verb|allow| oraz \verb|deny| wywoływane na rzecz kolekcji. Listing \ref{lst:allow_deny} obrazuje przykładowe definicje reguł dostępu.
 \begin{js}[caption={{Definicje \textit{allow} oraz \textit{deny}}},label={lst:allow_deny}]
@@ -493,12 +493,12 @@ Posts.deny({
 });
 \end{js}
 
-Gdy klient wywołuje, którąś z metod \verb|insert|, \verb|update| lub \verb|remove| po stornie serwera wywoływane są funkcje zwrotne zdefiniowane w \verb|allow| oraz \verb|deny| po to aby określić czy dana operacja zapisu jest możliwa. Aby dopuścić operacje na kolekcji przynajmniej jedna reguła zdefiniowana w \verb|allow| musi zwrócić prawdę i żadna reguła w \verb|deny| nie zwraca prawdy. Zasady te obowiązują tylko po stronie klienta gdyż nie mamy do końca zweryfikowanego kodu aplikacji. Po stornie serwera nie obowiązują zasady dotyczące dostępu do danych, gdyż mamy pełną kontrole oraz pewność, że nikt nie zmodyfikował naszej aplikacji. JavaScript to język skryptowy z tego powodu aplikacja dostarcza do przeglądarki klienta może być łatwo zmodyfikowana. 
+Gdy klient wywołuje, którąś z metod \verb|insert|, \verb|update| lub \verb|remove| po stornie serwera wywoływane są funkcje zwrotne zdefiniowane w \verb|allow| oraz \verb|deny| po to aby określić czy dana operacja zapisu jest możliwa. Aby dopuścić operacje na kolekcji przynajmniej jedna reguła zdefiniowana w \verb|allow| musi zwrócić prawdę i żadna reguła w \verb|deny| nie zwraca prawdy. Zasady te obowiązują tylko po stronie klienta. Po stornie serwera nie obowiązują zasady dotyczące dostępu do danych, gdyż mamy pełną kontrole oraz pewność, że nikt nie zmodyfikował naszej aplikacji. JavaScript to język skryptowy z tego powodu aplikacja dostarcza do przeglądarki klienta może być łatwo zmodyfikowana. 
 
-Utrzymanie reguł zdefiniowanych z wykorzystaniem \verb|allow| oraz \verb|deny| jest bardzo skomplikowane oraz czasochłonne. Dodając do tego łatwą modyfikację kodu części klienckiej naszej aplikacji nie jest dobrym pomysłem pozwalać klientom na bezpośredni dostęp do operacji na kolekcjach. Kolejnym elementem, który może znacznie utrudnić takie operacje to sam dostęp do danych --- klient aby dokonać modyfikacji danych musi mieć do nich dostęp, co może okazać się problemem podczas optymalizacji aplikacji. Wyobraźmy sobie widok wszystkich powiadomień jakie dostaje użytkownik. Powiadomienia mogą pochodzić ze wszystkich modułów aplikacji. Sprawa nie wydaja się skomplikowana --- wystarczy publikacja oraz subskrypcja na jedną kolekcję dotyczącą powiadomień. Sytuacja zaczyna się komplikować gdy z pojedynczego powiadomienia możemy dokonywać akcji dotyczących innych części systemu np. akceptowanie urlopu. Urlopy przechowywane są w innej kolekcji niż powiadomienia. Teraz aby umożliwić taką operację musimy mieć dostęp do kolekcji dotyczącej urlopów. Rodzą się kolejne pytania do jakiej części tej kolekcji ma mieć dostęp dany użytkownik, jak ograniczyć zestaw danych tak aby akceptacja urlopów była możliwa oraz znacząco nie obciążać ani nie spowalniać strony klienckiej. Przedstawiony wycinek to tylko część problemu podejścia do operacji CRUD po stronie klienta. Z tego powodu oficjalne przewodniki odradzają takiego podejścia na rzecz stosowania \verb|Meteor.methods|. Stosujące metody mamy pewność co do poprawności kodu --- kod umieszczony w części wspólnej nie może ulec modyfikacji po stronie klienta. Dzieląc umiejętnie kod metod z wykorzystaniem zmiennych \verb|Meteor.isServer| oraz \verb|Meteor.isClient| możemy dowolnie modyfikować zachowanie metod od tego czy kod jest uruchomiony po stronie serwera lub klienta. Drugą zaletą użycia metod to brak ograniczeń w dostępie do danych oraz ograniczeń narzuconych przez reguły \verb|allow| i \verb|deny| gdy metoda jest uruchamiana po stronie serwera. Stosując metody rozwiązanie powyższego problemu staje się trywialnie proste, bezpiecznie --- mamy pełną kontrolę nad kodem --- a implementacja reguł dostępu do operacji modyfikacji kolekcji jest o wiele prostsza. Utrzymanie tych reguł jest o wiele mniej pracochłonne oraz mniej podatne na błędy. Użycie metod ma jeszcze jedną zaletę --- chyba najważniejszą --- łatwo napisać kod testujący daną metodę.
+Utrzymanie reguł zdefiniowanych z wykorzystaniem \verb|allow| oraz \verb|deny| jest bardzo skomplikowane oraz czasochłonne. Dodając do tego łatwą modyfikację kodu części klienckiej naszej aplikacji nie jest dobrym pomysłem pozwalać klientom na bezpośredni dostęp do operacji na kolekcjach. Kolejnym elementem, który może znacznie utrudnić takie operacje to sam dostęp do danych --- klient aby dokonać modyfikacji danych musi mieć do nich dostęp, co może okazać się problemem podczas optymalizacji aplikacji. Wyobraźmy sobie widok wszystkich powiadomień jakie dostaje użytkownik. Powiadomienia mogą pochodzić ze wszystkich modułów aplikacji. Sprawa nie wydaja się skomplikowana --- wystarczy publikacja oraz subskrypcja na jedną kolekcję dotyczącą powiadomień. Sytuacja zaczyna się komplikować gdy z pojedynczego powiadomienia możemy dokonywać akcji dotyczących innych części systemu np. akceptowanie urlopu. Urlopy przechowywane są w innej kolekcji niż powiadomienia. Teraz aby umożliwić taką operację musimy mieć dostęp do kolekcji dotyczącej urlopów. Rodzą się kolejne pytania do jakiej części tej kolekcji ma mieć dostęp dany użytkownik, jak ograniczyć zestaw danych tak aby akceptacja urlopów była możliwa oraz znacząco nie obciążać ani nie spowalniać strony klienckiej. Przedstawiony wycinek to tylko część problemu podejścia do operacji CRUD po stronie klienta. Z tego powodu oficjalne przewodniki odradzają takiego podejścia na rzecz stosowania \verb|Meteor.methods|. Stosujące metody mamy pewność co do poprawności kodu --- kod umieszczony w części wspólnej nie może ulec modyfikacji po stronie klienta. Dzieląc umiejętnie kod metod z wykorzystaniem zmiennych \verb|Meteor.isServer| oraz \verb|Meteor.isClient| możemy dowolnie modyfikować zachowanie metod od tego czy kod jest uruchomiony po stronie serwera czy klienta. Drugą zaletą użycia metod to brak ograniczeń w dostępie do danych oraz ograniczeń narzuconych przez reguły \verb|allow| i \verb|deny| gdy metoda jest uruchamiana po stronie serwera. Stosując metody rozwiązanie powyższego problemu staje się trywialnie proste, bezpiecznie --- mamy pełną kontrolę nad kodem --- a implementacja reguł dostępu do operacji modyfikacji kolekcji jest o wiele prostsza. Utrzymanie tych reguł jest o wiele mniej pracochłonne oraz mniej podatne na błędy. Użycie metod ma jeszcze jedną zaletę --- chyba najważniejszą --- łatwo napisać kod testujący daną metodę.
 
   \subsection{Konfiguracja}
-Każda aplikacja potrzebuje pliku z danymi konfiguracyjnymi. Listing ... przedstawia plik \textit{exampleConfig.json}. Jest to plik przykładowy w formacie \textit{JSON} zwierający klucze używane przez aplikację Intranet, wartości są przykładowe lub zawierają puste ciągi znaków.
+Każda aplikacja potrzebuje pliku z danymi konfiguracyjnymi. Listing \ref{lst:config} przedstawia plik \textit{exampleConfig.json}. Jest to plik przykładowy w formacie \textit{JSON} zwierający klucze używane przez aplikację Intranet, wartości są przykładowe lub zawierają puste ciągi znaków.
 \begin{js}[caption={{Przykładowa konfiguracja - \textit{exampleConfig.json}}},label={lst:config}]
 {
   "debug": true,
@@ -516,7 +516,7 @@ Aplikacja w środowisku produkcyjnym używa pliku \textit{serverConfig.json}, kt
   \subsection{Routing}
 Aplikacja Intranet jest to aplikacji typu \textit{Single-page Application (SPA)} --- aplikacja, która składa się z jednej strony internetowej. Aplikacje tego typu ładują się w całości do pamięci przeglądarki a akcje użytkownika powodują zmiany tylko określonych fragmentów strony bez jej całkowitego przeładowywania. Routing --- \textit{trasowanie} --- w przypadku aplikacji SPA określa tylko stan aplikacji. Po skierowaniu aplikacji na inny \textit{url} strona nie ulega przeładowaniu --- tylko właściwy dla stanu, określonego przez ten \textit{url}, element strony internetowej ulega zmianie. W aplikacji Intranet wykorzystywany jest \verb|FlowRouter| dostarczany przez pakiet \verb|kadira:flow-router|. Routing odbywa się w całości tylko po stronie klienta. 
 
-Aplikacja pisane z wykorzystaniem Meteor.js może posiadać w kodzie HTML tylko po jednym elemencie \verb|<body>| oraz \verb|<head>|. Wszystkie szablony będą renderowane w elemencie \verb|<body>| a w elemencie \verb|<head>| będą dołączane wszystkie zależności aplikacji -- to jest pliki css oraz js. Do poprawne obsługi routing z wykorzystaniem \verb|FlowRouter| musimy zdefiniować w jakim elemencie będą renderowane szablony obrazujące zmianę stanu aplikacji. Na listingu \ref{lst:main_html} przedstawiono główny plik HTML z tagami \verb|<body>| oraz \verb|<head>|. 
+Aplikacja pisane z wykorzystaniem Meteor.js może posiadać w kodzie HTML tylko po jednym elemencie \verb|<body>| oraz \verb|<head>|. Wszystkie szablony będą renderowane w elemencie \verb|<body>| a w elemencie \verb|<head>| będą dołączane wszystkie zależności aplikacji -- to jest pliki css oraz js. Do poprawnej obsługi routingu z wykorzystaniem \verb|FlowRouter| musimy zdefiniować w jakim elemencie będą renderowane szablony obrazujące zmianę stanu aplikacji. Na listingu \ref{lst:main_html} przedstawiono główny plik HTML z tagami \verb|<body>| oraz \verb|<head>|. 
 \begin{html}[caption={Główny plik HTML},label={lst:main_html}]
 <head>
     <title>IntranetApp</title>
@@ -524,13 +524,14 @@ Aplikacja pisane z wykorzystaniem Meteor.js może posiadać w kodzie HTML tylko 
 </head>
 
 <body>
+<div class="main-wrapper"></div>
 {{> sAlert}}
 </body>
 \end{html}
 Następny listing (\ref{lst:blaze_layout}) przedstawia wskazanie elementu HTML w jaki router ma renderować szablony. 
 
 \begin{js}[caption={Wskazanie elementu do renderowania szablonów},label={lst:blaze_layout}]
-BlazeLayout.setRoot('body');
+BlazeLayout.setRoot('.main-wrapper');
 \end{js}
 Kolejny element niezbędny podczas renderowania to podstawowy układ --- \textit{layout}, który będzie używany przez aplikację. Aplikacja może posiadać kilka layoutów w zależności od potrzeb np. ekran logowania, widok dla nie zalogowanych użytkowników mogą mieć inne układy. Listing \ref{lst:main_layout} przedstawia layout dla aplikacji Intranet dla zalogowanych użytkowników.
 \begin{html}[caption={Główny layout dla aplikacji},label={lst:main_layout}]
@@ -611,7 +612,7 @@ MyApp.mainDashRegions = function (contentTemplate) {
 };
 \end{js}
 
-Na listingu \ref{lst:routing} widzimy także użycie parametrów -- wyrazy poprzedzone ,,:'' --- w ciągach znaków użytych do definicji \textit{url} w funkcji \verb|FlowRouter.route|. Router traktuje je w specjalny sposób przy dopasowywaniu ścieżek. Router umożliwia także pobranie jego wartości. Listing \ref{lst:router_param} przedstawia przykładowe sposoby pobierania takich wartości.
+Na listingu \ref{lst:routing} widzimy także użycie parametrów \textit{urli} -- wyrazy poprzedzone ,,:'' --- w ciągach znaków użytych do definicji \textit{url} w funkcji \verb|FlowRouter.route|. Router traktuje je w specjalny sposób przy dopasowywaniu ścieżek. Router umożliwia także pobranie jego wartości. Listing \ref{lst:router_param} przedstawia przykładowe sposoby pobierania takich wartości.
 \begin{js}[caption={Pobieranie parametrów z routera},label={lst:router_param}]
 // ścieżka /projectSummary/:projectId
 self.project = function () {
@@ -676,8 +677,8 @@ Template.projectTalks.onCreated(function () {
 
     })
 });
-\end{js}
-Wykorzystując ten sposób subskrypcji musimy dokonać podczas tworzenia szablonu z wykorzystaniem wywołania funkcji \verb|onCreated|. Jako parametr przekazujemy funkcję zwrotną która zostanie wywołana podczas tworzenia szablonu. Jak widzimy na listingu \ref{lst:subs_template} tak samo wykorzystujemy \verb|subscribe| będą właściwością obiektu \verb|this|. W tym kontekście w trakcie tworzenia szablonu będzie to obiekt \verb|Blaze.TemplateInstance|. W szablonie \verb|projectTalks| subskrybowane są dwie publikacje: \verb|userProjects| oraz \verb|talks|. W przedstawiony kodzie wykorzystujemy jeszcze jedną ciekawą funkcję \verb|autorun| związaną z obiektem \verb|Blaze.TemplateInstance|. Funkcja te jest pochodną funkcji \verb|Tracker.autorun|. Mechanizm użyty w tych funkcjach odpowiada za reaktywność aplikacji i jest dostarczany przez bibliotekę \verb|Deps|. Funkcja \verb|autorun| przyjmuje jeden parametr funkcję która zostanie przeliczona za każdym razem gdy zmieni się jakakolwiek zależność umieszczona w jej ciele. Przez zależności rozumiemy \textit{reaktywne źródła danych}. W przypadku pokazanym w listingu za takie reaktywne źródła danych uznajemy subskrypcje (linie 12 i 13) oraz wywołanie \verb|FlowRouter.watchPathChange()| (linia 7), które to tworzy takie źródło. Każda zmiana subskrypcji oraz zmiana parametru w adresie \verb|url| spowoduje ponowne przeliczenie funkcji przekazanej do \verb|autorun|. Ten mechanizm jest jedną z najważniejszych zalet tego frameworka.
+\end{js} 
+Wykorzystując ten sposób subskrypcji musimy jej dokonać podczas tworzenia szablonu z wykorzystaniem wywołania funkcji \verb|onCreated|. Jako parametr przekazujemy funkcję zwrotną która zostanie wywołana podczas tworzenia szablonu. Jak widzimy na listingu \ref{lst:subs_template} tak samo wykorzystujemy metodę \verb|subscribe| będącą właściwością obiektu \verb|this|. W tym kontekście w trakcie tworzenia szablonu będzie to obiekt \linebreak \verb|Blaze.TemplateInstance|. W szablonie \verb|projectTalks| subskrybowane są dwie publikacje: \verb|userProjects| oraz \verb|talks|. W przedstawiony kodzie wykorzystujemy jeszcze jedną ciekawą funkcję \verb|autorun| związaną z obiektem \verb|Blaze.TemplateInstance|. Funkcja te jest pochodną funkcji \verb|Tracker.autorun|. Mechanizm użyty w tych funkcjach odpowiada za reaktywność aplikacji i jest dostarczany przez bibliotekę \verb|Deps|. Funkcja \verb|autorun| przyjmuje jeden parametr funkcję która zostanie przeliczona za każdym razem gdy zmieni się jakakolwiek zależność umieszczona w jej ciele. Przez zależności rozumiemy \textit{reaktywne źródła danych}. W przypadku pokazanym w listingu za takie reaktywne źródła danych uznajemy subskrypcje (linie 12 i 13) oraz wywołanie \linebreak\verb|FlowRouter.watchPathChange()| (linia 7), które to tworzy takie źródło. Każda zmiana subskrypcji oraz zmiana parametru w adresie \verb|url| spowoduje ponowne przeliczenie funkcji przekazanej do \verb|autorun|. Ten mechanizm jest jedną z najważniejszych zalet tego frameworka.
 
   \subsection{Szablony}
 Szablony wykorzystywane przez framework składają się z dwu części: cześć z kodem HTML umieszczonym pomiędzy elementami \verb|<template>| oraz opcjonalnej część JavaScriptowej. W części HTML możemy umieszczać znaczniki języka szablonów \verb|Spacebars|. Szablony mogą być używane wielokrotnie w tym samy kodzie HTML. W ostatnim czasie prężnie rozwija się intergracja Meteora z innymi frameworkami JavaScriptowymi takimi jak \emph{AngularJS}\footnote{http://www.angular-meteor.com} oraz \emph{React}\footnote{https://github.com/reactjs/react-meteor}. 
@@ -777,7 +778,7 @@ Tak zdefiniowane helpery możemy użyć w szablonach HTML podając ich nazwę w 
     </div>
 </template>
 \end{html}
-Linia nr 4 przedstawia użycie helpera \verb|project|, który zwraca na obiekt projektu. Użycie tagu blokowego \verb|#with| zmienia w jego ciele kontekst na obiekt projektu przekazanego przez helper. W ten sposób możemy bezpośrednio odnosić się do właściwości obiektu projektu z wykorzystaniem nawiasów wąsatych lub do zdefiniowanych helperów. Taka sytuacja ma miejsce w linii 19 --- odniesienie do helpera \verb|defatTalk| wraz ze zmianą kontekstu oraz w linii 33 --- iteracja po tablicy obiektów zwracanych przez helper \verb|talks|. Iteracja także zmienia kontekst. Każdy element w pętli \verb|#each| jest renderowany z wykorzystaniem wstrzykiwanego szablonu \verb|talkElement|. W liniach 10 oraz 11 widzimy w jaki sposób możemy utworzyć url dal routera. Wykorzystujemy to helper dostarczany przez pakiet routera.
+Linia nr 4 przedstawia użycie helpera \verb|project|, który zwraca obiekt projektu. Użycie tagu blokowego \verb|#with| zmienia w jego ciele kontekst na obiekt projektu przekazanego przez helper. W ten sposób możemy bezpośrednio odnosić się do właściwości obiektu projektu z wykorzystaniem nawiasów wąsatych lub do zdefiniowanych helperów. Taka sytuacja ma miejsce w linii 19 --- odniesienie do helpera \verb|draftTalk| wraz ze zmianą kontekstu oraz w linii 33 --- iteracja po tablicy obiektów zwracanych przez helper \verb|talks|. Iteracja także zmienia kontekst. Każdy element w pętli \verb|#each| jest renderowany z wykorzystaniem wstrzykiwanego szablonu \verb|talkElement|. W liniach 10 oraz 11 widzimy w jaki sposób możemy utworzyć url dla routera. Wykorzystujemy do tego helper dostarczany przez pakiet routera.
 
 Następnym element --- zdarzenia (\emph{events}), odpowiedzialny jest za interakcje. Definicja zdarzeń dla szablonu wygląda bardzo podobnie do definicji helperów. Wykorzystujemy tu funkcję \verb|events|, do której przekazujemy mapę zdarzeń. Listing \ref{lst:events} przedstawia definicję zdarzeń 
 \begin{js}[caption={Definicja zdarzeń},label={lst:events}]
@@ -807,7 +808,7 @@ Nazwy właściwości obiektu mapy zdarzeń przekazywanego do funkcji \verb|event
  \item \verb|mousedown|, \verb|mouseup| --- klawisz myszy został niedawno wciśnięty lub został niedawno puszczony;
  \item \verb|keydown|, \verb|keypress|, \verb|keyup| --- klawisz na klawiaturze został wciśnięty, \verb|keyup| oraz \verb|keydown| najlepiej używać dla klawiszy strzałek lub klawiszy będących modyfikatorami, \verb|keypress| najlepiej używać do wychwytywania wprowadzania tekstu w pola tekstowe. 
 \end{itemize}
-Drugi człon nazwy jest opcjonalny i jest to selektor typu CSS. W listingu jest to klasa \verb|.add-talk|. Klasa ta jest znajduje się w elemencie \verb|<button>|. Po przechwyceniu przez framework danego zdarzenia wykonywana jest zdefiniowana funkcja w mapie zdarzeń. W przedstawionym przykładzie będzie to wywołanie metody pod nazwą \verb|addTalk|. Do funkcji przekazywane jest obiekt danego zdarzenia oraz instancja szablonu, w którym zostało zdefiniowanie to zdarzenie. 
+Drugi człon nazwy jest opcjonalny i jest to selektor typu CSS. W listingu jest to klasa \verb|.add-talk|. Klasa ta znajduje się w elemencie \verb|<button>|. Po przechwyceniu przez framework danego zdarzenia wykonywana jest zdefiniowana funkcja w mapie zdarzeń. W przedstawionym przykładzie będzie to wywołanie metody pod nazwą \verb|addTalk|. Do funkcji przekazywane jest obiekt danego zdarzenia oraz instancja szablonu, w którym zostało zdefiniowanie to zdarzenie. 
 
 Następne elementy znajdujące się w pliku JavaScript to metody do rejestrowania funkcji zwrotnych, które to będą wykonane podczas tworzenia, renderowania oraz niszczenia szablonu. Metoda \verb|onRendered| rejestruje funkcję, które będą wykonane podczas renderowania szablonu. Funkcje te zostaną wywołane raz podczas renderowania szablonu do obiektu DOM i wstawiania go do dokumentu. Jest to najlepsze miejsce na inicjalizację różnych wtyczek, które muszą operować na już obecnych na w dokumencie elementach drzewa DOM. \newline
 Wywołanie metody \verb|onCreated| zarejestruje przekazaną funkcją do wywołania podczas tworzenie szablonu. Funkcja taka zostanie wywołana przed wyliczenie logiki szablonu po raz pierwszy. W ciele funkcji \verb|this| jest to nowy obiekt instancji szablonu. Właściwości przypisane w tej funkcji do \verb|this| będą widziane w funkcjach zwrotnych zarejestrowanych przez wywołania metod \verb|onRendered| oraz \verb|onDestroyed|. Jest to najlepsze miejsce na inicjalizację szablonów oraz innych zmiennych, które mają być używane w innych funkcjach zwrotnych. Jest to także dobre miejsce na dokonanie subskrypcji. \newline
@@ -865,7 +866,7 @@ Template.mainDashLayout.onDestroyed(function () {
 
 \end{js}
 \subsection{Pliki less}
-Pliki szablonów stylów napisanych w wykorzystanie dynamicznego języka styli \emph{less} są kompilowane do CSS. Tak skompilowane pliki wraz z innymi plikami CSS dostarczanymi np przez inne pakiety lub wtyczki łączone są w jeden duży plik i w takiej postaci wysyłane są do klientów. Listing \ref{lst:less} przedstawia przykładowy plik less wykorzystywany przez aplikację Intranet
+Pliki szablonów stylów napisanych w wykorzystanie dynamicznego języka styli \emph{less} są kompilowane do CSS. Tak skompilowane pliki wraz z innymi plikami CSS dostarczanymi na przykład przez inne pakiety lub wtyczki łączone są w jeden duży plik i w takiej postaci wysyłane są do klientów. Listing \ref{lst:less} przedstawia przykładowy plik less wykorzystywany przez aplikację Intranet
 \begin{css}[caption={Przykładowy plik less},label={lst:less}]
 .content-wrapper {
   min-height: 800px;
@@ -913,7 +914,7 @@ Pliki szablonów stylów napisanych w wykorzystanie dynamicznego języka styli \
 Na potrzeby aplikacji stworzono kilka otwarto źródłowych pakietów. Pakiety te zostały umieszczone w publicznym repozytorium pakietów \emph{Atmosphere}. Natomiast kod źródłowy jest dostępny na platformie GitHub. Pakiety te zostały zbudowane oraz opublikowane z wykorzystaniem narzędzi dostarczanych przez framework. Pakiety stworzone na potrzeby aplikacji oraz udostępnione publicznie:
 \begin{itemize}
  \item \verb|yp2:admin-lte| --- pakiet udostępniający szablon \emph{AdminLTE} dla framework'a Meteor.js;
- \item \verb|yp2:confirm-modal-bs3| --- tworzenie oraz proste zarządzanie elementem typu \emph{modal} dostarczanym przez \emph{Bootstrap 3}; umożliwia szybkie stworzenie modala potwierdzającego jaką czynność dokonaną przez użytkownika;
+ \item \verb|yp2:confirm-modal-bs3| --- tworzenie oraz proste zarządzanie elementem typu \emph{modal} dostarczanym przez \emph{Bootstrap 3}; umożliwia szybkie stworzenie modala potwierdzającego czynność dokonaną przez użytkownika;
  \item \verb|yp2:hijack-email| --- pakiet umożliwiający przechwytywanie emaili podczas pracy nad rozwojem aplikacji, emaile przekazywane są na jeden adres email zdefiniowany w konfiguracji aplikacji;
  \item \verb|yp2:yfform| --- obsługa formularz z wykorzystaniem \verb|Meteor.methods| oraz funkcji, pakiet generuje formularze w stylu Bootstrap 3.
 \end{itemize}

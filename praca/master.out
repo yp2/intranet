@@ -1,35 +1,34 @@
 \BOOKMARK [0][-]{chapter.1}{Wstep}{}% 1
-\BOOKMARK [1][-]{section.1.1}{O aplikacjach sieciowych}{chapter.1}% 2
-\BOOKMARK [1][-]{section.1.2}{Intranet i jego historia}{chapter.1}% 3
-\BOOKMARK [1][-]{section.1.3}{Intranet obecnie oraz jego zastosowania}{chapter.1}% 4
-\BOOKMARK [1][-]{section.1.4}{Cel pracy}{chapter.1}% 5
-\BOOKMARK [1][-]{section.1.5}{Struktura pracy}{chapter.1}% 6
-\BOOKMARK [0][-]{chapter.2}{Technologia}{}% 7
-\BOOKMARK [1][-]{section.2.1}{JavaScript}{chapter.2}% 8
-\BOOKMARK [2][-]{subsection.2.1.1}{Przeglad cech JavaScript}{section.2.1}% 9
-\BOOKMARK [1][-]{section.2.2}{Meteor.js}{chapter.2}% 10
-\BOOKMARK [1][-]{section.2.3}{MongoDB}{chapter.2}% 11
-\BOOKMARK [1][-]{section.2.4}{Warstwa prezentacji}{chapter.2}% 12
-\BOOKMARK [2][-]{subsection.2.4.1}{HTML5}{section.2.4}% 13
-\BOOKMARK [2][-]{subsection.2.4.2}{CSS3 oraz less}{section.2.4}% 14
-\BOOKMARK [2][-]{subsection.2.4.3}{Bootstrap}{section.2.4}% 15
-\BOOKMARK [2][-]{subsection.2.4.4}{AdminLTE}{section.2.4}% 16
-\BOOKMARK [1][-]{section.2.5}{System kontroli wersji}{chapter.2}% 17
-\BOOKMARK [0][-]{chapter.3}{Aplikacja Intranet}{}% 18
-\BOOKMARK [1][-]{section.3.1}{Za\233ozenia}{chapter.3}% 19
-\BOOKMARK [1][-]{section.3.2}{Wymagania}{chapter.3}% 20
-\BOOKMARK [1][-]{section.3.3}{Struktura aplikacji}{chapter.3}% 21
-\BOOKMARK [1][-]{section.3.4}{Wsp\363lna czesc dla strony serwerowej oraz klienckiej}{chapter.3}% 22
-\BOOKMARK [2][-]{subsection.3.4.1}{Kolekcje}{section.3.4}% 23
-\BOOKMARK [2][-]{subsection.3.4.2}{Metody}{section.3.4}% 24
-\BOOKMARK [1][-]{section.3.5}{Czesc serwerowa}{chapter.3}% 25
-\BOOKMARK [2][-]{subsection.3.5.1}{Baza danych}{section.3.5}% 26
-\BOOKMARK [2][-]{subsection.3.5.2}{Konfiguracja}{section.3.5}% 27
-\BOOKMARK [1][-]{section.3.6}{Czesc kliencka}{chapter.3}% 28
-\BOOKMARK [2][-]{subsection.3.6.1}{Routing}{section.3.6}% 29
-\BOOKMARK [2][-]{subsection.3.6.2}{Subskrypcje}{section.3.6}% 30
-\BOOKMARK [2][-]{subsection.3.6.3}{Szablony}{section.3.6}% 31
-\BOOKMARK [2][-]{subsection.3.6.4}{Pliki less}{section.3.6}% 32
-\BOOKMARK [1][-]{section.3.7}{Pakiety powsta\233e na potrzeby aplikacji}{chapter.3}% 33
-\BOOKMARK [0][-]{chapter.4}{Wdrozenie}{}% 34
-\BOOKMARK [0][-]{chapter.5}{Podsumowanie}{}% 35
+\BOOKMARK [1][-]{section.1.1}{Intranet}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Intranet obecnie}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.3}{Cel pracy}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.4}{Struktura pracy}{chapter.1}% 5
+\BOOKMARK [0][-]{chapter.2}{Technologia}{}% 6
+\BOOKMARK [1][-]{section.2.1}{JavaScript}{chapter.2}% 7
+\BOOKMARK [2][-]{subsection.2.1.1}{Przeglad cech JavaScript}{section.2.1}% 8
+\BOOKMARK [1][-]{section.2.2}{Meteor.js}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.3}{MongoDB}{chapter.2}% 10
+\BOOKMARK [1][-]{section.2.4}{Warstwa prezentacji}{chapter.2}% 11
+\BOOKMARK [2][-]{subsection.2.4.1}{HTML5}{section.2.4}% 12
+\BOOKMARK [2][-]{subsection.2.4.2}{CSS3 oraz less}{section.2.4}% 13
+\BOOKMARK [2][-]{subsection.2.4.3}{Bootstrap}{section.2.4}% 14
+\BOOKMARK [2][-]{subsection.2.4.4}{AdminLTE}{section.2.4}% 15
+\BOOKMARK [1][-]{section.2.5}{System kontroli wersji}{chapter.2}% 16
+\BOOKMARK [0][-]{chapter.3}{Aplikacja Intranet}{}% 17
+\BOOKMARK [1][-]{section.3.1}{Za\233ozenia}{chapter.3}% 18
+\BOOKMARK [1][-]{section.3.2}{Wymagania}{chapter.3}% 19
+\BOOKMARK [1][-]{section.3.3}{Struktura aplikacji}{chapter.3}% 20
+\BOOKMARK [1][-]{section.3.4}{Wsp\363lna czesc dla strony serwerowej oraz klienckiej}{chapter.3}% 21
+\BOOKMARK [2][-]{subsection.3.4.1}{Kolekcje}{section.3.4}% 22
+\BOOKMARK [2][-]{subsection.3.4.2}{Metody}{section.3.4}% 23
+\BOOKMARK [1][-]{section.3.5}{Czesc serwerowa}{chapter.3}% 24
+\BOOKMARK [2][-]{subsection.3.5.1}{Baza danych}{section.3.5}% 25
+\BOOKMARK [2][-]{subsection.3.5.2}{Konfiguracja}{section.3.5}% 26
+\BOOKMARK [1][-]{section.3.6}{Czesc kliencka}{chapter.3}% 27
+\BOOKMARK [2][-]{subsection.3.6.1}{Routing}{section.3.6}% 28
+\BOOKMARK [2][-]{subsection.3.6.2}{Subskrypcje}{section.3.6}% 29
+\BOOKMARK [2][-]{subsection.3.6.3}{Szablony}{section.3.6}% 30
+\BOOKMARK [2][-]{subsection.3.6.4}{Pliki less}{section.3.6}% 31
+\BOOKMARK [1][-]{section.3.7}{Pakiety powsta\233e na potrzeby aplikacji}{chapter.3}% 32
+\BOOKMARK [0][-]{chapter.4}{Wdrozenie}{}% 33
+\BOOKMARK [0][-]{chapter.5}{Podsumowanie}{}% 34
