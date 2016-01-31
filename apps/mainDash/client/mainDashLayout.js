@@ -28,10 +28,11 @@ Template.mainDashLayout.onCreated(function () {
         }
         var user = Meteor.user();
         var scopeSelected = user ? user.profile.scopeSelected.id : "";
+        var project = Project.find().fetch();
         self.subscribe('userScopes');
         self.subscribe('scopeWiki', scopeSelected);
         self.subscribe('userProjects');
-        self.subscribe("projectWiki");
+        self.subscribe("projectWiki", project);
         self.subscribe("appUsers");
     })
 });
