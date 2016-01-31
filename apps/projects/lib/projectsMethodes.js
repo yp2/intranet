@@ -24,15 +24,15 @@ Meteor.methods({
             userId: String,
             projectId: String
         });
-        
+
         let project = Project.findOne(data.projectId);
         if (Meteor.isServer) {
-            
-            if (!project || (!_.includes(project.secure.allowedUsers, this.userId) && project.secure.admin.id !== this.userId) ) {
+
+            if (!project || (!_.includes(project.secure.allowedUsers, this.userId) && project.secure.admin.id !== this.userId)) {
                 console.log('cant delete');
                 throw new Meteor.Error(403, "Can't remove user from project");
             }
-            Project.update({_id: project._id}, {$pull :{"secure.allowedUsers": data.userId, allowedUsers: data.userId}});
+            Project.update({_id: project._id}, {$pull: {"secure.allowedUsers": data.userId, allowedUsers: data.userId}});
             return true;
         }
 
@@ -145,7 +145,7 @@ Meteor.methods({
         return true
     },
     addTalk (talkObj) {
-        console.log(talkObj);   
+        console.log(talkObj);
         let checkAllow = MyApp.project.allowedUsers(this.userId, talkObj.project.id);
         let user = checkAllow.user;
         let secure = {secure: {}};
@@ -171,7 +171,7 @@ Meteor.methods({
                 username: user.username
             },
             project: {
-                id:  talkObj.project.id
+                id: talkObj.project.id
             }
         };
 
@@ -191,25 +191,30 @@ Meteor.methods({
             projectId: String,
             talkId: String
         });
-        let checkAllow = MyApp.project.allowedUsers(this.userId, data.projectId);
-        
-        let user = checkAllow.user;
-        let talk = Talks.findOne({_id: data.talkId});
-        if (!talk) {
-            throw new Meteor.Error(403, "You're not allowed");
+
+        if (data.comment.length) {
+            let checkAllow = MyApp.project.allowedUsers(this.userId, data.projectId);
+
+            let user = checkAllow.user;
+            let talk = Talks.findOne({_id: data.talkId});
+            if (!talk) {
+                throw new Meteor.Error(403, "You're not allowed");
+            }
+            let comment = {
+                author: {
+                    id: user._id,
+                    username: user.username
+                },
+                content: data.comment,
+                createdAt: new Date()
+            };
+
+            Talks.update({_id: talk._id}, {$push: {comments: comment, "secure.comments": comment}});
+
+            return true;
         }
-        let comment = {
-            author: {
-                id: user._id,
-                username: user.username
-            },
-            content: data.comment,
-            createdAt: new Date()
-        };
+        return false
 
-        Talks.update({_id: talk._id}, {$push: {comments: comment, "secure.comments": comment}})
-
-        return true;
     }
 
 
