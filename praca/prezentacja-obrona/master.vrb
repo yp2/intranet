@@ -1,0 +1,4 @@
+\frametitle{HTML5}
+ \begin{justbe}
+  HTML5 stawia także na semantykę. Element \verb|<div>| traci na znaczeniu na rzecz elementów \verb|<header>|, \verb|<main>|,\verb|<article>|, \verb|<aside>|, \verb|<footer>|, \verb|<nav>|. Dodane zostały także następujące elementy \verb|<canvas>|, \verb|<figure>|, \verb|<details>|, \verb|<summary>|. Element \verb|<input>| zyskał dodatkowe typy np.: \textit{tel, search, url, email, datetime, date}. Dodano nowe atrybuty do elementów formularza np.: \textit{autofocus, required, autocomplete, min, max}. HTML5 ma możliwość osadzania \emph{MathML} i \emph{SVG} bezpośrednio w dokumencie.
+ \end{justbe}

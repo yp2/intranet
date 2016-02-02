@@ -1,0 +1,15 @@
+\beamer@endinputifotherversion {3.24pt}
+\beamer@sectionintoc {1}{Wst\IeC {\k e}p}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Cel pracy}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Intranet}{4}{0}{1}
+\beamer@subsectionintoc {1}{3}{Analiza}{6}{0}{1}
+\beamer@subsubsectionintoc {1}{3}{1}{Zadania}{6}{0}{1}
+\beamer@subsubsectionintoc {1}{3}{2}{Zalety}{12}{0}{1}
+\beamer@subsectionintoc {1}{4}{Modu\IeC {\l }y projektowanego intranetu}{20}{0}{1}
+\beamer@sectionintoc {2}{Technologie}{23}{0}{2}
+\beamer@subsectionintoc {2}{1}{Opis}{23}{0}{2}
+\beamer@subsectionintoc {2}{2}{J\IeC {\k e}zyki programowania}{24}{0}{2}
+\beamer@subsectionintoc {2}{3}{Meteor.js}{25}{0}{2}
+\beamer@subsectionintoc {2}{4}{MongoDB}{26}{0}{2}
+\beamer@subsectionintoc {2}{5}{Bootstrap}{27}{0}{2}
+\beamer@subsectionintoc {2}{6}{Font Awesome, AdminLTE}{28}{0}{2}

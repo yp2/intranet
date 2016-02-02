@@ -1,0 +1,23 @@
+\beamer@endinputifotherversion {3.24pt}
+\beamer@sectionintoc {1}{Wst\IeC {\k e}p}{2}{0}{1}
+\beamer@subsectionintoc {1}{1}{Cel pracy}{2}{0}{1}
+\beamer@subsectionintoc {1}{2}{Intranet}{3}{0}{1}
+\beamer@sectionintoc {2}{Technologia}{6}{0}{2}
+\beamer@subsectionintoc {2}{1}{Opis}{6}{0}{2}
+\beamer@subsectionintoc {2}{2}{JavaScript}{7}{0}{2}
+\beamer@subsectionintoc {2}{3}{Meteor.js}{9}{0}{2}
+\beamer@subsectionintoc {2}{4}{MongoDB}{10}{0}{2}
+\beamer@subsectionintoc {2}{5}{Warstwa prezentacji}{11}{0}{2}
+\beamer@subsubsectionintoc {2}{5}{1}{HTML5}{11}{0}{2}
+\beamer@subsubsectionintoc {2}{5}{2}{CSS3 wraz z less}{13}{0}{2}
+\beamer@subsectionintoc {2}{6}{System kontroli wersji}{19}{0}{2}
+\beamer@sectionintoc {3}{Aplikacja Intranet}{20}{0}{3}
+\beamer@subsectionintoc {3}{1}{Za\IeC {\l }o\IeC {\.z}enia}{20}{0}{3}
+\beamer@subsectionintoc {3}{2}{Wymagania}{22}{0}{3}
+\beamer@sectionintoc {4}{Wdro\IeC {\.z}enie}{25}{0}{4}
+\beamer@subsectionintoc {4}{1}{Wymagania}{25}{0}{4}
+\beamer@subsectionintoc {4}{2}{Stan wdro\IeC {\.z}enia}{27}{0}{4}
+\beamer@sectionintoc {5}{Podsumowanie}{28}{0}{5}
+\beamer@subsectionintoc {5}{1}{Cel}{28}{0}{5}
+\beamer@subsectionintoc {5}{2}{Implementacja}{29}{0}{5}
+\beamer@subsectionintoc {5}{3}{Wdro\IeC {\.z}enie}{31}{0}{5}

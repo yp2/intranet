@@ -1,0 +1,419 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[MeX]{polski}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{tabularx}
+\usepackage{multicol}
+
+\usepackage{xcolor}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue},
+  backgroundcolor=\color{white},
+  tabsize=4
+}
+
+\usetheme{Warsaw}
+
+\graphicspath{ {gfx/} }
+
+\title[]{Projekt oraz wdrożenie reaktywnego intranetu dla firmy – wykorzystanie technologi Meteor.js, Bootstrap i MongoDB}
+\author{Daniel Dereziński}
+%\subtitle{Promotor:  prof. dr hab. Grzegorz Wójcik}
+\institute[]{Promotor:  prof. dr hab. Grzegorz Wójcik\\[12pt] Wyższa Szkoła Przedsiębiorczości i Innowacji w Lublinie}
+\date{\today}
+
+
+\AtBeginDocument{%
+\renewcommand{\raggedright}{\leftskip=0pt \rightskip=0pt}%
+}
+\newenvironment{justbe}%
+{\setlength{\leftmargini}{0pt}\begin{itemize}\item[]}%
+{\end{itemize}}
+
+\begin{document}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+\titlepage
+\end{frame}
+% 
+% \begin{frame}
+% \frametitle{}
+% \footnotesize
+% \tableofcontents
+% \end{frame}
+
+\section{Wstęp}
+\subsection{Cel pracy}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\begin{justbe}
+ 	Celem niniejszej pracy było opracowanie oraz wdrożenie systemu intranetowego dla firmy zajmującej się produkcją oprogramowania. Jednym z podstawowych celów intranetu jest wymiana wiedzy oraz komunikacja. Zaprojektowana oraz zaprogramowana aplikacja umożliwia dodawanie artykułów, dodawania kategorii, dodawanie projektów, komunikację w obrębie projektów wraz z możliwością dodawania artykułów. Aplikacja pozwala utworzyć profil dla organizacji, zaprosić użytkowników do tak utworzonego profilu w celu podjęcia wspólnej pracy. Możliwe jest także tworzenie kont dla użytkowników nie powiązanych z żadną organizacją.
+	\end{justbe}
+\end{frame}
+
+\subsection{Intranet}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\begin{justbe}
+		\textbf{Intranet} jest to sieć komputerowa ograniczająca się do komputerów na przykład w~danym przedsiębiorstwie lub innej organizacji, dostępna dla jej pracowników. Intranet dostarcza szeroki zakres informacji oraz usług z~wewnętrznych systemów IT organizacji,~które nie są dostępne z~publicznego --- zewnętrznego --- Internetu. Firmowy Intranet dostarcza między innymi centralny punkt wewnętrznej komunikacji i współpracy. Intranet stanowi także pojedynczy punkt dostępu do wewnętrznych jak i zewnętrznych zasobów organizacji. W najprostszej formie intranet budowany jest z~wykorzystaniem sieci typu \emph{LAN} (sieć lokalna) oraz \emph{WAN} (rozległa sieć komputerowa).
+	\end{justbe}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Intranet obecnie}
+	\begin{justbe}
+	Obecnie systemy intranetowe przekształcają się platformę do dostarczania narzędzi,~są to między innymi narzędzia do współpracy pomiędzy pracownikami, zaawansowane narzędzia wymiany plików, narzędzia do zarządzania relacjami z~klientami, narzędzia do zarządzania projektami czy czasem pracy. Intranet jest także platformą do wymiany wiedzy, pomysłów i idei przez co podnosi produktywność, twórczość pracowników oraz pozwala wypracowywać nowe pomysły oraz wytyczać nowe cele dla organizacji. 
+	\end{justbe}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Intranet obecnie}
+  \begin{justbe}
+   Obecne systemy wydzielają także część sowich zasobów dla klientów organizacji w celu poprawy jakości oraz szybkości komunikacji pomiędzy pracownikami a klientami. Udostępnianie klientom ważnych informacji o produktach oferowanych przez organizację pozwala na odciążenie pracowników wsparcia klienta. Intranet pozwala także nie tworzenie miejsc pracy w domu poprzez udostępnianie, przez publiczny Internet, zasobów dostępnych w wewnętrznej sieci organizacji. 
+  \end{justbe}
+\end{frame}
+
+\section{Technologia}
+\subsection{Opis}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	Aplikacja została wykonana z użyciem następujących technologii:
+	\begin{itemize}
+		\item \textbf{Język programowania} - JavaScript.
+		\item \textbf{Framework} - Meteor.js.
+		\item \textbf{Baza danych} - MongoDB.
+		\item \textbf{Warstwa prezentacji}:
+		\begin{itemize}
+		 \item HTML5
+		 \item CSS3 wraz z less
+		 \item Boostrap
+		 \item AminLTE
+		\end{itemize}
+		\item \textbf{System kontroli wersji} - Git
+	\end{itemize}
+\end{frame}
+
+\subsection{JavaScript}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\begin{justbe}
+	Język programowania JavaScript został użyty do zaprogramowania zarówno części serwerowej (\textit{back-end}) jaki i części odpowiedzialnej za interfejs użytkownika (\textit{front-end}). Obecne strony WWW a w szczególności aplikacje dostępne przez przeglądarkę szeroko korzystają z~JavaScript w celu dostarczenie wielofunkcyjnego oraz interaktywnego interfejsu użytkownika. Jest to skryptowy język programowania stworzony przez firmę Netscape, najczęściej stosowany na stronach internetowych. Pod koniec lat 90 XX wieku organizacja ECMA wydała na podstawie JavaScript'u standard języka skryptowego o nazwie ECMAScript.\\
+	
+% 	Strona kliencka oraz serwerowa zostanie napisana z wykorzystaniem JavaScript'u. Jest to skryptowy język programowania stworzony przez firmę Netscape, najczęściej stosowany na stronach internetowych. Pod koniec lat 90 XX wieku organizacja ECMA wydała na podstawie JavaScript'u standard języka skryptowego o nazwie ECMAScript.\\
+% 	HTML oraz CSS zostanie użyty do interfejsu użytkownika.
+	\end{justbe}
+\end{frame}
+
+	\subsection{Meteor.js}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\begin{justbe}
+	Meteor.js jest to otwarto źródłowy framework sieciowy czasu rzeczywistego napisany w JavaScript'cie oparty o Node.js. Wykorzystuje bazę danych MongoDB, Distributed Data Protocol oraz wzorzec publikacji - subskrypcji do automatycznego rozpropagowania zmian w danych do klientów w czasie rzeczywistym. Nie wymagania od programisty pisania jakiegokolwiek kodu synchronizacji danych. Po stronie klienta, Meteor zależy od JQuery i może być użyty z dowolną biblioteką JavaScript UI.Meteor jest rozwijany prze \textit{Meteor Development Group}. Meteor po raz pierwszy został publicznie pokazany w grudniu 2011 pod nazwą \textit{Skybreak}.
+	\end{justbe}
+\end{frame}
+
+	\subsection{MongoDB}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\begin{justbe}
+	MongoDB to otwarty, nierelacyjny system zarządzania bazą danych napisany w języku C++. Charakteryzuje się dużą skalowalnością, wydajnością oraz brakiem ściśle zdefiniowanej struktury obsługiwanych baz danych. Zamiast tego dane składowane są jako dokumenty w stylu JSON, co umożliwia aplikacjom bardziej naturalne ich przetwarzanie, przy zachowaniu możliwości tworzenia hierarchii oraz indeksowania.
+	\end{justbe}
+\end{frame}
+\subsection{Warstwa prezentacji}
+\subsubsection{HTML5}
+
+\begin{frame}
+ \frametitle{HTML5}
+ \begin{justbe}
+  HTML5 jest rozwinięciem języka HTML4 oraz jego XML-owej odmiany XHTML 1. Został on opracowany w ramach pracy grupy roboczej WHATWG oraz W3C. HTML5 poza dodaniem nowych elementów, usprawniających tworzenie serwisów oraz aplikacji internetowych, doprecyzowuje niejasności w~specyfikacji HTML4, które przede wszystkim dotyczą sposobu obsługi błędów.
+ \end{justbe}
+\end{frame}
+
+\begin{frame}
+ \frametitle{HTML5}
+%  \begin{justbe}
+\verb|aaaa|
+%   HTML5 stawia także na semantykę. Element \verb|<div>| traci na znaczeniu na rzecz elementów \verb|<header>|, \verb|<main>|,\verb|<article>|, \verb|<aside>|, \verb|<footer>|, \verb|<nav>|. Dodane zostały także następujące elementy \verb|<canvas>|, \verb|<figure>|, \verb|<details>|, \verb|<summary>|. Element \verb|<input>| zyskał dodatkowe typy np.: \textit{tel, search, url, email, datetime, date}. Dodano nowe atrybuty do elementów formularza: \textit{autofocus, required, autocomplete, min, max, multiple, pattern, step}. HTML5 ma możliwość osadzania \emph{MathML} i \emph{SVG} bezpośrednio w dokumencie.
+%  \end{justbe}
+
+\end{frame}
+
+
+
+	\subsection{Bootstrap}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Interfejs użytkownika}
+	\framesubtitle{Bootstrap}
+	\begin{justbe}
+		Bootstrap to wolna, otwarto źródłowa kolekcja narzędzi do tworzenia stron internetowych oraz aplikacji internetowych. Składa się ze szablonów, wzorców projektowych dla typografii, formularzy, przycisków, nawigacji oraz innych elementów interfejsu użytkownika oraz opcjonalnych rozszerzeń w JavaScript'cie. Bootstrap ma na celu ułatwienie budowy stron oraz aplikacji sieciowych.
+	\end{justbe}
+\end{frame}
+
+	\subsection{Font Awesome, AdminLTE}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Interfejs użytkownika}
+	\framesubtitle{Font Awesome}
+	\begin{justbe}
+	Font Awesome do kolekcja skalowalnych wektorowych ikon, które można łatwo dostosować do własnych potrzeb - zmieniać ich rozmiar, kolor, cień. Zawiera 519 ikon.
+	\end{justbe}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Interfejs użytkownika}
+	\framesubtitle{AdminLTE}
+	\begin{justbe}
+	Zbudowany w oparciu o Bootstrap 3 otwarto źródłowy responsywny panel (dashboard) administracyjny. 
+	\end{justbe}
+\end{frame}
+
+
+
+
+
+
+\subsection{Technologia}
+\subsubsection{JavaScript}
+
+
+	\subsection{Analiza}
+		\subsubsection{Zadania}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Zadania}
+	Zadania spełniane przez obecny intranet:
+	\begin{itemize}
+		\item dostarczają narzędzia np. do pracy grupowej, telekonferencyjne, do zarządzania relacjami z klientami, sprzedażowe, do zarządzanie projektami oraz podobne w celu zwiększenia produktywności,
+		\pause
+		\item służą wymianie wiedzy oraz pomysłów co może prowadzić do powstania nowych pomysłów w dziedzinie zarządzania, produktywności, zarządzania jakością oraz do powstania nowych usług lub produktów,
+		\pause
+		\item może spełniać role wewnętrznego komunikatora dla pracowników,
+	\end{itemize}
+	
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{}
+	\begin{itemize}
+		\item baza wiedzy, artykułów oraz informacji o firmie oraz jej działalności,
+		\pause
+		\item rozwiązania chmurowe - magazyn plików,
+		\pause
+		\item komunikacja pomiędzy pracownikami.
+	\end{itemize}
+\end{frame}
+	
+		\subsubsection{Zalety}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Zalety}
+		\begin{itemize}
+			\item \textbf{Produktywność} - intranet przyśpiesza proces odszukiwania informacji oraz zapoznanie się z nią. Umożliwia użytkownikom używanie aplikacji zgodnie z rolą oraz zakresem odpowiedzialności. Z pomocą przeglądarki internetowej użytkownicy mogą uzyskać dostęp do każdej bazy danych jaką organizacja zdecyduję się udostępnić o każdej porze dnia oraz z każdego miejsca. Zwiększa to produktywność pracownika poprzez wykonywanie swojej pracy szybciej bardziej dokładnie oraz z większą pewnością z racji posiadania przez pracownika poprawnych oraz aktualnych informacji oraz wiedzy. 
+		\end{itemize}
+\end{frame}
+
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Zalety}
+	\begin{itemize}
+		\item \textbf{Czas} - intranet pozwala dystrybuować informacje swoim pracownikom na żądanie. Pracownicy mają dostęp do użytecznych informacji kiedy chcą, a nie są rozpraszani email'ami.
+		\pause
+		\item \textbf{Komunikacja} - intranet pozwala oferować potężne narzędzia do komunikacji w obrębie organizacji np chat, emial, blogi.
+		\pause
+		\item \textbf{Publikacje} - intranet umożliwia łatwe zarządzanie oraz dostęp od wiedzy organizacji przez wykorzystanie hypertekstu oraz technologi webowych. Przykładowe zagadnienia: podręczniki, polityka firmy, dokumenty, standardy, szkolenia. Dostęp do dokumentów przez poszczególne działy firmy oraz łatwość edycji tych informacji oznacza dostęp do najbardziej aktualnych informacji.
+	\end{itemize}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Zalety}
+	\begin{itemize}
+		\item \textbf{Opłacalny} - intranet umożliwia dostęp do informacji oraz danych przez przeglądarkę zamiast utrzymania fizycznych dokumentów. To pozwala potencjalnie na oszczędności redukując koszty druku, duplikacji dokumentów oraz utrzymania dokumentów. 
+		\pause
+		\item \textbf{Współpraca} - informacje są dostępne dla pracowników co wspiera pracę zespołową. 
+		\pause
+		\item \textbf{Kompatybilność} - dostęp przez przeglądarkę internetową czyni intranet niezależnym od platformy. 
+		\pause
+		\item \textbf{Aktualność} - intranet umożliwia dostęp do aktualnych zmian np. w prawie, specyfikacjach.	Pozwala być pracownikom na bieżąco co zmniejsza  ryzyko prowadzenia działalności przez organizację.	
+	\end{itemize}
+\end{frame}
+
+	\subsection{Moduły projektowanego intranetu}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Organizacja}
+	\begin{justbe}
+		Intranet będzie projektowany dla firmy z sektora informatycznego, konkretnie dla firmy zajmującej się rozwojem oprogramowania.
+	\end{justbe}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Moduły}
+	Projektowany intranet będzie zawierał następujące moduły:
+	\begin{itemize}
+		\item Zarządzenie użytkownikami, uprawnieniami oraz rolami.
+		\item Aktualności.
+		\item Baza wiedzy.
+		\item Projekty.
+		\item Komunikator.
+	\end{itemize}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Funkcjonalności}
+	\begin{itemize}
+		\item Wspólny edytor.
+		\item Podświetlanie składni dla różnych języków programowania.
+		\item Tagi, kategorie, komentarze.
+		\item Kod snippet's.
+	\end{itemize}		
+\end{frame}
+
+\section{Technologie}
+	\subsection{Opis}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{}
+	Projekt zostanie wykonany z użyciem następujących technologii:
+	\begin{itemize}
+		\item \textbf{Język programowania} - JavaScript, HTML, CSS.
+		\item \textbf{Framework} - Meteor.js.
+		\item \textbf{Baza danych} - MongoDB.
+		\item \textbf{UI} - Bootstrap, Font Awesome, AdminLTE
+	\end{itemize}
+\end{frame}
+
+	\subsection{Języki programowania}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{JavaScript, HTML, CSS}
+	\begin{justbe}
+	Strona kliencka oraz serwerowa zostanie napisana z wykorzystaniem JavaScript'u. Jest to skryptowy język programowania stworzony przez firmę Netscape, najczęściej stosowany na stronach internetowych. Pod koniec lat 90 XX wieku organizacja ECMA wydała na podstawie JavaScript'u standard języka skryptowego o nazwie ECMAScript.\\
+	HTML oraz CSS zostanie użyty do interfejsu użytkownika.
+	\end{justbe}
+\end{frame}
+
+	\subsection{Meteor.js}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Framework}
+	\begin{justbe}
+	Meteor.js jest to otwarto źródłowy framework sieciowy czasu rzeczywistego napisany w JavaScript'cie oparty o Node.js. Wykorzystuje bazę danych MongoDB, Distributed Data Protocol oraz wzorzec publikacji - subskrypcji do automatycznego rozpropagowania zmian w danych do klientów w czasie rzeczywistym. Nie wymagania od programisty pisania jakiegokolwiek kodu synchronizacji danych. Po stronie klienta, Meteor zależy od JQuery i może być użyty z dowolną biblioteką JavaScript UI.
+	\end{justbe}
+\end{frame}
+
+	\subsection{MongoDB}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Baza danych}
+	\begin{justbe}
+	MongoDB to otwarty, nierelacyjny system zarządzania bazą danych napisany w języku C++. Charakteryzuje się dużą skalowalnością, wydajnością oraz brakiem ściśle zdefiniowanej struktury obsługiwanych baz danych. Zamiast tego dane składowane są jako dokumenty w stylu JSON, co umożliwia aplikacjom bardziej naturalne ich przetwarzanie, przy zachowaniu możliwości tworzenia hierarchii oraz indeksowania.
+	\end{justbe}
+\end{frame}
+
+	\subsection{Bootstrap}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Interfejs użytkownika}
+	\framesubtitle{Bootstrap}
+	\begin{justbe}
+		Bootstrap to wolna, otwarto źródłowa kolekcja narzędzi do tworzenia stron internetowych oraz aplikacji internetowych. Składa się ze szablonów, wzorców projektowych dla typografii, formularzy, przycisków, nawigacji oraz innych elementów interfejsu użytkownika oraz opcjonalnych rozszerzeń w JavaScript'cie. Bootstrap ma na celu ułatwienie budowy stron oraz aplikacji sieciowych.
+	\end{justbe}
+\end{frame}
+
+	\subsection{Font Awesome, AdminLTE}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Interfejs użytkownika}
+	\framesubtitle{Font Awesome}
+	\begin{justbe}
+	Font Awesome do kolekcja skalowalnych wektorowych ikon, które można łatwo dostosować do własnych potrzeb - zmieniać ich rozmiar, kolor, cień. Zawiera 519 ikon.
+	\end{justbe}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{Interfejs użytkownika}
+	\framesubtitle{AdminLTE}
+	\begin{justbe}
+	Zbudowany w oparciu o Bootstrap 3 otwarto źródłowy responsywny panel (dashboard) administracyjny. 
+	\end{justbe}
+\end{frame}
+
+\section{Podsumowanie}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+	\frametitle{}
+	\begin{justbe}
+		Zastosowanie wyżej wymienionych technologii oraz języków programowania pozwoli na zbudowanie oraz wdrożenie reaktywnego (czasu rzeczywistego) intranetu dla firm. W szczególności zastosowanie Meteor.js jako framework'a aplikacji sieciowych pozwala na uzyskanie działania aplikacji w czasie rzeczywistym. Bootstrap, Font Awesome oraz AdminLTE pozwalają na szybkie budowanie interfejsu użytkownika. Zastosowanie nierelacyjnej bazy danych MongoDB pozwala na zapoznanie się z innym podejściem do baz danych. MongoDB oferuje dużą wydajność oraz skalowalność. Wymienione technologie są na rynku polskim relatywnie nowe co czyni pracę bardziej atrakcyjną.
+	\end{justbe}
+\end{frame}
+%
+
+%	\subsection{Motywacja}
+%%----------- slide --------------------------------------------------%
+%\begin{frame}
+%	\frametitle{Motywacja}
+%	\begin{justbe}
+%		To później lub rezygnacja.
+%	\end{justbe}
+%\end{frame}
+
+%\section{Technologie}
+%%----------- slide --------------------------------------------------%
+%\begin{frame}
+%	\frametitle{}
+%\end{frame}
+
+%----------- slide --------------------------------------------------%
+%\begin{frame}
+%	\frametitle{}
+%\end{frame}
+%
+%%----------- slide --------------------------------------------------%
+%\begin{frame}
+%	\frametitle{}
+%\end{frame}
+%
+%%----------- slide --------------------------------------------------%
+%\begin{frame}
+%	\frametitle{}
+%\end{frame}
+%
+%%----------- slide --------------------------------------------------%
+%\begin{frame}
+%	\frametitle{}
+%\end{frame}
+%
+%%----------- slide --------------------------------------------------%
+%\begin{frame}
+%	\frametitle{}
+%\end{frame}
+%
+%%----------- slide --------------------------------------------------%
+%\begin{frame}
+%	\frametitle{}
+%\end{frame}
+%
+%%----------- slide --------------------------------------------------%
+%\begin{frame}
+%	\frametitle{}
+%\end{frame}
+
+
+
+\end{document}
